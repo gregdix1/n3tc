@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link href="http://localhost/n3mobility/mapfinder/css/icomoon.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/stylen3.css">
+    <style>
+        .info {
+            font-size: .6em;
+            color: #FF6600;
+            letter-spacing: 2px;
+            padding-left: 5px;
+        }
+        p {
+            font-family: montserrat;
+            color: #2C3E50;
+            font-size: 13px;
+            line-height: 12pt;
+            text-align: left;
+            margin: 15px 0px 15px 0px;
+        }
+
+        .docbox {
+            border: 1px solid #e0d9d9;
+            padding: 10px;
+            border-radius: 1px;
+            margin-bottom: 20px;
+            background-color: rgba(204, 204, 204, 0.08);
+        }
+        .topSpacer {
+            margin-top: 0px;
+        }
+
+        .bar-title {
+            top: 0;
+            display: -webkit-box;
+            display: box;
+            background-color: #1eb0e9;
+            background-image: -webkit-linear-gradient(top, #1eb0e9 0, #109adc 100%);
+            background-image: linear-gradient(to bottom, #1eb0e9 0, #109adc 100%);
+            border-bottom: 1px solid #0e5895;
+            box-shadow: inset 0 1px 1px -1px rgba(255, 255, 255, .8);
+            -webkit-box-orient: horizontal;
+            box-orient: horizontal;
+            right: 0;
+            left: 0;
+            z-index: 10;
+            height: 44px;
+           
+        }
+        .bar-title .title {
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: block;
+                width: 100%;
+                font-size: 20px;
+                font-weight: bold;
+                line-height: 44px;
+                color: #fff;
+                text-align: center;
+                text-shadow: 0 -1px rgba(0, 0, 0, .5);
+                white-space: nowrap;
+            }
+
+
+        .bar-title [class*="button"] {
+            position: relative;
+            z-index: 10;
+            font-size: 12px;
+            line-height: 23px;
+            color: #fff;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
+            background-color: #1eb0e9;
+            background-image: -webkit-linear-gradient(top, #1eb0e9 0, #0984c6 100%);
+            background-image: linear-gradient(to bottom, #1eb0e9 0, #0984c6 100%);
+            border: 1px solid #0e5895;
+            box-shadow: 0 1px rgba(255, 255, 255, .25);
+            -webkit-box-flex: 0;
+            box-flex: 0;
+        }
+        [class*="button"] {
+            position: relative;
+            display: inline-block;
+            padding: 4px 12px;
+            margin: 0;
+            font-weight: bold;
+            line-height: 18px;
+            color: #333;
+            text-align: center;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+            vertical-align: top;
+            cursor: pointer;
+            background-color: #f8f8f8;
+            background-image: -webkit-linear-gradient(top, #f8f8f8 0, #d4d4d4 100%);
+            background-image: linear-gradient(to bottom, #f8f8f8 0, #d4d4d4 100%);
+            border: 1px solid rgba(0, 0, 0, .3);
+            border-radius: 3px;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, .4), 0 1px 2px rgba(0, 0, 0, .05);
+        }
+       .bar-title .title + [class*="button"]:last-child, .bar-title .button + [class*="button"]:last-child, .bar-title [class*="button"].pull-right {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        .toggle-left {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+        }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            $("#msform").on('submit', (function (e) {
+                e.preventDefault();
+                $('#loader-icon').show();
+                var valid;
+                valid = validateContact();
+                if (valid) {
+                    $.ajax({
+                        url: "application_mail.php",
+                        type: "POST",
+                        data: new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function (data) {
+                            $("#mail-status").html(data);
+                            $('#loader-icon').hide();
+                        },
+                        error: function () { }
+
+                    });
+                }
+            }));
+
+            function validateContact() {
+                var valid = true;
+                //alert("valid true");
+                return valid;
+            }
+
+        });
+
+        function bckMenu() {
+            window.location.replace("http://localhost/n3mobility/mapfinder/index-n3tc3.html#page_manage");
+        }
+    </script>
+
+
+
+</head>
+<body>
+    <header class="bar-title">
+        <button class="button icon-uniF472 toggle-left" onclick="bckMenu()"></button>
+        <h1 id="topHead" class="title">Application</h1>
+        <button class="button icon-user toggle-right" value="off"></button>
+    </header>
+    <!-- multistep form -->
+    <form id="msform">
+        <!-- progressbar -->
+        <ul id="progressbar" class="progressbar">
+            <li class="active" style="width:20%" >Account</li>
+            <li style="width:20%">Terms</li>
+            <li style="width:20%">Details</li>
+            <li style="width:20%">Vehicles</li>
+            <li style="width:20%">Documents</li>
+        </ul>
+        <input type="hidden" style="border:none" name="subject" readonly="readonly" id="subject" class="" value="CDA From Website" /> 
+        <!-- fieldsets -->
+        <fieldset>
+            <div class="topSpacer"></div>
+            <h2 class="fs-title">Application</h2>
+            <p>
+                Please select from the options below to indicate weather this is a new account application or an application under and exiting account. Please select the existing account number you would like to place the application under.
+            </p>
+            
+            <select name="selectac" id="selectAcc" onclick="setCurrentAcc()">
+                <option value="Not sepcified">Select Account options</option>
+                <option value="New Account">Create New Account</option>
+            </select>
+            <p>
+                Please select your Magisterial District of residence from the list below.
+            </p>
+           
+                <div id="processor-button" class="">
+                    <span class="custom-pc"></span><select class="custom-pc" name="processor" id="processor" onchange="magSelect()">
+                        <option value="">Select Magisterial District</option>
+                        <option value="Heidelberg">Heidelberg</option>
+                        <option value="Villiers">Villiers</option>
+                        <option value="Cornelia">Cornelia</option>
+                        <option value="Warden">Warden</option>
+                        <option value="Harrismith">Harrismith</option>
+                        <option value="Swinburne">Swinburne</option>
+                        <option value="Van Reenen">Van Reenen</option>
+                        <option value="Ladysmith">Ladysmith</option>
+                        <option value="Estcourt">Estcourt</option>
+                        <option value="Mooi River">Mooi River</option>
+                        <option value="Howick">Howick</option>
+                        <option value="Hilton">Hilton</option>
+                        <option value="Pietermaritzburg">Pietermaritzburg</option>
+                        <option value="Pinetown">Pinetown</option>
+                        <option value="Durban">Durban</option>
+                        <option value="Bluff">Bluff</option>
+                        <option value="">None of the above</option>
+                    </select>
+                </div>
+            
+            <!--<input type="button" id="next1" name="next" class="next  action-button-disabled action-button" value="Next" disabled onclick="PopulateCDAX()" />-->
+           
+            <input type="button" id="next1" name="next" class="next action-button" value="Next"   />
+        </fieldset>
+        <fieldset>
+            <div class="topSpacer"></div>
+            <h2 class="fs-title">Terms and Conditions</h2>
+           
+            <iframe id="frm" src="terms.html" style="border: 1px solid #ccc; width: 100%; z-index:0; height: 400px;left: 0;right: 0; " frameborder="0" scrolling="auto"></iframe>
+            <p>By clicking the button below, I acknowledge that I have read and understood the terms and conditions contained herein and agree to be bound by them.</p>
+            <input type="button" name="previous" class="previous action-button" value="Previous">
+            <input type="button" id="nextterms" name="next" class="next action-button" value="I Agree">
+        </fieldset>
+
+        <fieldset>
+            <div class="topSpacer"></div>
+            <h2 class="fs-title">Application Details</h2>
+            <p> Note: Required documentation may include all or some of the following: Proof of Identity, Motor Vehicle License Certificate, current Municipal Account. NB: All copies must be certified or accompanied by the original document.</p>
+            <select name="apptype" size="1" id="apptype" onchange="showhide()">
+                <option value="Select">Select Type</option>
+                <option value="Individual">Individual</option>
+                <option value="Business">Business</option>
+            </select>
+            <input type="text" name="userName" id="userName" placeholder="Name and Surname" class="demoInputBox" value="">
+            <input type="text" name="coName" id="coName" placeholder="Company Name.." class="demoInputBox">
+            <input type="text" name="coReg" id="coReg" placeholder="Company Reg No.." class="demoInputBox">
+            <select name="idtype" size="1" id="idtype" onchange="">
+                <option value="Select">Select ID Type</option>
+                <option value="SA Identity">SA Identity</option>
+                <option value="SA Passport">Passport</option>
+                <option value="NON Passport">NON Passport</option>
+            </select>
+            <input type="text" name="idNo" data-validation="length alphanumeric" data-validation-length="min12" id="idNo" placeholder="Identity Number" class="demoInputBox error" style="border-color: rgb(185, 74, 72);">
+            <input type="text" name="userEmail" id="userEmail" data-validation="email" placeholder="Email" class="demoInputBox" value="" />
+            <input type="text" name="cntHome" id="cntHome" placeholder="Contact Home" class="demoInputBox" value="" />
+            <input type="text" name="cntWrk" data-validation="length alphanumeric" data-validation-length="min10" id="cntWrk" placeholder="Contact Work" class="demoInputBox" />
+            <input type="text" name="cntCell" id="cntCell" data-validation="length alphanumeric" data-validation-length="min11" class="demoInputBox" value="27" />
+            <input type="text" name="cntFax" id="cntFax" placeholder="Contact Fax" class="demoInputBox" />
+            <textarea name="Physical" id="Physical" class="demoInputBox" placeholder="Physical Address.." cols="60" rows="3"></textarea>
+            <textarea name="Postal" id="Postal" class="demoInputBox" placeholder="Postal Address.." cols="60" rows="3"></textarea>
+            <input type="text" name="Magisterial" id="Magisterial" placeholder="Magisterial District" class="demoInputBox" value="" />
+
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <input type="button" id="next2" name="next" class="next  action-button" value="Next" />
+        </fieldset>
+        <fieldset>
+            <div class="topSpacer"></div>
+            <h2 class="fs-title">Vehicle Details</h2>
+            <input type="text" name="v1Registration" id="v1Registration" placeholder="Vehicle Registration Number" class="demoInputBox" value="" />
+            <input type="text" name="v1make" id="v1make" placeholder="Make/Model" class="demoInputBox" value="" />
+            <input type="text" name="v1col" id="v1col" placeholder="Vehicle Colour" class="demoInputBox" value="" />
+            <select name="v1class" size="1" id="v1class" value="" onchange="linkBind()">
+                <option value="c">Vehicle Class</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <input type="hidden" name="v1link" id="v1linkid" placeholder="Tag ID Number" class="demoInputBox" value="" />
+            <p><strong>NOTE:</strong>Vehicles can be added once this application has been submitted by clicking the 'Add Vehicles to Application' button on the main menu.</p>
+        
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <input type="button" id="next2" name="next" class="next  action-button" value="Next" />
+        </fieldset>
+        <fieldset>
+            <div class="topSpacer"></div>
+            <h2 class="fs-title">Documentation</h2>
+                                   
+            <h3 class="fs-subtitle" style="line-height: 16pt;border: 1px solid #e0d9d9;padding: 15px;border-radius: 1px;background-color: rgba(204, 204, 204, 0.09);">The following documentation is required for the application  (NB: All copies must be certified or accompanied by the original document).<br><br><strong>NOTE:</strong> You may submit your information on this form and then upload the required documents at another time by clicking the 'Upload Application Documents' button on the main menu.</h3>
+
+            <div class="docbox">
+                <label><strong>Proof of Identity</strong></label>
+                <input type="file" name="attachmentFile" id="attachmentFile" class="demoBrowseBox" />
+                <p>
+                    <strong>Individual Applicant:</strong> A copy of the individuals Identity Document<br />
+                    <strong>Business Application: </strong>A copy of the companies Registration Certificate
+                </p>
+
+                
+                </div>
+
+
+            <div class="docbox">
+                <label><strong>Vehicle Registration</strong></label>
+                <input type="file" name="attachmentFile2" id="attachmentFile2" class="demoBrowseBox" />
+                <p>A copy of the current Motor Vehicle Licence Certificate for each vehicle specified above, in the name of the applicant</p>
+                
+             </div>
+
+            <div class="docbox">
+                <label><strong>Proof of Residence</strong></label>
+                <input type="file" name="attachmentFile3" id="attachmentFile3" class="demoBrowseBox" />
+                <p>
+                    <strong>Individual Application:</strong> A copy of Applicant current municipal account indicating the physical address specified above OR an affidavit from the SAPA Station in the Magisterial District.
+                    <strong>Business Application:</strong> An affidavit from the company auditor certifying that the principal place of business, including operations, is located in the Magisterial district AND a copy of the current municupal account indicating the physical address.
+                </p>
+                
+
+                </div>
+            
+                    
+
+<textarea name="content" style="display:none" id="content" class="demoInputBox" value="" cols="60" rows="6">XX</textarea>
+
+                    <!-- <input type="submit" value="Submit" class="btnAction" onclick="runSendCdnServer()" />-->
+                    <input type="button" name="previous" class="previous action-button" value="Previous" />
+                    <input type="button" id="next2" name="next" class="next  action-button" value="Next" />
+
+                </fieldset>
+        <fieldset>
+            <div class="topSpacer"></div>
+            <h2 class="fs-title">Application Status</h2>
+            <h3 class="fs-subtitle">Select from otions below</h3>
+               
+                <select name="docConfirm" size="1" id="docConfirm" onchange="docStatus()">
+                    <option value="Select">Select</option>
+                    <option value="Complete">I have Attached ALL Required Docs</option>
+                    <option value="Incomplete">I have Attached only some Required Docs</option>
+                    <option value="None">I will add docs later</option>
+                </select>
+            
+            
+                <input type="hidden" style="border:none" name="docStat" id="docStat" class="demoInputBox" value="" />
+           
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <input type="submit" name="submit" class="submit action-button" value="Submit" />
+        </fieldset>
+        <div id="mail-status"></div>
+</form>
+    <div id="loader-icon" style="display:none;"><img src="LoaderIcon.gif" /></div>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
+    <script src="js/indexreg.js"></script>
+    <script src="js/forms.js"></script>
+    
+</body>
+</html>
