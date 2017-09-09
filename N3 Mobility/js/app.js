@@ -46,7 +46,8 @@ window.onpopstate = function(event)
 		// default link active
 		$("#li_page_home").addClass("active");
 		$('.loading').hide();
-	}
+    }
+    
 };
 
 	
@@ -98,6 +99,8 @@ function jqUpdateSize(){
 	 $('.wrapper-route').css({'height': vph_route + 'px'});
      $('#map_canvas').css({ 'height': vph_full + 'px' });
      $('#map').css({ 'height': vph_full + 'px' });
+     map.resize();
+    //$('.mapboxgl-canvas').css({ 'height': vph_full + 'px' });
 };
 
 $(document).ready(jqUpdateSize);    // When the page first loads

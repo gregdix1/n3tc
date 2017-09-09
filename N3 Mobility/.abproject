@@ -21,6 +21,7 @@
     "android.permission.ACCESS_LOCATION_EXTRA_COMMANDS",
     "android.permission.ACCESS_MOCK_LOCATION",
     "android.permission.ACCESS_NETWORK_STATE",
+    "android.permission.BIND_ACCESSIBILITY_SERVICE",
     "android.permission.CALL_PHONE",
     "android.permission.CALL_PRIVILEGED",
     "android.permission.CAMERA",

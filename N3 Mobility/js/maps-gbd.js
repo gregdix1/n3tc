@@ -89,14 +89,14 @@ function init(req,status,street) {
 	}
 	
 	var mapOptions = {
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+     // mapTypeId: google.maps.MapTypeId.ROADMAP
     }
      
 	// Set id to display maps
    // map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
     /////MAPBOX INSERT BELOW
     // map = new.mapbox...bla....bla(document.getElementById("map_canvas"), mapOptions);
-    document.getElementById("map_canvas").innerHTML = "[ ADD MAP ]";
+   // gbd// document.getElementById("map_canvas").innerHTML = "[ ADD MAP ]";
 	
 	// Request result directions maps
     if(status == 1){
