@@ -381,6 +381,13 @@
                 </div>
             </div>
             <!-- END PAGE NEARBY -->
+             <!-- PAGE CONTACT  -->
+            <div id="page_contact" data-role="page" data-title="Page Contact">
+                <div class="wrapper">
+                    <ul id="n3-contact" class="list"><li>[ contact ]</li></ul>
+                </div>
+            </div>
+            <!--END PAGE CONTACT  -->            
             <!-- PAGE MYACCOUNT -->
             <div id="page_myaccount" data-role="page" data-title="Page My Account">
                 <div class="wrapper">
@@ -744,7 +751,7 @@
             <!-- END PAGE ADD LOCATION -->
             <!-- PAGE LOCATION MAP-->
             <div id="page_location_map" data-role="page" data-title="Page Location Map">
-                <div id='map' data-snap-ignore="true"></div>
+                <div id='mapcont' data-snap-ignore="true"></div>
 
                 <div id="map_canvas" style="width: 100%;" data-snap-ignore="true"></div>
 
@@ -1026,7 +1033,7 @@
 
         mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
         var map = new mapboxgl.Map({
-            container: 'map', // container id
+            container: 'map_canvas', // container id
             style: 'mapbox://styles/mapbox/streets-v9',
             center: [29.217650, -27.713353], // starting position
             zoom: 6 // starting zoom
@@ -1132,7 +1139,7 @@
         map.addControl(geocoder);
 
         function toggleMyGeocoder() {
-            alert("tt");
+            //alert("tt");
         }
 
         function addPorts() {
@@ -1267,9 +1274,9 @@
                 zoom: 9,
                 speed: 0.2,
                 curve: 1,
-                easing(t) {
-                    return t;
-                }
+               // easing(t) {
+                //    return t;
+               // }
             });
         }
 
@@ -1329,6 +1336,22 @@
         };
 
     </script>
+   <script> 
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+    console.log(device.cordova);
+        var model = device.model;
+        var devPlatform = device.platform;
+        var deviceID = device.uuid;
+        var deviceVersion = device.version;
+        var manu = device.manufacturer;
+        var deviceSerial = device.serial;
+        
+        var devSpec='mod: ' + model + ' Plat: ' + devPlatform + ' uuid: ' + deviceID +' ver: ' + deviceVersion + ' Manufac: ' + manu + ' serial: ' + deviceSerial;
+        document.getElementById("n3tc-banner").innerHTML = devSpec;
+        localStorage.setItem("deviceSpec", devSpec);
+     }
+       </script>
 
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
