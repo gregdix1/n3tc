@@ -1,0 +1,471 @@
+﻿<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Twitter Post Fetcher - compiled</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  
+  
+      <link rel="stylesheet" href="css/stylegb.css">
+    <style type="text/css">
+        ul {
+            padding: 0px;
+        }
+        list li:first-child {
+            border-top: 1px solid rgba(0, 0, 0, .1);
+            background-color: #FFFFFF;
+        }
+
+        list li {
+            position: relative;
+            padding: 20px 60px 20px 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, .1);
+            background-color: #FFFFFF;
+        }
+
+        list {
+            margin-bottom: 10px;
+            list-style: none;
+            background-color: #fff;
+            font-size: 14px;
+        }
+
+       list li p {
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .marker {
+            display: block;
+            border: none;
+            //border-radius: 50%;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .mapboxgl-popup {
+            max-width: 200px;
+        }
+
+        .Icon--replyEdge {
+            width: 1.25em;
+            background-image: url(reply.svg);
+            transform: scaleX(1);
+        }
+
+        .Icon--reply {
+            width: 1.07639em;
+            background-image: url(reply.svg);
+            transform: scaleX(1);
+        }
+
+        .Icon {
+            display: inline-block;
+            height: 1.25em;
+            background-size: contain;
+            vertical-align: text-bottom;
+            background-repeat: no-repeat;
+        }
+        .Icon--retweetEdge {
+            width: 1.25em;
+            background-image: url(retweet.svg);
+            transform: scaleX(1);
+        }
+
+        
+        .Icon--heartEdge {
+            width: 1.25em;
+            background-image: url(heart.svg);
+        }
+
+        .Icon--heart {
+            width: 0.9375em;
+            background-image: url(heart.svg);
+        }
+
+        .twtSelect {
+            width: 100%;
+            height: 35px;
+            position: fixed;
+            z-index: 500;
+            font-weight: bold;
+            top: 250px;
+            background-color: rgba(243, 243, 243, 0);
+            border: none;
+            color: #636363;
+        }
+    </style>
+    <script src='routemarkers.js'></script>
+</head>
+
+<body>
+  <html>
+  <head></head>
+  <body style="margin: 0px;">
+      <div id="put">...</div>
+      <div id="c3" onclick="Crash()">Crash</div>
+      <div id="c4" onclick="CrashUpdate()">CrashUpdate</div>
+      <div id="c5" onclick="N3TollRoute()">N3TollRoute</div>
+      <div id='map' style="height:320px; width:100%;position: fixed; z-index:5; left: 0px;top: 0px; box-shadow: 2px 1px 2px 1px rgba(0, 0, 0, 0.38); border-bottom: 2px solid #fff;"></div>
+      <iframe frameborder="0" id="twtscroll2" style=" width:100%; height:42px; position: fixed; z-index: 500;top: 279px;background-color: #fff;" src="../index.html" onclick="toggleTwt()"></iframe>
+     
+      <select name="selectTwt" class="twtSelect" id="selectTwt" onchange="setTwtcode()">
+          <option value="905553129663602693">Filter >> N3 Toll Route</option>
+          <option value="906247040409231360">Obstruction</option>
+          <option value="905548830090911747">Crash Updates</option>
+          <option value="906249057521332227">Alerts @N3Route </option>
+          <option value="906242695827513345">PV Crash</option>
+          <option value="906248139098787840">I am JHB Bound</option>
+          <option value="906248491273420800">I am DBN Bound</option>
+          <option value="906247491129135105">DropLoad</option>
+          <option value="906246494965170177">Crash Alerts</option>
+          <option value="906241623499132929">Dehoek</option>
+          <option value="906240585530474497">Tugela Plaza</option>
+          <option value="906241826373369856">Wilge Plaza</option>
+          <option value="906245693567897600">@N3Route</option>
+          <option value="906239110473543680">Traffic Volume</option>
+          </select>
+
+          <!--<div id="example4"></div>
+        <div id="example5"></div>-->
+
+          <hr />
+
+       <!--   <div id="Crash" style="margin-top:240px;border-top: 15px solid #f1f1f1;"></div>
+
+          <div id="CrashUpdate" style="margin-top:240px;border-top: 15px solid #f1f1f1;"></div>
+           <div id="N3TollRoute"></div>-->
+      <div id="tweetList" style="margin-top:240px;border-top: 15px solid #f1f1f1;"></div>
+
+          
+          <hr />
+         
+
+</body>
+</html>
+    <script>
+        function CrashUpdate() {
+
+            twitterFetcher.fetch(configCrashUpdate);
+        }
+        function N3TollRoute() {
+
+            twitterFetcher.fetch(configN3TollRoute);
+        }
+        function Crash() {
+
+            twitterFetcher.fetch(configCrash);
+        }
+
+        function toggleTwt() {
+
+            twitterFetcher.fetch(configCrash);
+            $("#twtscroll2").css.bottom("0px");
+        }
+       
+    </script>
+
+    <script>
+
+        //Toll markers
+
+
+        var geojsonToll = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "message": "1",
+                        "iconSize": [60, 60]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+
+                            29.56157,
+                            -28.4625
+                        ]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "message": "2",
+                        "iconSize": [50, 50]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+
+                            29.60895,
+                            -28.58687
+                        ]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "message": "3",
+                        "iconSize": [40, 40]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+
+                            29.99377,
+                            -29.19301
+                        ]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "message": "4",
+                        "iconSize": [50, 50]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+
+                            30.00389,
+                            -29.21795
+                        ]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "message": "5",
+                        "iconSize": [50, 50]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+
+                            29.60895,
+                            -28.58687
+                        ]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "message": "6",
+                        "iconSize": [50, 50]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+
+                            30.00448,
+                            -29.22157
+                        ]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "message": "7",
+                        "iconSize": [50, 50]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+
+                            28.62628,
+                            -27.04038
+                        ]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "message": "8",
+                        "iconSize": [50, 50]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+
+                            30.80275,
+                            -29.823006
+                        ]
+                    }
+                },
+
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "message": "9",
+                        "iconSize": [50, 50]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+
+                            29.569956,
+                            -28.458096
+                        ]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "message": "10",
+                        "iconSize": [50, 50]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+
+                            29.993112,
+                            -29.193292
+                        ]
+                    }
+                }
+            ]
+        };
+        </script>
+
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
+
+         var map = new mapboxgl.Map({
+                container: 'map',
+             style: 'mapbox://styles/mapbox/streets-v9',
+             center: [29.217650, -27.713353], // starting position
+             zoom: 6 // starting zoom
+            });
+
+            // add Toll markers to map
+            geojsonToll.features.forEach(function (marker) {
+                // create a DOM element for the marker
+                var el = document.createElement('div');
+                el.className = 'marker';
+                el.style.backgroundImage = 'url(Toll_pin.png)';
+                // el.style.width = marker.properties.iconSize[0] + 'px';
+                // el.style.height = marker.properties.iconSize[1] + 'px';
+                el.style.width = '60px';
+                el.style.height = '60px';
+
+                el.addEventListener('click', function () {
+                   // window.alert(marker.properties.message);
+                });
+
+                // add marker to map
+                new mapboxgl.Marker(el)
+                    .setLngLat(marker.geometry.coordinates)
+                    .addTo(map);
+            });
+
+
+         map.on('load', function () {
+
+            });
+
+         //add image
+         function addMarker(pointIndexC) {
+                map.loadImage('twt-crash.png', function (error, image) {
+                    if (error) throw error;
+                    map.addImage("catImg" + pointIndexC, image);
+                    map.addLayer({
+                        "id": "cat" + pointIndexC,
+                        "type": "symbol",
+                        "source": {
+                            "type": "geojson",
+                            "data": {
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [setLon, setLat]
+                                    }
+                                }]
+                            }
+                        },
+                        "layout": {
+                            "icon-image": "catImg" + pointIndexC,
+                            "icon-size": 0.5
+                        }
+                    });
+                });
+            };
+
+         var pointIndexCTemp = 0;
+         function addMarkerCheck(pointIndexC) {
+             if (pointIndexC != pointIndexCTemp) {
+                addMarker2(pointIndexC);
+            } else {console.log("duplicate"); }
+
+         };
+
+
+         function addMarker2(txtTwtGet) {
+
+                //check for duplicate update
+                pointIndexCTemp = pointIndexC;
+            //get coords
+            var rtMrkCoords = [setLon, setLat];
+
+             // create the popup
+             var popup = new mapboxgl.Popup({offset: 25 })
+             popup.setText(txtTwtGet);
+             popup.id = 'popup' + pointIndexC;
+
+             // create DOM element for the marker
+             var el = document.createElement('div');
+             el.id = 'marker' + pointIndexC;
+             el.className = 'marker';
+             el.style.backgroundImage = 'url(twt-crash.png)';
+             el.style.width = '60px';
+             el.style.height = '91px';
+
+             // create the marker
+             new mapboxgl.Marker(el, {offset: [-25, -25] })
+                 .setLngLat(rtMrkCoords)
+                 .setPopup(popup) // sets a popup on this marker
+                 .addTo(map);
+             flytoTwt();
+         }
+
+     function flytoTwt() {
+                map.flyTo({
+                    center: [setLon, setLat],
+                    zoom: 11,
+                    speed: 0.8,
+                    curve: 2,
+                    pitch: 60, // pitch in degrees
+                    bearing: -60, // bearing in degrees
+                    easing(t) {
+                        return t
+                    }
+                });
+
+         }
+
+    </script>
+
+    <script src="processmarkers2.js"></script>
+    <script src="js/twtfetchn3.js"></script>
+    
+ 
+
+</body>
+</html>

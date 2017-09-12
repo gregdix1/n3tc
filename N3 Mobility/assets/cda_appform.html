@@ -150,7 +150,9 @@
         });
 
         function bckMenu() {
-            window.location.replace("index.html#page_home");
+           // window.location.href("../index.html#page_home");
+            //onclick = "javascript:history.back()"
+            javascript: history.back();
         }
     </script>
 
@@ -159,7 +161,7 @@
 </head>
 <body>
     <header class="bar-title">
-        <button class="button icon-uniF472 toggle-left" onclick="bckMenu()"></button>
+        <button class="button icon-uniF472 toggle-left" onclick="javascript:history.back()"></button>
         <h1 id="topHead" class="title">Application</h1>
         <button class="button icon-user toggle-right" value="off"></button>
     </header>

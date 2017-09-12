@@ -1,0 +1,113 @@
+/* 
+* Example style!
+* You can do whatever the hell you want on your site :-)
+*/
+
+h2 {
+  clear:both;
+}
+
+p, a {
+    font-size: 11pt;
+    font-family: sans-serif;
+    margin: 5px 0 5px 0;
+    color: #3d3d3d;
+}
+
+a, a:visited {
+  color:#427fed;
+}
+
+a:hover {
+  color:#82afff;
+}
+
+ul li {
+    list-style: none;
+    overflow: hidden;
+    border-bottom: 1px solid #9c9c9c;
+    margin: 0px;
+    padding: 8px;
+}
+
+ul li:hover {
+  background-color:#f0f3fb;
+}
+
+.user, .tweet, .timePosted {
+  float:left;
+}
+
+.user {
+    width: 95%;
+    display: none;
+}
+
+.tweet {
+   // margin-top: -15px;
+   // margin-left: 60px;
+}
+
+.timePosted {
+    // width:15%;
+    font-weight: 600;
+}
+
+.user {
+  clear:left;
+}
+
+.user a {
+ width: 100px;
+}
+
+.user span span {
+  width:100px;
+  display:block;
+  margin-top:10px;
+}
+
+    .user img {
+        float: left;
+        width: 45px;
+        margin-left: -10px;
+        display: none;
+    }
+
+.interact {
+    float: right;
+    margin-top: 0px;
+    margin-right: 20px;
+}
+
+.interact a {
+  margin-left:15px;
+  float:left;
+  font-size: 12pt;
+}
+
+.user a > span {
+    float: left;
+    margin-left: 10px;
+    color: #14171a;
+    font-size: 14px;
+    font-weight: bold;
+    display: none;
+}
+
+.media img {
+  max-width:250px;
+  max-height:250px;
+}
+
+#linkage {
+  position:fixed;
+  top:0px;
+  right:0px;
+  background-color:#3d3d3d;
+  color:#ffffff;
+  text-decoration:none;
+  padding:5px;
+  width:10%;
+  font-family:arial;
+}

@@ -167,7 +167,7 @@ function dateFormatter(date) {
 
 var configCrash = {
     // "id": '345690956013633536', //@N3TollRoute
-    "id": '906246494965170000',
+    "id": '906246494965170177',
     "domId": 'Crash',
     "maxTweets": 10,
     "enableLinks": true,
@@ -187,5 +187,5 @@ function dateFormatter(date) {
 }
 
 //twitterFetcher.fetch(configN3TollRoute);
-//twitterFetcher.fetch(configCrash);
-twitterFetcher.fetch(configCrashUpdate);
+twitterFetcher.fetch(configCrash);
+//twitterFetcher.fetch(configCrashUpdate);

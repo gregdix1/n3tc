@@ -97,17 +97,10 @@
             top: 90px;
             left: 10px;
         }
-    </style>
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.min.js'></script>
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.css' type='text/css' />
-
-
-
-
-    <style>
+    
         #geocoder-container > div {
             min-width: 50%;
-            margin-left: 15%;
+            margin-left: 25%;
         }
 
         .tweet {
@@ -141,12 +134,53 @@
             cursor: pointer;
             padding: 0;
         }
+        #fit {
+            display: block;
+            position: relative;
+            margin: 0px auto;
+            width: 50%;
+            height: 40px;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            font-size: 12px;
+            text-align: center;
+            color: #fff;
+            background: #ee8a65;
+        }
+         .poilist {
+            margin-bottom: 10px;
+            list-style: none;
+            background-color: #fff;
+            font-size: 12px;
+            font-family: sans-serif;
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+        }
+        
     </style>
+
+    <script>
+        $(document).ready(function () {
+            console.log("document loaded");
+            myLoc();
+            setTimeout(function () { $('.loading').hide(); }, 4000);
+
+          //  $(".suggestions").click(function () {
+              //  alert("Y");
+          //  });
+
+        });
+    </script>
+    
+</head>
+<body>
 
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.1/mapbox-gl-directions.js'></script>
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.1/mapbox-gl-directions.css' type='text/css' />
-</head>
-<body>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.css' type='text/css' />
     <!-- SIDEBAR LEFT MENU -->
     <div class="snap-drawers">
         <div class="snap-drawer snap-drawer-left" id="left-drawer">
@@ -159,11 +193,11 @@
                         </li>
                         <li id="li_page_location_map">
                             <span aria-hidden="true" class="icon-chris-spittles-geo-location"></span>
-                            <a id="location-map" transition="side" href="#page_location_map" onclick="openPage(this.href)">Location Map</a>
+                            <a id="location-map-pnl" transition="side" href="#page_location_map" onclick="openPage(this.href)">Location Map</a>
                         </li>
                         <li id="li_page_nearby">
                             <span aria-hidden="true" class="icon-checkin"></span>
-                            <a id="nearby" transition="side" href="#page_nearby" onclick="openPage(this.href)"> N3 Route </a>
+                            <a id="nearby" transition="side" href="#page_nearby" > N3 Route </a>
                         </li>
                         <li id="li_page_location_list">
                             <span aria-hidden="true" class="icon-maps"></span>
@@ -175,25 +209,25 @@
                         </li>
                         <li id="li_page_myaccount">
                             <span aria-hidden="true" class="icon-user"></span>
-                            <a id="myaccount" transition="side" href="#page_myaccount" onclick="openPage(this.href)">My Account</a>
+                            <a id="myaccount" transition="side" href="#page_myaccount" onclick="openPageAcc(this.href)">My Account</a>
                         </li>
                         <li id="li_page_twitter">
                             <span aria-hidden="true" class="icon-twitter"></span>
                             <a id="twitter" transition="side" href="#page_twitter" onclick="openPage(this.href)"> @N3Route </a>
                         </li>
-                        <li id="li_page_twitter_fetch">
+                       <!-- <li id="li_page_twitter_fetch">
                             <span aria-hidden="true" class="icon-twitter"></span>
-                            <a id="twitterFetch" transition="side" href="#page_twitter_fetch" onclick="openPage(this.href)"> #CrashUpdate </a>
-                        </li>
-                        <li id="li_page_myaccount">
+                            <a id="twitterFetch" transition="side" href="#page_twitter_fetch" onclick="openPage(this.href)"> Incident Alerts </a>
+                        </li> -->
+                        <li id="li_page_contact">
                             <span aria-hidden="true" class="icon-user"></span>
-                            <a id="myaccount" transition="side" href="#page_myaccount" onclick="openPageExt(this.href)"> Contact</a>
+                            <a id="contact" transition="side" href="#page_myaccount" onclick="openPage(this.href)"> Contact</a>
                         </li>
                         <li id="li_page_poi">
                             <span aria-hidden="true" class="icon-maps"></span>
                             <a id="poi" transition="side" href="#page_poi" onclick="openPage(this.href)"> POI</a>
                         </li>
-                        <li id="n3route" onclick="myLoc()">
+                        <li id="mylocgps" onclick="myLoc()">
                             <span id="gpsout" style="padding: 10px 8px; font-size: 12px; line-height: 18px;">GPS</span>
                         </li>
                         <li id="copy" onclick="flytoZoom()">
@@ -315,9 +349,15 @@
                     </div>
                     <iframe frameborder="0" id="twtscroll" style=" width:100%; height:42px" src="twitter/index.html"></iframe>
                     <ul class="list">
-
+                       <li>
+                            <a id="twt-map" transition="side" href="#page_twitter" onclick="openPage(this.href)">
+                                <div class="fs1" aria-hidden="true" data-icon="&#xf16a;"></div>
+                                <strong>@N3Route</strong>
+                                <span class="chevron"></span>
+                            </a>
+                        </li>
                         <li>
-                            <a id="nearby" transition="side" href="#page_myaccount" onclick="openPage(this.href)">
+                            <a id="myacc" transition="side" href="#page_myaccount" onclick="openPageAcc(this.href)">
                                 <div class="fs1" aria-hidden="true" data-icon="&#x62;"></div>
                                 <strong>My Account</strong>
                                 <span class="chevron"></span>
@@ -337,15 +377,9 @@
                                 <span class="chevron"></span>
                             </a>
                         </li>
+                       
                         <li>
-                            <a id="save-location" transition="side" href="#page_add_location" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xe02c;"></div>
-                                <strong>Add New Trip</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="n3tc-banner" transition="side" href="#page_contact" onclick="openPage(this.href)">
+                            <a id="n3tc-banner" transition="side" href="#page_test" onclick="openPageAcc(this.href)">
 
                                 <!-- <img src="images/n3tc_logo.png" width="100%" height="auto"/>-->
                                 <span class="chevron"></span>
@@ -376,177 +410,49 @@
             <!-- END PAGE LOCATION LIST DETAIL -->
             <!-- PAGE NEARBY -->
             <div id="page_nearby" data-role="page" data-title="Page Nearby">
-                <div class="wrapper">
+                <div id="nearby-wrapper" class="wrapper">
+                   
+
                     <ul id="list-nearby" class="list"></ul>
+                   
                 </div>
             </div>
             <!-- END PAGE NEARBY -->
-             <!-- PAGE CONTACT  -->
+            <!-- PAGE CONTACT  -->
             <div id="page_contact" data-role="page" data-title="Page Contact">
                 <div class="wrapper">
                     <ul id="n3-contact" class="list"><li>[ contact ]</li></ul>
                 </div>
             </div>
-            <!--END PAGE CONTACT  -->            
+            <!--END PAGE CONTACT  -->
+            
+             <!-- PAGE TEST  -->
+            <div id="page_test" data-role="page" data-title="Page Test">
+                <div class="wrapper">
+                    
+                    <iframe frameborder="0" id="frameTest" scrolling="yes" style=" width:100%;" src=""></iframe>
+                </div>
+            </div>
+            <!--END PAGE TEST  -->
+            
             <!-- PAGE MYACCOUNT -->
             <div id="page_myaccount" data-role="page" data-title="Page My Account">
                 <div class="wrapper">
-                    <ul class="list">
-                        <li>
-                            <a id="inbox" transition="side" href="#page_inbox" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x2407;"></div>
-                                <strong>Inbox</strong>
-                                <span class="count">5</span>
-
-                            </a>
-                        </li>
-                        <li>
-                            <a id="accounts" transition="side" href="#page_accounts" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf279;"></div>
-                                <strong>My Accounts</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a id="manageacc" transition="side" href="#page_manage" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf307;"></div>
-                                <strong>Account Manager </strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="profile" transition="side" href="#page_profile" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x62;"></div>
-                                <strong>Update Profile</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="logout" transition="side" href="#page_logout" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xe03f;"></div>
-                                <strong>Log Out</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="info" transition="side" href="#page_info" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xe03c;"></div>
-                                <strong>Help</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                    </ul>
+                   <iframe frameborder="0" id="frameForm" scrolling="yes" style=" width:100%;" src="assets/myaccount.html"></iframe>
                 </div>
             </div>
             <!-- END PAGE MYACCOUNT -->
             <!-- PAGE Accounts -->
             <div id="page_accounts" data-role="page" data-title="Page Accounts">
                 <div class="wrapper">
-                    <ul class="list">
-                        <li>
-                            <a id="" transition="side" href="#page_myaccount" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf472;"></div>
-                                <strong>Back</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="" transition="side" href="#page_acc_detail" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf279;"></div>
-                                <strong>Acc No. 123456</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="" transition="side" href="#page_acc_detail" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf279;"></div>
-                                <strong>Acc No. 128456</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="" transition="side" href="#page_acc_detail" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf279;"></div>
-                                <strong>Acc No. 129441</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-
-                        <!--<li>
-                            <a id="accounts" transition="side" href="#page_acc" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf279;"></div>
-                                <strong>My Accounts</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="tags" transition="side" href="#page_tags" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x56;"></div>
-                                <strong>Tags</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="myapps" transition="side" href="#page_apps" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf26c;"></div>
-                                <strong>My Applications</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>-->
-                    </ul>
+                    
                 </div>
             </div>
             <!-- END PAGE Accounts -->
             <!-- PAGE Accounts Detail -->
             <div id="page_acc_detail" data-role="page" data-title="Page Accounts Detail">
                 <div class="wrapper">
-                    <ul class="list">
-                        <li>
-                            <a id="" transition="side" href="#page_accounts" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf472;"></div>
-                                <strong>Back</strong>
-                                <span class=""></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="" transition="side" href="#page_acc_detail" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf279;"></div>
-                                <strong>Acc No. 123456</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="" transition="side" href="#page_acc_tags" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x56;"></div>
-                                <strong>Tag. 6654****3456</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="" transition="side" href="#page_acc_detail" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x56;"></div>
-                                <strong>Tag. 6654****3456</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="" transition="side" href="#page_acc_detail" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x56;"></div>
-                                <strong>Tag. 6654****3456</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="" transition="side" href="#page_acc_detail" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x56;"></div>
-                                <strong>Tag. 6654****3456</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-
-
-                    </ul>
+                   
                 </div>
             </div>
             <!-- END PAGE Accounts Detail -->
@@ -582,102 +488,83 @@
             <!-- PAGE MANAGE -->
             <div id="page_manage" data-role="page" data-title="Page Manage">
                 <div class="wrapper">
-                    <ul class="list">
-                        <li>
-                            <a id="" transition="side" href="#page_myaccount" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf472;"></div>
-                                <strong>Back</strong>
-                                <span class=""></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="newApp" transition="side" href="#" onclick="openPageExt()">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf47c;"></div>
-                                <strong>New Application</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="addCar" transition="side" href="#page_add_vehicle" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf239;"></div><!--"\3b"-->
-                                <strong>Add Vehicles to Application</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="addDocs" transition="side" href="#page_add_docs" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x76;"></div>
-                                <strong>Add Documents</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="linkAcc" transition="side" href="#page_link_acc" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x78;"></div>
-                                <strong>Link Existing Account</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                    </ul>
+                   
                 </div>
             </div>
             <!-- END PAGE MANGE -->
+             <script src="js/points.js"></script>
+    <script src="js/poirun.js"></script>
             <!-- PAGE POI -->
             <div id="page_poi" data-role="page" data-title="Page Places">
                 <div class="wrapper">
+                     <input class="" style="margin:10px; width: 50%;" type="text" id="kmCounter" value="5" />
                     <ul class="list">
                         <li>
-                            <a id="" transition="side" href="#" onclick="openPage(this.href)">
+                            <a id="srch" transition="side" href="#page_location_map" onclick="runpoi()">
                                 <div class="fs1" aria-hidden="true" data-icon="&#xf472;"></div>
-                                <strong>Back</strong>
+                                <strong>Search</strong>
                                 <span class=""></span>
                             </a>
                         </li>
                         <li>
-                            <a id="newApp" transition="side" href="#page_details" onclick="openPageExt()">
+                            <a id="Toll" transition="side" href="#page_location_map" onclick="openPage(this.href)">
                                 <div class="fs1" aria-hidden="true" data-icon="&#xf47c;"></div>
                                 <strong>Tolls</strong>
-                                <span class="chevron"></span>
+                                <span id="tourbtn" class="count"></span>
+                            
                             </a>
                         </li>
                         <li>
-                            <a id="addCar" transition="side" href="#page_details" onclick="openPage(this.href)">
+                            <a id="Petrol" transition="side" href="#page_location_map" onclick="openPage(this.href)">
                                 <div class="fs1" aria-hidden="true" data-icon="&#xf239;"></div><!--"\3b"-->
                                 <strong>Service Stations</strong>
-                                <span class="chevron"></span>
+                                <span id="petbtn" class="count"></span>
                             </a>
                         </li>
                         <li>
-                            <a id="addDocs" transition="side" href="#page_details" onclick="openPage(this.href)">
+                            <a id="Restaurant" transition="side" href="#page_location_map" onclick="openPage(this.href)">
+                                <div class="fs1" aria-hidden="true" data-icon="&#xf26c;"></div>
+                                <strong>Restaurants</strong>
+                                <span id="restbtn" class="count"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="Events" transition="side" href="#page_location_map" onclick="openPage(this.href)">
                                 <div class="fs1" aria-hidden="true" data-icon="&#xf26c;"></div>
                                 <strong>Events</strong>
-                                <span class="chevron"></span>
+                                <span id="evebtn" class="count"></span>
                             </a>
                         </li>
                         <li>
-                            <a id="activ" transition="side" href="#page_details" onclick="openPage(this.href)">
+                            <a id="activ" transition="side" href="#page_location_map" onclick="openPage(this.href)">
                                 <div class="fs1" aria-hidden="true" data-icon="&#xf310;"></div>
                                 <strong>Activities</strong>
-                                <span class="chevron"></span>
+                                <span id="activebtn" class="count"></span>
                             </a>
                         </li>
                         <li>
-                            <a id="accomodation" transition="side" href="#page_details" onclick="openPage(this.href)">
+                            <a id="accomodation" transition="side" href="#page_location_map" onclick="openPage(this.href)">
                                 <div class="fs1" aria-hidden="true" data-icon="&#x78;"></div>
                                 <strong>Accomodation</strong>
-                                <span class="chevron"></span>
+                                <span id="accbtn" class="count"></span>
                             </a>
                         </li>
                     </ul>
+                    <div id="longlatXX">Coords</div>
+                    <button id='fly' class="button-positive button-block">View Map</button>
+                     <ul id="poiList" class="poilist">
+                       <li></li>
+                     </ul>
                 </div>
             </div>
             <!-- END PAGE MANGE -->
             <!-- PAGE TWITTER -->
             <div id="page_twitter" data-role="page" data-title="Page Twitter">
                 <div class="wrapper">
-                    <!-- <ul id="list-tweets" class="list"></ul>-->
+                    <iframe frameborder="0" id="formFrm" style=" width:100%;" src="twitter/map/index-twtmap.html"></iframe>
+                    <!-- <ul id="list-tweets" class="list"></ul>
                     <a class="twitter-timeline" href="https://twitter.com/N3Route">Tweets by N3Route</a>
-                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>-->
                 </div>
             </div>
             <!-- END PAGE TWITTER -->
@@ -690,10 +577,10 @@
             </div>
             <!-- END PAGE FETCH TWITTER -->
             <!-- PAGE Iframe -->
-            <div id="page_myaccount" data-role="page" data-title="Page My Account">
+            <div id="page_myaccountXX" data-role="page" data-title="Page My Accountxx">
                 <div class="wrapper">
 
-                    <iframe frameborder="0" id="formFrm" style=" width:100%;" src="assets/cda_appform.html"></iframe>
+                    <iframe frameborder="0" id="formFrmXX" style=" width:100%;" src="assets/cda_appform.html"></iframe>
                 </div>
             </div>
             <!-- END PAGE iframe -->
@@ -714,24 +601,24 @@
                     <div class="input-group">
                         <div class="input-row">
                             <label>Date</label>
-                            <div id="date-save-location1"></div>
+                            <div id="date-save-location"></div>
                         </div>
                         <div class="input-row">
                             <label>Location</label>
-                            <input type="text" id="form-titleX" placeholder="Title">
-                            <div id="address-save-location1"></div>
+                            <!--<input type="text" id="form-title" placeholder="Title">-->
+                            <div id="address-save-location"></div>
                         </div>
                         <div class="input-row">
                             <label>Title</label>
-                            <div id="title-save-location1"></div>
+                            <div id="title-save-location"></div>
                         </div>
                         <div class="input-row">
                             <label>Description</label>
-                            <div id="desc-save-location1"></div>
+                            <div id="desc-save-location"></div>
                         </div>
                     </div>
                     <div class="content-padded">
-                        <div id="button-save-location1"></div>
+                        <div id="button-save-location"></div>
                     </div>
                 </div>
             </div>
@@ -743,7 +630,7 @@
                         <input type="text" id="form-title" placeholder="Title">
                         <textarea rows="5" id="form-desc" placeholder="Description"></textarea>
                         <a id="form-add" class="button-positive button-block" href="#page_save_location" onclick="openPage(this.href)">Add Trip</a>
-                        <span id="show-location-address" class="count">No Detect Location</span>
+                        <span id="show-location-address" class="count">Location</span>
 
                     </form>
                 </div>
@@ -754,8 +641,8 @@
                 <div id='mapcont' data-snap-ignore="true"></div>
 
                 <div id="map_canvas" style="width: 100%;" data-snap-ignore="true"></div>
-
-            </div>
+               
+                </div>
             <!-- END PAGE LOCATION MAP-->
             <!-- PAGE DETAIL LOCATION -->
             <div id="page_show_location" data-role="page">
@@ -818,6 +705,7 @@
 
     <script type="text/javascript" src="js/snap.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
+    
 
     <script src="js/twtfetch.js"></script>
 
@@ -826,6 +714,7 @@
             var idref = href;
             window.location.href = idref;
             //  jqUpdateSize();
+            screenHeight();
             $('.loading').hide();
             $('.mapboxgl-ctrl-geocoder').hide();
             //getLocationCategory();
@@ -839,7 +728,13 @@
         function openPageExt() {
             screenHeight();
             var idref2 = 'assets/cda_appform.html';
-            window.location.replace(idref2);
+            window.location.href = idref2;
+
+        }
+        function openPageAcc(href) {
+            screenHeight();
+            var idrefAcc = href;
+            window.location.href = idrefAcc;
 
         }
 
@@ -860,6 +755,7 @@
             sHeight = $(window).height();
             frmHeight = sHeight - 51;
             $("#formFrm").attr("height", frmHeight);
+            $("#frameForm").attr("height", sHeight + 50);
             //alert(sHeight + 'px');
 
         }
@@ -1039,27 +935,28 @@
             zoom: 6 // starting zoom
         });
 
-
+        
 
         // add Toll markers to map
         geojsonToll.features.forEach(function (marker) {
             // create a DOM element for the marker
             var el = document.createElement('div');
             el.className = 'marker';
-            el.style.backgroundImage = 'url(images/toll.png)';
+            el.style.backgroundImage = 'url(images/Toll_pin.png)';
             // el.style.width = marker.properties.iconSize[0] + 'px';
             // el.style.height = marker.properties.iconSize[1] + 'px';
-            el.style.width = '45px';
+            el.style.width = '60px';
             el.style.height = '60px';
 
             el.addEventListener('click', function () {
                 window.alert(marker.properties.message);
             });
 
-            // add marker to map
+            // add marker to maps
             new mapboxgl.Marker(el)
                 .setLngLat(marker.geometry.coordinates)
                 .addTo(map);
+               // .addTo(map2);
         });
 
 
@@ -1100,23 +997,32 @@
         function addDirections() {
             $('.mapboxgl-ctrl-geocoder').hide();
             $('.mapboxgl-ctrl-top-right').hide();
-            // Directions controller
-            map.addControl(new MapboxDirections({
+            $('.mapboxgl-ctrl-directions').show();
+          //  Directions controller
+         map.addControl(new MapboxDirections({
                 accessToken: mapboxgl.accessToken,
-                unit: 'metric'
+                unit: 'metric',                
             }), 'top-left');
-        }
+
+         
+
+
+               };
+
+      
 
         ///geocoder
-        map.addControl(new MapboxGeocoder({
+        var geocoder = new MapboxGeocoder({
             accessToken: mapboxgl.accessToken
-        }));
+        });
+
+        map.addControl(geocoder);
 
         // Add geolocate control to the map.
         map.addControl(new mapboxgl.GeolocateControl({
             positionOptions: {
-                enableHighAccuracy: true,
-                timeout: 3000
+                enableHighAccuracy: true
+                //timeout: 3000
             },
             trackUserLocation: true
         }));
@@ -1164,7 +1070,22 @@
                 }
             });
 
-
+            map2.on('load', function () {
+        
+                $('.loading').hide();
+         map2.flyTo({
+        center: [27.980264, -26.054968],
+        pitch: 60, // pitch in degrees
+        bearing: -60, // bearing in degrees
+        zoom: 9,
+        speed: 0.8,
+        curve: 1,
+        easing(t) {
+            return t
+        }
+    });
+        
+            });
 
             map.addLayer({
                 "id": "point",
@@ -1220,9 +1141,12 @@
             // makes a selection and add a symbol that matches the result.
             geocoder.on('result', function (ev) {
                 map.getSource('single-point').setData(ev.result.geometry);
+                
+                var evstr = JSON.stringify(ev.result.geometry);
+                alert("mygeo ev" + evstr);
             });
 
-
+           
 
         });
 
@@ -1291,9 +1215,7 @@
 
         ///poi
         function myLoc() {
-            //runpoi()
-            pointIndex = 0;
-            //alert(trackingState);
+            
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, errorGettingPosition);
@@ -1308,10 +1230,13 @@
 
                 mylat = position.coords.latitude;
                 mylon = position.coords.longitude;
+                //below for maps-gbd.js scripts etc...
+                mylong = position.coords.longitude;
                 // alert(mylat + mylon + "tracking onm");
                 document.getElementById("gpsout").innerHTML = "Lat: " + mylat + "  Lon: " + mylon;
                 // map.setCenter([mylon, mylat]);
-                map2.flyTo({ center: [mylon, mylat], zoom: 17 });
+               // map2.flyTo({ center: [mylon, mylat], zoom: 17 });
+                map.flyTo({ center: [mylon, mylat], zoom: 11 }); 
             }
         };
 
@@ -1335,8 +1260,29 @@
             }
         };
 
+        var bounds;
+        ///SHow route N3
+        document.getElementById("li_page_nearby").addEventListener('click', function () {
+
+            window.location.href = "#page_location_map";
+        });
+            // bounds = [[32.958984, -5.353521], [43.50585, 5.615985]];
+          function  setBoundsn3(){
+            map.fitBounds([[
+                32.958984,
+                -5.353521
+            ], [
+                43.50585,
+                5.615985
+            ]]);
+            
+        };
+
+       
+
     </script>
-   <script> 
+  <script>
+
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
     console.log(device.cordova);
@@ -1346,14 +1292,14 @@
         var deviceVersion = device.version;
         var manu = device.manufacturer;
         var deviceSerial = device.serial;
-        
+
         var devSpec='mod: ' + model + ' Plat: ' + devPlatform + ' uuid: ' + deviceID +' ver: ' + deviceVersion + ' Manufac: ' + manu + ' serial: ' + deviceSerial;
-        document.getElementById("n3tc-banner").innerHTML = devSpec;
+        //document.getElementById("n3tc-banner").innerHTML = devSpec;
         localStorage.setItem("deviceSpec", devSpec);
      }
-       </script>
+    </script>
 
-    <script type="text/javascript" src="cordova.js"></script>
+   <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">
         app.initialize();
@@ -1361,4 +1307,4 @@
 
 </body>
 
-</html >
+</html>
