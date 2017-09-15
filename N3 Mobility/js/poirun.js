@@ -329,38 +329,39 @@ var start = [29.993112, -29.193292];
 var end = [28.38988, -26.66397];
 
 var isAtStart = true;
+function flyN3Route() {
+    //document.getElementById('fly').addEventListener('click', function () {
+        // depending on whether we're currently at point a or b, aim for
+        // point a or b
+        var target = isAtStart ? end : start;
 
-document.getElementById('fly').addEventListener('click', function () {
-    // depending on whether we're currently at point a or b, aim for
-    // point a or b
-    var target = isAtStart ? end : start;
+        // and now we're at the opposite point
+        isAtStart = !isAtStart;
 
-    // and now we're at the opposite point
-    isAtStart = !isAtStart;
-
-    map.flyTo({
-        // These options control the ending camera position: centered at
-        // the target, at zoom level 9, and north up.
-        center: target,
-        zoom: 14,
-        pitch: 70, // pitch in degrees
-        bearing: -40, // bearing in degrees
+        map.flyTo({
+            // These options control the ending camera position: centered at
+            // the target, at zoom level 9, and north up.
+            center: target,
+            zoom: 14,
+            pitch: 70, // pitch in degrees
+            bearing: -40, // bearing in degrees
 
 
-        // These options control the flight curve, making it move
-        // slowly and zoom out almost completely before starting
-        // to pan.
-        speed: 0.2, // make the flying slow
-        curve: 1, // change the speed at which it zooms out
+            // These options control the flight curve, making it move
+            // slowly and zoom out almost completely before starting
+            // to pan.
+            speed: 0.2, // make the flying slow
+            curve: 1, // change the speed at which it zooms out
 
-        // This can be any easing function: it takes a number between
-        // 0 and 1 and returns another number between 0 and 1.
-        easing: function (t) {
-            return t;
-        }
-    });
-});
+            // This can be any easing function: it takes a number between
+            // 0 and 1 and returns another number between 0 and 1.
+            easing: function (t) {
+                return t;
+            }
+        });
+   // });
 
+}
 
 //flyto
 function showOnMap(id) {

@@ -197,7 +197,7 @@
                         </li>
                         <li id="li_page_nearby">
                             <span aria-hidden="true" class="icon-checkin"></span>
-                            <a id="nearby" transition="side" href="#page_nearby" > N3 Route </a>
+                            <a id="nearby" transition="side" href="#page_location_map" onclick="openPageFly(this.href)"> N3 Route </a>
                         </li>
                         <li id="li_page_location_list">
                             <span aria-hidden="true" class="icon-maps"></span>
@@ -492,8 +492,7 @@
                 </div>
             </div>
             <!-- END PAGE MANGE -->
-             <script src="js/points.js"></script>
-    <script src="js/poirun.js"></script>
+             
             <!-- PAGE POI -->
             <div id="page_poi" data-role="page" data-title="Page Places">
                 <div class="wrapper">
@@ -551,7 +550,7 @@
                         </li>
                     </ul>
                     <div id="longlatXX">Coords</div>
-                    <button id='fly' class="button-positive button-block">View Map</button>
+                    
                      <ul id="poiList" class="poilist">
                        <li></li>
                      </ul>
@@ -708,6 +707,9 @@
     
 
     <script src="js/twtfetch.js"></script>
+    
+    <script src="js/points.js"></script>
+    <script src="js/poirun.js"></script>
 
     <script>
         function openPage(href) {
@@ -735,6 +737,14 @@
             screenHeight();
             var idrefAcc = href;
             window.location.href = idrefAcc;
+
+        }
+        
+        function openPageFly(href) {
+            screenHeight();
+            var idrefAcc = href;
+            window.location.href = idrefAcc;
+            flyN3Route();
 
         }
 
