@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,6 +36,11 @@
     <script type="text/javascript" src="js/zepto.min.js"></script>
     <script type="text/javascript" src="js/transition.min.js"></script>
     <script type="text/javascript" src="js/ratchet.js"></script>
+
+    <script type="text/javascript" src="js/points.js"></script>
+    <script type="text/javascript" src="js/poirun.js"></script>
+    <script type="text/javascript" src="js/myTrips.js"></script>
+   
 
     <style>
         body {
@@ -130,7 +135,7 @@
         .marker {
             display: block;
             border: none;
-            border-radius: 50%;
+            border-radius: 0px;
             cursor: pointer;
             padding: 0;
         }
@@ -148,14 +153,47 @@
             color: #fff;
             background: #ee8a65;
         }
-         .poilist {
-            margin-bottom: 10px;
+        .poilist {
+            margin-bottom: 0px;
             list-style: none;
             background-color: #fff;
             font-size: 12px;
             font-family: sans-serif;
-            border-bottom: 1px solid #ccc;
-            padding: 10px;
+            border-top: 10px solid #f1f1f1;
+            border-bottom: 10px solid #f1f1f1;
+            overflow: scroll;
+        }
+        .poiLi {
+            border-top: 1px solid rgba(0, 0, 0, .1);
+            margin: 10px 0px 10px 0px;
+            padding: 5px;
+        
+        }
+        .markerLbl {
+            margin-top: -20px;
+            font-size: 8pt;
+            font-weight: bold;
+            width: 110px;
+            position: absolute;
+        
+        }
+        .markerLblPOI {
+            margin-top: -20px;
+            font-size: 8pt;
+            font-weight: bold;
+            width: 215px;
+            position: absolute;
+            text-align: right;
+            margin-left: -110px;
+        
+        }
+
+        .poiMenuDiv {
+            
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 38px;
+            height: 40px;
         }
         
     </style>
@@ -496,60 +534,104 @@
             <!-- PAGE POI -->
             <div id="page_poi" data-role="page" data-title="Page Places">
                 <div class="wrapper">
-                     <input class="" style="margin:10px; width: 50%;" type="text" id="kmCounter" value="5" />
+                    <div id="srch-bar" style="text-align:center;padding-top: 10px;}">
+                        <div class="fs1" aria-hidden="true" data-icon="&#xf472;" style="display: inline-block; margin-right: 20px;font-size: 14pt;" onclick="proxMinus()"></div>
+                        <span><input class="" style="width: 80px;border-radius: 50px; text-align: center; font-weight: 700;background-image: URL(images/km-bck.png);background-size:contain;" type="text" id="kmCounter" value="5" /></span>
+                        <div class="fs1" aria-hidden="true" data-icon="&#xf473;" style="display: inline-block; margin-left: 20px;font-size: 14pt;"onclick="proxPlus()"></div>
+                    </div>
                     <ul class="list">
+                        
                         <li>
-                            <a id="srch" transition="side" href="#page_location_map" onclick="runpoi()">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf472;"></div>
+                            
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(images/Toll_pin.png);"></div>
+                                
+                                <strong>Toll Plaza</strong>
+                                <span id="tourbtn" class="count" style="margin-right: 100px;">0</span>
+                            
+                           
+                            <div class="toggle-box">
+                                <label for="toggle-tolls" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-tolls" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+                            
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
+                                <strong>Service Stations</strong>
+                                <span id="petbtn" class="count" style="margin-right: 100px;">0</span>
+                            
+                            <div class="toggle-box">
+                                <label for="toggle-petrol" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-petrol" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+                            
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon=""  style="background-image: url(img/pin/rest150.png);"></div>
+                                <strong>Restaurants</strong>
+                                <span id="restbtn" class="count" style="margin-right: 100px;">0</span>
+                           
+                            <div class="toggle-box">
+                                <label for="toggle-rest" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-rest" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+                           
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/events150.png);"></div>
+                                <strong>Events</strong>
+                                <span id="evebtn" class="count" style="margin-right: 100px;">0</span>
+                            
+                            <div class="toggle-box">
+                                <label for="toggle-events" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-events" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+                            
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/activity150.png);"></div>
+                                <strong>Activities</strong>
+                                <span id="activebtn" class="count" style="margin-right: 100px;">0</span>
+                           
+                            <div class="toggle-box">
+                                <label for="toggle-activ" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-activ" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+                           
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/accomodation150.png);"></div>
+                                <strong>Accomodation</strong>
+                                <span id="accbtn" class="count" style="margin-right: 100px;">0</span>
+                           
+                            <div class="toggle-box">
+                                <label for="toggle-accom" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-accom" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/retail150.png);"></div>
+                            <strong>Retail</strong>
+                            <span id="retbtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-retail" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-retail" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li style="padding: 8px;">
+                            <div style="text-align:center;" id="longlatXX">...</div>
+                         </li>
+                        <li onclick="runpoi()">
+                            <!--<a id="srch" transition="side" href="#page_location_map" onclick="runpoi()">-->
+                                <div id="srch" class="fs1" aria-hidden="true" data-icon="&#xf473;"></div>
                                 <strong>Search</strong>
                                 <span class=""></span>
                             </a>
                         </li>
-                        <li>
-                            <a id="Toll" transition="side" href="#page_location_map" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf47c;"></div>
-                                <strong>Tolls</strong>
-                                <span id="tourbtn" class="count"></span>
-                            
-                            </a>
-                        </li>
-                        <li>
-                            <a id="Petrol" transition="side" href="#page_location_map" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf239;"></div><!--"\3b"-->
-                                <strong>Service Stations</strong>
-                                <span id="petbtn" class="count"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="Restaurant" transition="side" href="#page_location_map" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf26c;"></div>
-                                <strong>Restaurants</strong>
-                                <span id="restbtn" class="count"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="Events" transition="side" href="#page_location_map" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf26c;"></div>
-                                <strong>Events</strong>
-                                <span id="evebtn" class="count"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="activ" transition="side" href="#page_location_map" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf310;"></div>
-                                <strong>Activities</strong>
-                                <span id="activebtn" class="count"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="accomodation" transition="side" href="#page_location_map" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x78;"></div>
-                                <strong>Accomodation</strong>
-                                <span id="accbtn" class="count"></span>
-                            </a>
-                        </li>
                     </ul>
-                    <div id="longlatXX">Coords</div>
+                    
                     
                      <ul id="poiList" class="poilist">
                        <li></li>
@@ -625,13 +707,46 @@
             <!-- PAGE ADD LOCATION -->
             <div id="page_add_location" data-role="page" data-title="Page Save Location">
                 <div class="content-padded">
+                    <select name="selectStart" id="selectStart" onchange="setStart()">
+                        <option value="">Select Start Point</option>
+                        <option value="28.047509,-26.203940">Johannesburg</option>
+                        <option value="28.384111,-26.491229">Heidleburg</option>
+                        <option value="28.599867,-27.034575">Villiers</option>
+                        <option value="28.965656,-27.851299">Warden</option>
+                        <option value="29.124584,-28.273439">Harrismith</option>
+                        <option value="29.7457694,-28.5596668">Ladysmith</option>
+                        <option value="29.872916,-29.011289">Escourt</option>
+                        <option value="30.004094,-29.211785">Mooi River</option>
+                        <option value="30.215438,-29.492109">Howick</option>
+                        <option value="30.375012,-29.605513">Pietermaritzburg</option>
+                        <option value="31.018727,-29.859694">Durban</option>
+                    </select>
+
+                    <select name="selectEnd" style="display:none;" id="selectEnd" onchange="setEnd()">
+                        <option value="">Select Destination</option>
+                        <option value="31.018727,-29.859694">Durban</option>
+                        <option value="30.375012,-29.605513">Pietermaritzburg</option>
+                        <option value="30.215438,-29.492109">Howick</option>
+                        <option value="30.004094,-29.211785">Mooi River</option>
+                        <option value="29.872916,-29.011289">Escourt</option>
+                        <option value="29.7457694,-28.5596668">Ladysmith</option>
+                        <option value="29.124584,-28.273439">Harrismith</option>
+                        <option value="28.965656,-27.851299">Warden</option>
+                        <option value="28.599867,-27.034575">Villiers</option>
+                        <option value="28.384111,-26.491229">Heidleburg</option>
+                        <option value="28.047509,-26.203940">Johannesburg</option>
+                    </select>
+
                     <form>
                         <input type="text" id="form-title" placeholder="Title">
                         <textarea rows="5" id="form-desc" placeholder="Description"></textarea>
                         <a id="form-add" class="button-positive button-block" href="#page_save_location" onclick="openPage(this.href)">Add Trip</a>
+                        <span id="tripCoords" class="count">x</span>
                         <span id="show-location-address" class="count">Location</span>
 
                     </form>
+                    
+
                 </div>
             </div>
             <!-- END PAGE ADD LOCATION -->
@@ -708,8 +823,7 @@
 
     <script src="js/twtfetch.js"></script>
     
-    <script src="js/points.js"></script>
-    <script src="js/poirun.js"></script>
+   
 
     <script>
         function openPage(href) {
@@ -774,170 +888,128 @@
 
     <script>
 
-        //Toll markers
+        //Toll markers 
+       var geojsonToll = {
+           "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "properties": {
+                                "title": "Tugela Mainline",
+                                "imageUrl": "https://pbs.twimg.com/profile_images/886116557105049600/ljd_Cnos_400x400.jpg",
+                                "type": "beach",
+                                "iconSize": [60, 60]
+                            },
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [29.56157, -28.4625]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "properties": {
+                                "title": "Bergville Ramp",
+                                "imageUrl": "https://c1.staticflickr.com/5/4379/36844732181_78bd19e9eb_q.jpg",
+                                "type": "beach",
+                                "iconSize": [50, 50]
+                            },
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [29.60895, -28.58687]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "properties": {
+                                "title": "Mooi Local Ramp (N)",
+                                "imageUrl": "https://c1.staticflickr.com/5/4348/36844765631_03e90607bd_q.jpg",
+                                "type": "beach",
+                                "iconSize": [40, 40]
+                            },
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [29.99377, -29.19301]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "properties": {
+                                "title": "Mooi Mainline",
+                                "imageUrl": "https://c1.staticflickr.com/5/4333/36825444362_4291ce6d1e_q.jpg",
+                                "type": "city",
+                                "iconSize": [40, 40]
+                            },
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [30.00389, -29.21795]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "properties": {
+                                "title": "Mooi Local Ramp (S)",
+                                "imageUrl": "https://c1.staticflickr.com/5/4347/36857337771_d1bb7f798a_q.jpg",
+                                "type": "jungle",
+                                "iconSize": [40, 40]
+                            },
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [30.00448, -29.22157]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "properties": {
+                                "title": "Wilge Mainline",
+                                "imageUrl": "https://c1.staticflickr.com/5/4421/36997408855_bfdb9f1fba_q.jpg",
+                                "type": "mountain"
+                            },
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [28.62628, -27.04038]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "properties": {
+                                "title": "De Hoek Mainline",
+                                "imageUrl": "https://c1.staticflickr.com/5/4388/36837224452_98940aa9e4_q.jpg",
+                                "type": "city"
+                            },
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [28.38988, -26.66397]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "properties": {
+                                "title": "Mariannhill Mainline",
+                                "imageUrl": "https://c1.staticflickr.com/5/4357/36172707494_2b8ea05f04_q.jpg",
+                                "type": "city"
+                            },
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [30.80275, -29.823006]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "properties": {
+                                "title": "Tugela East Ramp",
+                                "imageUrl": "https://c1.staticflickr.com/5/4390/36837410552_fbeb6d1cdc_q.jpg",
+                                "type": "beach"
+                            },
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [29.569956, -28.458096]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "properties": {
+                                "title": "Treverton Ramp",
+                                "imageUrl": "https://c1.staticflickr.com/5/4390/36837410552_fbeb6d1cdc_q.jpg",
+                                "type": "beach"
+                            },
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [29.993112, -29.193292]
+                            }
+                        }]
+                    };
 
-
-        var geojsonToll = {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "1",
-                        "iconSize": [60, 60]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.56157,
-                            -28.4625
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "2",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.60895,
-                            -28.58687
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "3",
-                        "iconSize": [40, 40]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.99377,
-                            -29.19301
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "4",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            30.00389,
-                            -29.21795
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "5",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.60895,
-                            -28.58687
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "6",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            30.00448,
-                            -29.22157
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "7",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            28.62628,
-                            -27.04038
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "8",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            30.80275,
-                            -29.823006
-                        ]
-                    }
-                },
-
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "9",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.569956,
-                            -28.458096
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "10",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.993112,
-                            -29.193292
-                        ]
-                    }
-                }
-            ]
-        };
-
-
-
-
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
+   mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
         var map = new mapboxgl.Map({
             container: 'map_canvas', // container id
             style: 'mapbox://styles/mapbox/streets-v9',
@@ -945,7 +1017,7 @@
             zoom: 6 // starting zoom
         });
 
-        
+
 
         // add Toll markers to map
         geojsonToll.features.forEach(function (marker) {
@@ -957,16 +1029,18 @@
             // el.style.height = marker.properties.iconSize[1] + 'px';
             el.style.width = '60px';
             el.style.height = '60px';
+            var titleTxt = marker.properties.title;
+            el.innerHTML = '<span class="markerLbl">' + titleTxt + '</span>';
 
             el.addEventListener('click', function () {
-                window.alert(marker.properties.message);
+                //window.alert(marker.properties.message);
             });
 
             // add marker to maps
             new mapboxgl.Marker(el)
                 .setLngLat(marker.geometry.coordinates)
                 .addTo(map);
-               // .addTo(map2);
+            // .addTo(map2);
         });
 
 
@@ -1008,19 +1082,19 @@
             $('.mapboxgl-ctrl-geocoder').hide();
             $('.mapboxgl-ctrl-top-right').hide();
             $('.mapboxgl-ctrl-directions').show();
-          //  Directions controller
-         map.addControl(new MapboxDirections({
+            //  Directions controller
+            map.addControl(new MapboxDirections({
                 accessToken: mapboxgl.accessToken,
-                unit: 'metric',                
+                unit: 'metric',
             }), 'top-left');
 
-         
 
 
-               };
 
-      
+        };
 
+
+        var rtPoints = '';
         ///geocoder
         var geocoder = new MapboxGeocoder({
             accessToken: mapboxgl.accessToken
@@ -1071,6 +1145,8 @@
         // styling for a single point.
         map.on('load', function () {
             $('.loading').hide();
+            
+            showRoute();
 
             map.addSource('single-point', {
                 "type": "geojson",
@@ -1081,20 +1157,20 @@
             });
 
             map2.on('load', function () {
-        
+
                 $('.loading').hide();
-         map2.flyTo({
-        center: [27.980264, -26.054968],
-        pitch: 60, // pitch in degrees
-        bearing: -60, // bearing in degrees
-        zoom: 9,
-        speed: 0.8,
-        curve: 1,
-        easing(t) {
-            return t
-        }
-    });
-        
+                map2.flyTo({
+                    center: [27.980264, -26.054968],
+                    pitch: 60, // pitch in degrees
+                    bearing: -60, // bearing in degrees
+                    zoom: 9,
+                    speed: 0.8,
+                    curve: 1,
+                    easing(t) {
+                        return t
+                    }
+                });
+
             });
 
             map.addLayer({
@@ -1108,7 +1184,7 @@
             });
 
             function showRoute() {
-
+              
                 // Route line
                 map.addLayer({
                     "id": "route",
@@ -1121,16 +1197,161 @@
                             "geometry": {
                                 "type": "LineString",
                                 "coordinates": [
-                                    [-28.4625, 29.56157],
-                                    [-28.58687, 29.60895],
-                                    [-29.19301, 29.99377],
-                                    [-29.21795, 30.00389],
-                                    [-29.22157, 30.00448],
-                                    [-27.04038, 28.62628],
-                                    [-26.66397, 28.38988],
-                                    [-29.823006, 30.80275],
-                                    [-28.458096, 29.569956],
-                                    [-29.193292, 29.993112]
+                                    [
+                                        28.38944435119629,
+                                        -26.66203343492267
+                                    ],
+                                    [
+                                        28.38841438293457,
+                                        -26.615694684984483
+                                    ],
+                                    [
+                                        28.391246795654297,
+                                        -26.5666502909011
+                                    ],
+                                    [
+                                        28.390817642211914,
+                                        -26.56404014134481
+                                    ],
+                                    [
+                                        28.383350372314453,
+                                        -26.542619315945558
+                                    ],
+                                    [
+                                        28.389272689819336,
+                                        -26.518429704418644
+                                    ],
+                                    [
+                                        28.388843536376953,
+                                        -26.516279270011253
+                                    ],
+                                    [
+                                        28.379487991333008,
+                                        -26.49646265820573
+                                    ],
+                                    [
+                                        28.37665557861328,
+                                        -26.49369727785924
+                                    ],
+                                    [
+                                        28.346614837646484,
+                                        -26.47187916732151
+                                    ],
+                                    [
+                                        28.33150863647461,
+                                        -26.46181378497242
+                                    ],
+                                    [
+                                        28.31348419189453,
+                                        -26.44559975369819
+                                    ],
+                                    [
+                                        28.28807830810547,
+                                        -26.42630899984701
+                                    
+                                ],
+                                
+                                [
+                                    28.288421630859375,
+                                    -26.42630899984701
+                                ],
+                                [
+                                    28.31254005432129,
+                                    -26.44444701053326
+                                ],
+                                [
+                                    28.331680297851562,
+                                    -26.461660108190557
+                                ],
+                                [
+                                    28.346872329711914,
+                                    -26.471725503979712
+                                ],
+                                [
+                                    28.37691307067871,
+                                    -26.493543643667017
+                                ],
+                                [
+                                    28.379745483398438,
+                                    -26.496385842983386
+                                ],
+                                [
+                                    28.389015197753906,
+                                    -26.516048863936234
+                                ],
+                                [
+                                    28.389616012573242,
+                                    -26.518276103296508
+                                ],
+                                [
+                                    28.383779525756836,
+                                    -26.542619315945558
+                                ],
+                                [
+                                    28.391504287719727,
+                                    -26.565882606026896
+                                ],
+                                [
+                                    28.388757705688477,
+                                    -26.61577142030231
+                                ],
+                                [
+                                    28.38970184326172,
+                                    -26.662186843258546
+                                ],
+                                [
+                                    28.390045166015625,
+                                    -26.665791879777117
+                                ],
+                                [
+                                    28.38944435119629,
+                                    -26.66203343492267
+                                ],
+                                [
+                                    28.38970184326172,
+                                    -26.662186843258546
+                                ],
+                                [
+                                    28.390302658081055,
+                                    -26.665791879777117
+                                
+                                ],
+                                
+                                [
+                                    28.42987060546875,
+                                    -26.750515745618394
+                                ],
+                                [
+                                    28.401975631713867,
+                                    -26.70451965716518
+                                ],
+                                [
+                                    28.40017318725586,
+                                    -26.700149061895516
+                                ],
+                                [
+                                    28.390045166015625,
+                                    -26.665791879777117
+                                
+                                ],
+                                
+                                [
+                                    28.390302658081055,
+                                    -26.665791879777117
+                                ],
+                                [
+                                    28.400344848632812,
+                                    -26.70007238328872
+                                ],
+                                [
+                                    28.40214729309082,
+                                    -26.70444298150042
+                                ],
+                                [
+                                    28.430042266845703,
+                                    -26.750515745618394
+                                ]
+
                                 ]
                             }
                         }
@@ -1140,8 +1361,8 @@
                         "line-cap": "round"
                     },
                     "paint": {
-                        "line-color": "#888",
-                        "line-width": 8
+                        "line-color": "blue",
+                        "line-width": 3
                     }
                 });
 
@@ -1151,12 +1372,12 @@
             // makes a selection and add a symbol that matches the result.
             geocoder.on('result', function (ev) {
                 map.getSource('single-point').setData(ev.result.geometry);
-                
+
                 var evstr = JSON.stringify(ev.result.geometry);
                 alert("mygeo ev" + evstr);
             });
 
-           
+
 
         });
 
@@ -1208,9 +1429,9 @@
                 zoom: 9,
                 speed: 0.2,
                 curve: 1,
-               // easing(t) {
+                // easing(t) {
                 //    return t;
-               // }
+                // }
             });
         }
 
@@ -1225,7 +1446,7 @@
 
         ///poi
         function myLoc() {
-            
+
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, errorGettingPosition);
@@ -1245,8 +1466,8 @@
                 // alert(mylat + mylon + "tracking onm");
                 document.getElementById("gpsout").innerHTML = "Lat: " + mylat + "  Lon: " + mylon;
                 // map.setCenter([mylon, mylat]);
-               // map2.flyTo({ center: [mylon, mylat], zoom: 17 });
-                map.flyTo({ center: [mylon, mylat], zoom: 11 }); 
+                // map2.flyTo({ center: [mylon, mylat], zoom: 17 });
+                map.flyTo({ center: [mylon, mylat], zoom: 11 });
             }
         };
 
@@ -1276,8 +1497,8 @@
 
             window.location.href = "#page_location_map";
         });
-            // bounds = [[32.958984, -5.353521], [43.50585, 5.615985]];
-          function  setBoundsn3(){
+        // bounds = [[32.958984, -5.353521], [43.50585, 5.615985]];
+        function setBoundsn3() {
             map.fitBounds([[
                 32.958984,
                 -5.353521
@@ -1285,10 +1506,10 @@
                 43.50585,
                 5.615985
             ]]);
-            
+
         };
 
-       
+
 
     </script>
   <script>

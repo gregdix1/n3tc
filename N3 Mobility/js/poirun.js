@@ -3,30 +3,32 @@
 //vars
 var desc = '';
 var descpop = '';
+var LabelTxt = '';
 var mylat = '';
 var mylon = ''; ///check cords for center of n3
 var eventsCnt;
 var lat2 = '';
 var lon2 = '';
 var descList = '';
+var mrk = '';
 
 //poi vars
-var retail = 'true';
-var petrol = 'true';
-var accomodation = 'true';
-var tour = 'true';
-var restaurant = 'true';
-var activities = 'true';
-var events = 'true';
+var retail = 'false';
+var petrol = 'false';
+var accomodation = 'false';
+var tour = 'false';
+var restaurant = 'false';
+var activities = 'false';
+var events = 'false';
 ////
 
-var retailCnt ='';
-var petrolCnt = '';
-var accomodationCnt = '';
-var tourCnt = '';
-var restaurantCnt = '';
-var activitiesCnt = '';
-var eventsCnt = '';
+var retailCnt = 0;
+var petrolCnt = 0;
+var accomodationCnt = 0;
+var tourCnt = 0;
+var restaurantCnt = 0;
+var activitiesCnt = 0;
+var eventsCnt = 0;
 
 //check setprox() may need it to reset all vars etc
 
@@ -71,8 +73,20 @@ function errorGettingPosition(err) {
 };
 
 ///////////START OF POI///////////
-pingImg = "images/Events.png";
+pingImg = "img/pin/events32.png";
 function runpoi() {
+
+    //reset counters
+    retailCnt = 0;
+    petrolCnt = 0;
+    accomodationCnt = 0;
+    tourCnt = 0;
+    restaurantCnt = 0;
+    activitiesCnt = 0;
+    eventsCnt = 0;
+    document.getElementById("poiList").innerHTML = '';
+
+
     pointIndex = 0;
     //alert(trackingState);
 
@@ -94,12 +108,12 @@ function runpoi() {
     points = getPoints();
 
 
-    for (pointIndex = 0; pointIndex < points.length && pointIndex < 1154; pointIndex++) {
+    for (pointIndex = 0; pointIndex < points.length && pointIndex < 1254; pointIndex++) {
         point = points[pointIndex];
 
         // REPLACE WITH MAPBOX ITEM MyMarker = new tomtom.Marker([point.lat, point.lon], null, { draggable: true });
         // CHECK FOR ALT.. marker = new tomtom.Marker([point.lat, point.lon]);
-        var mrk = point.cat;  // category..[ NAME img.png names to match categories...var mrk = point.cat and image name is cat.png?? yes ]
+        mrk = point.cat;  // category..[ NAME img.png names to match categories...var mrk = point.cat and image name is cat.png?? yes ]
 
 
 
@@ -129,18 +143,18 @@ function runpoi() {
         //dist calc end ////////////////////////
 
         //assign content to desc var// ///////////gbd REPLACE WITH <li>
-        desc = "<li id='" + point.lon + ", " + point.lat + "' class='list' onclick='showOnMap(this.id)'><strong>" + point.name + "</strong>" + " - " + mrk + "<br>" + "Distance: " + dist.toFixed(2) + " kms<br>" + "Tel: " + point.cnt + "<br>" + "Address: " + point.adr + "<br>" + "Co-ords: " + point.lat + ", " + point.lon + "<br>" + "Website: " + "<a href='" + point.web + "'>" + point.web + "</a>" + "<br></li>";
+        desc = "<li id='" + point.lon + ", " + point.lat + "' class='poiLi' onclick='showOnMap(this.id)'><strong>" + point.name + "</strong>" + " - " + mrk + "<br>" + "Distance: " + dist.toFixed(2) + " kms<br>" + "Tel: " + point.cnt + "<br>" + "Address: " + point.adr + "<br>" + "Co-ords: " + point.lat + ", " + point.lon + "<br>" + "Website: " + "<a href='" + point.web + "'>" + point.web + "</a>" + "<br></li>";
         //alert(dist);
        
 
          //for tracking popup slider cotent//
         descpop =  point.name + " - " + mrk + " : " + " Distance: " + dist.toFixed(2) + " kms ";
 
-        
+        LabelTxt = point.name + " <br /> " + dist.toFixed(2) + "kms "
         //add map marker layers for each poi//
         if (mrk == "Events " && events == "true" && prox > dist) {
             ///NEW ////////////
-            pingImg = "images/Events.png";
+            pingImg = "img/pin/events150.png";
 
             addMarkerPOI(pingImg, desc, lat2, lon2);
             eventsCnt++;
@@ -159,7 +173,7 @@ function runpoi() {
         if (mrk == "Activities " && activities == "true" && prox > dist) {
 
             ///NEW ////////////
-            pingImg = "images/Activities.png";
+            pingImg = "img/pin/activity150.png";
 
             addMarkerPOI(pingImg, desc, lat2, lon2);
             activitiesCnt++;
@@ -170,7 +184,7 @@ function runpoi() {
 
         if (mrk == "Restaurants " && restaurant == "true" && prox > dist) {
             ///NEW ////////////
-            pingImg = "images/Restaurants.png";
+            pingImg = "img/pin/rest150.png";
 
             addMarkerPOI(pingImg, desc, lat2, lon2);
             restaurantCnt++;
@@ -192,7 +206,7 @@ function runpoi() {
 
         if (mrk == "Accomodation " && accomodation == "true" && prox > dist) {
             ///NEW ////////////
-            pingImg = "images/Accomodation.png";
+            pingImg = "img/pin/accomodation150.png";
 
             addMarkerPOI(pingImg, desc, lat2, lon2);
             accomodationCnt++;
@@ -203,7 +217,7 @@ function runpoi() {
 
         if (mrk == "Petrol" && petrol == "true" && prox > dist) {
             ///NEW ////////////
-            pingImg = "images/petrol.png";
+            pingImg = "img/pin/petrol150.png";
 
             addMarkerPOI(pingImg, desc, lat2, lon2);
             petrolCnt++;
@@ -214,7 +228,7 @@ function runpoi() {
 
         if (mrk == "Retail " && retail == "true" && prox > dist) {
             ///NEW ////////////
-            pingImg = "images/Retail.png";
+            pingImg = "img/pin/retail150.png";
 
             addMarkerPOI(pingImg, desc, lat2, lon2);
             retailCnt++;
@@ -253,10 +267,11 @@ function runpoi() {
         //  map.setView([mylat, mylon], zoomMap);
        // alert("end");
 
-
+        document.getElementById("poiList").innerHTML = '';
         document.getElementById("poiList").innerHTML = descList;
+        document.getElementById("poiList").style.height = '450px';
 
-        setOnclick();
+       // setOnclick();
             
 
 
@@ -280,6 +295,7 @@ function runpoi() {
         document.getElementById("restbtn").innerHTML = restaurantCnt;
 
         //map.setView([mylat,mylon], zoomMap);
+        setTimeout(function () { map.resize(); }, 200);
     }
 }
 
@@ -293,7 +309,7 @@ function runpoi() {
 
 
 //var to increment and use for element ids
-var idInc = '';
+var idInc = 0;
 ////add marker///
 function addMarkerPOI(pingImg, desc, lat2, lon2) {
 
@@ -312,8 +328,18 @@ function addMarkerPOI(pingImg, desc, lat2, lon2) {
              el.id = 'marker' + idInc;
              el.className = 'marker';
              el.style.backgroundImage = 'url(' + pingImg + ')';
-             el.style.width = '60px';
-             el.style.height = '60px';
+             el.style.backgroundSize = 'contain';
+             var titleText = LabelTxt;
+             el.innerHTML = '<span class="markerLblPOI">' + titleText + '</span>';
+             el.style.width = '48px';
+             el.style.height = '48px';
+            // if (pingImg === "img/pin/pin2_toll.png") {
+           //      el.style.width = '48px';
+            //     el.style.height = '48px';
+            // } else {
+            //     el.style.width = '48px';
+            //     el.style.height = '48px';
+            // }
 
              // create the marker
              new mapboxgl.Marker(el, { offset: [-25, -25] })
@@ -365,9 +391,9 @@ function flyN3Route() {
 
 //flyto
 function showOnMap(id) {
-    setTimeout(function () { map.resize(); }, 100);
+    
     window.location.href = "#page_location_map";
-   
+    setTimeout(function () { map.resize(); }, 300);
     var str = id;
     var splitCords = str.split(",");
     setLon = splitCords[0];
@@ -376,7 +402,7 @@ function showOnMap(id) {
         center: [setLon, setLat],
         pitch: 60, // pitch in degrees
         bearing: -60, // bearing in degrees
-        zoom: 11,
+        zoom: 15,
         speed: 0.8,
         curve: 1,
         easing(t) {
@@ -385,3 +411,66 @@ function showOnMap(id) {
     });
 
 }
+
+// counter km
+function proxMinus() {
+    proxCount = document.getElementById("kmCounter").value;
+    if (proxCount <= 5 && proxCount >= 1) { proxCount = proxCount - 1; } else
+    { proxCount = proxCount - 5; }
+    document.getElementById("kmCounter").value = proxCount;
+    //document.getElementById("as").className = "tophead";
+}
+
+
+function proxPlus() {
+    proxCountup = parseInt(document.getElementById("kmCounter").value);
+    if (proxCountup >= 20) { proxCountup = proxCountup + 20; } else
+    { proxCountup = proxCountup + 5; }
+    document.getElementById("kmCounter").value = proxCountup;
+
+
+}
+
+//toggle pois
+var poiName = '';
+function setPOI(id) {
+    poiName = id;
+    var poion ='';
+    if (poiName === 'toggle-tolls') {
+        if (tour === 'true') { tour = 'false'; } else { tour = 'true'; }
+        poion = tour;
+       // tour = 'true';
+
+    } else if (poiName === 'toggle-retail') {
+        if (retail === 'true') { retail = 'false'; } else { retail = 'true'; }
+        poion = retail;
+       // retail = 'true';
+
+    } else if (poiName === 'toggle-rest') {
+        if (restaurant === 'true') { restaurant = 'false'; } else { restaurant = 'true'; }
+        poion = restaurant;
+       // restaurant = 'true';
+
+    } else if (poiName === 'toggle-petrol') {
+        if (petrol === 'true') { petrol = 'false'; } else { petrol = 'true'; }
+        poion = petrol;
+        //petrol = 'true';
+
+    } else if (poiName === 'toggle-events') {
+        if (events === 'true') { events = 'false'; } else { events = 'true'; }
+        poion = events;
+      //  events = 'true';
+
+    } else if (poiName === 'toggle-activ') {
+        if (activities === 'true') { activities = 'false'; } else { activities = 'true'; }
+        poion = activities;
+       // activities = 'true';
+
+    } else if (poiName === 'toggle-accom') {
+        if (accomodation === 'true') { accomodation = 'false'; } else { accomodation = 'true'; }
+        poion = accomodation;
+        
+
+    }
+   // document.getElementById("longlatXX").innerHTML += poiName + ':' + poion + ' ';
+};
