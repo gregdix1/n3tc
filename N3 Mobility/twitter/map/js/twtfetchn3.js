@@ -171,7 +171,7 @@ var configCrash = {
     // "id": '345690956013633536', //@N3TollRoute
     "id": '906246494965170177', 
     "domId": 'tweetList',
-    "maxTweets": 10,
+    "maxTweets": 5,
     "enableLinks": true,
     "showUser": true,
     "showTime": true,
@@ -218,6 +218,7 @@ function getID(id) {
     txtTwtGet = document.getElementById(getLonLat).innerText;
    // txtTwt = $(this).text();
    // alert(txtTwt);
+    getDistance();
     addMarker2(txtTwtGet);
    // addMarkerCheck();
 }
@@ -225,6 +226,8 @@ var TwtFeed = '';
 function setTwtcode() {
 
     TwtFeed = document.getElementById("selectTwt").value;
+    setTwtMarker();
+
     var setConfigs = {
         "id": TwtFeed, 
     "domId": 'tweetList',
@@ -237,7 +240,117 @@ function setTwtcode() {
     };
     localStorage.setItem("myLastTwtfeed", TwtFeed);
 
+    
+
     twitterFetcher.fetch(setConfigs);
 
 }
 
+function setTwtMarker() {
+
+   // var twtCode = document.getElementById("selectTwt").value;
+    //twtMarker = '../../img/pin/alert-sign1.png';
+
+    switch (TwtFeed) {
+        case '906246494965170177' :
+            twtMarker = '../../img/pin/crash-sign1.png'; //Crash
+            break;
+        case '906247040409231360' :
+            twtMarker = '../../img/pin/alert-sign2.png'; // Obstruction
+            break;
+        case '905548830090911747':
+            twtMarker = '../../img/pin/crash-update1.png'; //crash update
+            break;
+        case '906239110473543680' :
+            twtMarker = '../../img/pin/traffic-sign1.png'; // traffic voliume
+            break;
+        case '905553129663602693' :
+            twtMarker = '../../img/pin/alert-sign1.png'; //n3 toll route
+            break;
+        case '906619620957749248':
+            twtMarker = '../../img/pin/weather-sign1.png';
+            break;
+        case '906242695827513345' :
+            twtMarker = '../../img/pin/test-sign1.png'; //pv crash
+    }
+};
+
+//get position
+
+function getDistance() {
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, errorGettingPosition);
+
+
+    } else {
+        // document.getElementById("demo").innerHTML = "Geolocation is not supported by this browser.";
+        alert("Please enable your GPS on your device");
+    }
+
+    function showPosition(position) {
+
+        mylat = position.coords.latitude;
+        mylon = position.coords.longitude;
+        // alert(mylat + mylon + "tracking onm");
+        //  document.getElementById("gpsout").innerHTML = "Lat: " + mylat + "  Lon: " + mylon;
+        // map.setCenter([mylon, mylat]);
+        distCalc();
+    }
+
+
+    function errorGettingPosition(err) {
+        return err;
+        if (err.code == 1) {
+            //alert("User denied geolocation.");
+            // document.getElementById("gpsout").innerHTML += "Cannot detect GPS. Please enable your GPS location feature" + "<br><div onClick='gpsEnabled()' style=' background-color: #4b80ac; display:inline-block; padding: 5px;  border-radius: 50px; margin: 15px; border: solid 1px #fff;'>MY GPS IS NOW ENABLED</div><div onClick='gpsIgnore()' style=' background-color: #4b80ac; display:inline-block; padding: 5px;  border-radius: 50px; margin: 15px; border: solid 1px #fff;'>IGNORE GPS</div>";
+        }
+        else if (err.code == 2) {
+            //alert("Position unavailable.");
+            //  document.getElementById("gpsout").innerHTML += "<br>" + "Position unavailable";
+        }
+        else if (err.code == 3) {
+            alert("Timeout expired.");
+        }
+        else {
+            alert("ERROR:" + err.message);
+            //  document.getElementById("gpsout").innerHTML = err.message;
+
+        }
+    };
+    //end location get
+
+}
+
+//distance calculation
+
+function distCalc() {
+    resultcalc = 0;
+    dist = 0;
+    var lat1 = mylat;
+    var lon1 = mylon;
+     lat2 = setLat;
+     lon2 = setLon;
+    
+    
+
+
+    var radlat1 = Math.PI * lat1 / 180;
+    var radlat2 = Math.PI * lat2 / 180;
+    var radlon1 = Math.PI * lon1 / 180;
+    var radlon2 = Math.PI * lon2 / 180;
+    var theta = lon1 - lon2;
+    var radtheta = Math.PI * theta / 180;
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    dist = Math.acos(dist);
+    dist = dist * 180 / Math.PI;
+    dist = dist * 60 * 1.1515;
+   // dist = dist * 1.609344
+    dist = dist * 0.8684 
+    //if (unit=="N") { dist = dist * 0.8684 }
+    //return dist;
+   // resultcalc = prox - dist;
+   // resultcalc = dist;
+
+    //dist calc end ////////////////////////
+}

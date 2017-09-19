@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html >
 <head>
   <meta charset="UTF-8">
@@ -109,6 +109,16 @@
             border: none;
             color: #636363;
         }
+        .markerLbl {
+            margin-top: -20px;
+            font-size: 8pt;
+            font-weight: bold;
+            width: 100px;
+            position: absolute;
+            text-shadow: 1px 1px 0px #fff;
+            color: #383838;
+            padding-left:3px;
+        }
     </style>
     <script src='routemarkers.js'></script>
 </head>
@@ -129,7 +139,7 @@
           <option value="906246494965170177">Crash Alerts</option>
           <option value="906247040409231360">Obstruction</option>
           <option value="905548830090911747">Crash Updates</option>
-          <!--<option value="906249057521332227">Alerts @N3Route </option>-->
+          <option value="906619620957749248">Weather Update </option>
           <option value="907499402595639296">VanReenen Pass</option>
           <option value="906248139098787840">I am JHB Bound</option>
           <option value="906248491273420800">I am DBN Bound</option>
@@ -138,7 +148,7 @@
           <option value="906241826373369856">Wilge Plaza</option>
           <option value="906247491129135105">DropLoad</option>
           <option value="906242695827513345">PV Crash</option>
-          <option value="906245693567897600">@N3Route</option>
+         <!--<option value="906245693567897600">@N3Route</option>-->
           <option value="906239110473543680">Traffic Volume</option>
           </select>
 
@@ -160,6 +170,8 @@
 </body>
 </html>
     <script>
+        var resultcalc = 0;
+        var twtMarker = '../../img/pin/alert-sign2.png';
         function CrashUpdate() {
 
             twitterFetcher.fetch(configCrashUpdate);
@@ -183,164 +195,125 @@
 
     <script>
 
-        //Toll markers
-
-
+        //Toll markers 
         var geojsonToll = {
             "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "1",
-                        "iconSize": [60, 60]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.56157,
-                            -28.4625
-                        ]
-                    }
+            "features": [{
+                "type": "Feature",
+                "properties": {
+                    "title": "Tugela Mainline",
+                    "imageUrl": "",
+                    "type": "beach",
+                    "iconSize": [60, 60]
                 },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "2",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.60895,
-                            -28.58687
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "3",
-                        "iconSize": [40, 40]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.99377,
-                            -29.19301
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "4",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            30.00389,
-                            -29.21795
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "5",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.60895,
-                            -28.58687
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "6",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            30.00448,
-                            -29.22157
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "7",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            28.62628,
-                            -27.04038
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "8",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            30.80275,
-                            -29.823006
-                        ]
-                    }
-                },
-
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "9",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.569956,
-                            -28.458096
-                        ]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "message": "10",
-                        "iconSize": [50, 50]
-                    },
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-
-                            29.993112,
-                            -29.193292
-                        ]
-                    }
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.56157, -28.4625]
                 }
-            ]
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Bergville Ramp",
+                    "imageUrl": "",
+                    "type": "beach",
+                    "iconSize": [50, 50]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.60895, -28.58687]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mooi Local Ramp (N)",
+                    "imageUrl": "",
+                    "type": "beach",
+                    "iconSize": [40, 40]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.99377, -29.19301]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mooi Mainline",
+                    "imageUrl": "",
+                    "type": "city",
+                    "iconSize": [40, 40]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.00389, -29.21795]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mooi Local Ramp (S)",
+                    "imageUrl": "",
+                    "type": "jungle",
+                    "iconSize": [40, 40]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.00448, -29.22157]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Wilge Mainline",
+                    "imageUrl": "",
+                    "type": "mountain"
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [28.62628, -27.04038]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "De Hoek Mainline",
+                    "imageUrl": "",
+                    "type": "city"
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [28.38988, -26.66397]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mariannhill Mainline",
+                    "imageUrl": "",
+                    "type": "city"
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.80275, -29.823006]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Tugela East Ramp",
+                    "imageUrl": "",
+                    "type": "beach"
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.569956, -28.458096]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Treverton Ramp",
+                    "imageUrl": "https://c1.staticflickr.com/5/4390/36837410552_fbeb6d1cdc_q.jpg",
+                    "type": "beach"
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.993112, -29.193292]
+                }
+            }]
         };
         </script>
 
@@ -359,14 +332,20 @@
                 // create a DOM element for the marker
                 var el = document.createElement('div');
                 el.className = 'marker';
-                el.style.backgroundImage = 'url(Toll_pin.png)';
+                el.style.backgroundImage = 'url(../../img/pin/tollcup150.png)';
+                el.style.backgroundSize = 'contain';
                 // el.style.width = marker.properties.iconSize[0] + 'px';
                 // el.style.height = marker.properties.iconSize[1] + 'px';
-                el.style.width = '60px';
-                el.style.height = '60px';
+                el.style.width = '30px';
+                el.style.height = '30px';
+                var titleTxt = marker.properties.title;
+               // el.innerHTML = '<span class="markerLbl hideLbl">' + titleTxt + '</span>';
 
                 el.addEventListener('click', function () {
-                   // window.alert(marker.properties.message);
+                     window.alert(marker.properties.title);
+                    
+                    // $(this).className('markerLbl');
+                    
                 });
 
                 // add marker to map
@@ -377,12 +356,12 @@
 
 
          map.on('load', function () {
-
+             TwtFeed = localStorage.getItem("myLastTwtfeed");
             });
 
          //add image
          function addMarker(pointIndexC) {
-                map.loadImage('twt-crash.png', function (error, image) {
+             map.loadImage('../../img/pin/alert-sign2.png', function (error, image) {
                     if (error) throw error;
                     map.addImage("catImg" + pointIndexC, image);
                     map.addLayer({
@@ -434,9 +413,14 @@
              var el = document.createElement('div');
              el.id = 'marker' + pointIndexC;
              el.className = 'marker';
-             el.style.backgroundImage = 'url(twt-crash.png)';
+           //  el.style.backgroundImage = 'url(../../img/pin/crash-sign1.png)';
+             el.style.backgroundImage = 'url(' + twtMarker + ')';
+            // alert(twtMarker);
+             el.style.backgroundSize = 'contain';
+             var twtTxt = 'Kms - ' + resultcalc;
+             el.innerHTML = '<span class="markerLbl">' + twtTxt + '</span>';
              el.style.width = '60px';
-             el.style.height = '91px';
+             el.style.height = '60px';
 
              // create the marker
              new mapboxgl.Marker(el, {offset: [-25, -25] })

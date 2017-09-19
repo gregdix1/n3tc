@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,9 +37,7 @@
     <script type="text/javascript" src="js/transition.min.js"></script>
     <script type="text/javascript" src="js/ratchet.js"></script>
 
-    <script type="text/javascript" src="js/points.js"></script>
-    <script type="text/javascript" src="js/poirun.js"></script>
-    <script type="text/javascript" src="js/myTrips.js"></script>
+    
    
 
     <style>
@@ -170,12 +168,13 @@
         
         }
         .markerLbl {
-            margin-top: -20px;
+            margin-top: 22px;
             font-size: 8pt;
             font-weight: bold;
             width: 110px;
             position: absolute;
-        
+            text-shadow: 1px 1px 0px #fff;
+            color: #383838;
         }
         .markerLblPOI {
             margin-top: -20px;
@@ -201,8 +200,14 @@
     <script>
         $(document).ready(function () {
             console.log("document loaded");
+            //get
+            var localStoreUsr = localStorage.getItem("myUserName");
+            var localStoreMail = localStorage.getItem("myEmail");
+            var localStoreUPass = localStorage.getItem("myPassword");
+            document.getElementById("n3tc-banner").innerHTML = localStoreUsr + '-' + localStoreMail + '-' + localStoreUPass;
+
             myLoc();
-            setTimeout(function () { $('.loading').hide(); }, 4000);
+            //setTimeout(function () { $('.loading').hide(); }, 4000);
 
           //  $(".suggestions").click(function () {
               //  alert("Y");
@@ -263,7 +268,7 @@
                         </li>
                         <li id="li_page_poi">
                             <span aria-hidden="true" class="icon-maps"></span>
-                            <a id="poi" transition="side" href="#page_poi" onclick="openPage(this.href)"> POI</a>
+                            <a id="poi" transition="side" href="#page_location_list" onclick="openPage(this.href)"> POI</a>
                         </li>
                         <li id="mylocgps" onclick="myLoc()">
                             <span id="gpsout" style="padding: 10px 8px; font-size: 12px; line-height: 18px;">GPS</span>
@@ -334,6 +339,7 @@
             </li>
             <li>
                 <div class="fs1" aria-hidden="true" data-icon="&#x2b;"></div>
+                <a id="poi2" transition="side" href="#page_poi" onclick="openPage(this.href)"></a>
                 Places (POI)
                 <div class="toggle-box">
                     <label for="toggle-transit-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
@@ -417,7 +423,7 @@
                         </li>
                        
                         <li>
-                            <a id="n3tc-banner" transition="side" href="#page_test" onclick="openPageAcc(this.href)">
+                            <a id="n3tc-banner-pg" transition="side" href="#page_test" onclick="openPage(this.href)">
 
                                 <!-- <img src="images/n3tc_logo.png" width="100%" height="auto"/>-->
                                 <span class="chevron"></span>
@@ -467,16 +473,21 @@
              <!-- PAGE TEST  -->
             <div id="page_test" data-role="page" data-title="Page Test">
                 <div class="wrapper">
-                    
-                    <iframe frameborder="0" id="frameTest" scrolling="yes" style=" width:100%;" src=""></iframe>
+
+                    <ul class="list">
+                        <li>
+                            <div id="n3tc-banner"></div>
+                        </li>
+                    </ul>
+                    <iframe frameborder="0" id="crypt" scrolling="auto" height="300" style=" width:100%;" src="assets/simpleget.html"></iframe>
+                  </div>
                 </div>
-            </div>
             <!--END PAGE TEST  -->
             
             <!-- PAGE MYACCOUNT -->
             <div id="page_myaccount" data-role="page" data-title="Page My Account">
                 <div class="wrapper">
-                   <iframe frameborder="0" id="frameForm" scrolling="yes" style=" width:100%;" src="assets/myaccount.html"></iframe>
+                   <iframe frameborder="0" id="frameForm" scrolling="yes" style=" width:100%;" src="assets/login.html"></iframe>
                 </div>
             </div>
             <!-- END PAGE MYACCOUNT -->
@@ -661,7 +672,7 @@
             <div id="page_myaccountXX" data-role="page" data-title="Page My Accountxx">
                 <div class="wrapper">
 
-                    <iframe frameborder="0" id="formFrmXX" style=" width:100%;" src="assets/cda_appform.html"></iframe>
+                   <!-- <iframe frameborder="0" id="formFrmXX" style=" width:100%;" src="assets/cda_appform.html"></iframe>-->
                 </div>
             </div>
             <!-- END PAGE iframe -->
@@ -771,7 +782,13 @@
                 <div class="wrapper-bar">
                     <div class="slider" data-snap-ignore="true">
 
-                        <ul id="show-images"></ul>
+                        <ul id="show-images">
+                            <li><img src="img/pin/twt-sign1.png" width="auto" height="100%" /></li>
+                            <li><img src="img/pin/twt-sign1.png" width="auto" height="100%" /></li>
+                            <li><img src="img/pin/twt-sign1.png" width="auto" height="100%" /></li>
+                            <li><img src="img/pin/twt-sign1.png" width="auto" height="100%" /></li>
+
+                        </ul>
                     </div>
                     <div class="input-group">
                         <div class="input-row">
@@ -820,6 +837,10 @@
     <script type="text/javascript" src="js/snap.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
     
+    <script type="text/javascript" src="js/points.js"></script>
+    <script type="text/javascript" src="js/poirun.js"></script>
+    
+    <script type="text/javascript" src="js/myTrips.js"></script>
 
     <script src="js/twtfetch.js"></script>
     
@@ -839,20 +860,22 @@
             // $("#topHead").html("dised..");
             //map.resize();
             setTimeout(function () { map.resize(); }, 300);
-        }
+        };
 
         function openPageExt() {
             screenHeight();
             var idref2 = 'assets/cda_appform.html';
             window.location.href = idref2;
 
-        }
+        };
         function openPageAcc(href) {
+            var chkAthnav = localStorage.getItem("Authcheck");
+           
             screenHeight();
             var idrefAcc = href;
             window.location.href = idrefAcc;
 
-        }
+        };
         
         function openPageFly(href) {
             screenHeight();
@@ -860,21 +883,22 @@
             window.location.href = idrefAcc;
             flyN3Route();
 
-        }
+        };
 
         function openTwtPage() {
             window.location = '#page_twitter_fetch';
 
-        }
+        };
 
         function toggleSrch() {
             $('.mapboxgl-ctrl-geocoder').show();
             $('.mapboxgl-ctrl-directions').hide();
             $('.mapboxgl-ctrl-top-right').show();
-        }
+        };
 
         var sHeight = '';
         var frmHeight = '';
+        //adjust screen size
         function screenHeight() {
             sHeight = $(window).height();
             frmHeight = sHeight - 51;
@@ -882,7 +906,7 @@
             $("#frameForm").attr("height", sHeight + 50);
             //alert(sHeight + 'px');
 
-        }
+        };
     </script>
 
 
@@ -1007,7 +1031,16 @@
                                 "coordinates": [29.993112, -29.193292]
                             }
                         }]
-                    };
+        };
+
+        //small map slider add
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
+        var map2 = new mapboxgl.Map({
+            container: 'mapSlider', // container id
+            style: 'mapbox://styles/mapbox/streets-v9',
+            center: [28.961877, -27.890197], // starting position
+            zoom: 6 // starting zoom
+        });
 
    mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
         var map = new mapboxgl.Map({
@@ -1018,45 +1051,140 @@
         });
 
 
+        function AddTollMarkers() {
+            // add Toll markers to map
+            geojsonToll.features.forEach(function (marker) {
+                // create a DOM element for the marker
+                var el = document.createElement('div');
+                el.className = 'marker';
+                // el.style.backgroundImage = 'url(images/Toll_pin.png)';
+                el.style.backgroundImage = 'url(img/pin/tollcup150.png)';
+                el.style.backgroundSize = 'contain';
+                // el.style.width = marker.properties.iconSize[0] + 'px';
+                // el.style.height = marker.properties.iconSize[1] + 'px';
+                el.style.width = '30px';
+                el.style.height = '30px';
+                var titleTxt = marker.properties.title;
+                el.innerHTML = '<span class="markerLbl">' + titleTxt + '</span>';
 
-        // add Toll markers to map
-        geojsonToll.features.forEach(function (marker) {
-            // create a DOM element for the marker
-            var el = document.createElement('div');
-            el.className = 'marker';
-            el.style.backgroundImage = 'url(images/Toll_pin.png)';
-            // el.style.width = marker.properties.iconSize[0] + 'px';
-            // el.style.height = marker.properties.iconSize[1] + 'px';
-            el.style.width = '60px';
-            el.style.height = '60px';
-            var titleTxt = marker.properties.title;
-            el.innerHTML = '<span class="markerLbl">' + titleTxt + '</span>';
+                el.addEventListener('click', function () {
+                    //window.alert(marker.properties.message);
+                });
 
-            el.addEventListener('click', function () {
-                //window.alert(marker.properties.message);
+                // add marker to maps
+                new mapboxgl.Marker(el)
+                    .setLngLat(marker.geometry.coordinates)
+                    .addTo(map2);
+                // .addTo(map2);
             });
 
-            // add marker to maps
-            new mapboxgl.Marker(el)
-                .setLngLat(marker.geometry.coordinates)
-                .addTo(map);
-            // .addTo(map2);
-        });
+        };
+
+        //local set N3 route
+        function addRouteLocal() {
+
+            flyN3();
 
 
+            map2.addLayer({
+                id: 'routeN3',
+                type: 'line',
+                source: {
+                    type: 'geojson',
+                    data: {
+                        type: 'Feature',
+                        properties: {},
+                        geometry: {
+                            type: "LineString",
+                            coordinates: [
+                                //  [28.026304, -26.16668],
+                                //  [28.032338, -26.21171],
+                                //  [28.13606, -26.211772],
+                                //  [28.156642, -26.294383],
+                                [28.380304, -26.497302],
+                                [28.401415, -26.702917],
+                                [28.758794, -27.269274],
+                                [28.84372, -27.577899],
+                                [28.950695, -27.736669],
+                                [28.988801, -28.008842],
+                                [29.134796, -28.29303],
+                                [29.558688, -28.454024],
+                                [29.64719, -28.736327],
+                                [29.822358, -29.021836],
+                                [29.921372, -29.06684],
+                                [30.05096, -29.32345],
+                                [30.217006, -29.506893],
+                                // [30.394778, -29.588352]
+                                [30.80275, -29.823006]
 
 
+                            ]
+                        }
+                    }
+                },
+                paint: {
+                    'line-width': 8,
+                    'line-color': '#3bb2d0',
+                    'line-opacity': 0.8
+                }
+            });
+            map2.addLayer({
+                id: 'startN3',
+                type: 'circle',
+                paint: {
+                    'circle-radius': 10,
+                    'circle-color': '#3bb2d0'
+                },
+                source: {
+                    type: 'geojson',
+                    data: {
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [28.380304, -26.497302]
 
-        //small map slider add
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
-        var map2 = new mapboxgl.Map({
-            container: 'mapSlider', // container id
-            style: 'mapbox://styles/mapbox/streets-v9',
-            center: [27.980264, -26.054968], // starting position
-            zoom: 11 // starting zoom
-        });
+                        }
+                    }
+                }
+            });
+            map2.addLayer({
+                id: 'endN3',
+                type: 'circle',
+                paint: {
+                    'circle-radius': 10,
+                    'circle-color': '#3bb2d0'
+                },
+                source: {
+                    type: 'geojson',
+                    data: {
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [30.80275, -29.823006] //[30.394778, -29.588352]
+                        }
+                    }
+                }
+            });
+        };
 
+        //flyN3
+        function flyN3() {
+            map2.flyTo({
+                center: [30.2518344, -29.8823032],
+                pitch: 60, // pitch in degrees
+                bearing: -10, // bearing in degrees
+                zoom: 7,
+                speed: 0.8,
+                curve: 1,
+                easing(t) {
+                    return t
+                }
+            });
+            AddTollMarkers();
 
+        };
+
+        
         var url = 'https://wanderdrone.appspot.com/';
         var trackState = 0;
         function trackOn() {
@@ -1119,7 +1247,7 @@
             } else {
                 trackUserLocation: true;
             }
-        }
+        };
 
         // Add zoom and rotation controls to the map.
         map.addControl(new mapboxgl.NavigationControl());
@@ -1130,7 +1258,7 @@
 
         function toggleMyGeocoder() {
             //alert("tt");
-        }
+        };
 
         function addPorts() {
             // Add Ports from json
@@ -1146,32 +1274,7 @@
         map.on('load', function () {
             $('.loading').hide();
             
-            showRoute();
-
-            map.addSource('single-point', {
-                "type": "geojson",
-                "data": {
-                    "type": "FeatureCollection",
-                    "features": []
-                }
-            });
-
-            map2.on('load', function () {
-
-                $('.loading').hide();
-                map2.flyTo({
-                    center: [27.980264, -26.054968],
-                    pitch: 60, // pitch in degrees
-                    bearing: -60, // bearing in degrees
-                    zoom: 9,
-                    speed: 0.8,
-                    curve: 1,
-                    easing(t) {
-                        return t
-                    }
-                });
-
-            });
+            //showRoute();
 
             map.addLayer({
                 "id": "point",
@@ -1182,191 +1285,29 @@
                     "circle-color": "#007cbf"
                 }
             });
+        
+        });
+           // mapX.addSource('single-point', {
+           //     "type": "geojson",
+           //     "data": {
+            //        "type": "FeatureCollection",
+            //        "features": []
+            //    }
+          //  });
 
-            function showRoute() {
-              
-                // Route line
-                map.addLayer({
-                    "id": "route",
-                    "type": "line",
-                    "source": {
-                        "type": "geojson",
-                        "data": {
-                            "type": "Feature",
-                            "properties": {},
-                            "geometry": {
-                                "type": "LineString",
-                                "coordinates": [
-                                    [
-                                        28.38944435119629,
-                                        -26.66203343492267
-                                    ],
-                                    [
-                                        28.38841438293457,
-                                        -26.615694684984483
-                                    ],
-                                    [
-                                        28.391246795654297,
-                                        -26.5666502909011
-                                    ],
-                                    [
-                                        28.390817642211914,
-                                        -26.56404014134481
-                                    ],
-                                    [
-                                        28.383350372314453,
-                                        -26.542619315945558
-                                    ],
-                                    [
-                                        28.389272689819336,
-                                        -26.518429704418644
-                                    ],
-                                    [
-                                        28.388843536376953,
-                                        -26.516279270011253
-                                    ],
-                                    [
-                                        28.379487991333008,
-                                        -26.49646265820573
-                                    ],
-                                    [
-                                        28.37665557861328,
-                                        -26.49369727785924
-                                    ],
-                                    [
-                                        28.346614837646484,
-                                        -26.47187916732151
-                                    ],
-                                    [
-                                        28.33150863647461,
-                                        -26.46181378497242
-                                    ],
-                                    [
-                                        28.31348419189453,
-                                        -26.44559975369819
-                                    ],
-                                    [
-                                        28.28807830810547,
-                                        -26.42630899984701
-                                    
-                                ],
-                                
-                                [
-                                    28.288421630859375,
-                                    -26.42630899984701
-                                ],
-                                [
-                                    28.31254005432129,
-                                    -26.44444701053326
-                                ],
-                                [
-                                    28.331680297851562,
-                                    -26.461660108190557
-                                ],
-                                [
-                                    28.346872329711914,
-                                    -26.471725503979712
-                                ],
-                                [
-                                    28.37691307067871,
-                                    -26.493543643667017
-                                ],
-                                [
-                                    28.379745483398438,
-                                    -26.496385842983386
-                                ],
-                                [
-                                    28.389015197753906,
-                                    -26.516048863936234
-                                ],
-                                [
-                                    28.389616012573242,
-                                    -26.518276103296508
-                                ],
-                                [
-                                    28.383779525756836,
-                                    -26.542619315945558
-                                ],
-                                [
-                                    28.391504287719727,
-                                    -26.565882606026896
-                                ],
-                                [
-                                    28.388757705688477,
-                                    -26.61577142030231
-                                ],
-                                [
-                                    28.38970184326172,
-                                    -26.662186843258546
-                                ],
-                                [
-                                    28.390045166015625,
-                                    -26.665791879777117
-                                ],
-                                [
-                                    28.38944435119629,
-                                    -26.66203343492267
-                                ],
-                                [
-                                    28.38970184326172,
-                                    -26.662186843258546
-                                ],
-                                [
-                                    28.390302658081055,
-                                    -26.665791879777117
-                                
-                                ],
-                                
-                                [
-                                    28.42987060546875,
-                                    -26.750515745618394
-                                ],
-                                [
-                                    28.401975631713867,
-                                    -26.70451965716518
-                                ],
-                                [
-                                    28.40017318725586,
-                                    -26.700149061895516
-                                ],
-                                [
-                                    28.390045166015625,
-                                    -26.665791879777117
-                                
-                                ],
-                                
-                                [
-                                    28.390302658081055,
-                                    -26.665791879777117
-                                ],
-                                [
-                                    28.400344848632812,
-                                    -26.70007238328872
-                                ],
-                                [
-                                    28.40214729309082,
-                                    -26.70444298150042
-                                ],
-                                [
-                                    28.430042266845703,
-                                    -26.750515745618394
-                                ]
+        
 
-                                ]
-                            }
-                        }
-                    },
-                    "layout": {
-                        "line-join": "round",
-                        "line-cap": "round"
-                    },
-                    "paint": {
-                        "line-color": "blue",
-                        "line-width": 3
-                    }
-                });
+            map2.on('load', function () {
 
-            }
+                //addRouteLocal();
+                setTimeout(function () { addRouteLocal(); }, 4000);
+               // AddTollMarkers();
+            });
+            
+
+          
+
+          
 
             // Listen for the `geocoder.input` event that is triggered when a user
             // makes a selection and add a symbol that matches the result.
@@ -1375,14 +1316,7 @@
 
                 var evstr = JSON.stringify(ev.result.geometry);
                 alert("mygeo ev" + evstr);
-            });
-
-
-
-        });
-
-
-
+            });      
 
         ///watch position START
 
@@ -1421,7 +1355,8 @@
         // fly with default options to null island
         function flytoCent(lat, lon) {
             map.flyTo({ center: [0, 0], zoom: 9 });
-        }
+        };
+
         // using flyTo options
         function flytoZoom() {
             map.flyTo({
@@ -1512,6 +1447,7 @@
 
 
     </script>
+    
   <script>
 
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -1527,6 +1463,7 @@
         var devSpec='mod: ' + model + ' Plat: ' + devPlatform + ' uuid: ' + deviceID +' ver: ' + deviceVersion + ' Manufac: ' + manu + ' serial: ' + deviceSerial;
         //document.getElementById("n3tc-banner").innerHTML = devSpec;
         localStorage.setItem("deviceSpec", devSpec);
+        
      }
     </script>
 

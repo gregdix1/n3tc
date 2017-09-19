@@ -50,6 +50,7 @@ function getRouteMarkers(twtContent) {
         lonX = point.lon;
         latX = point.lat;
         checkMatch = '';
+        
 
         // N3 9 43.6 N (JHB Bound) 
         // N3 6X 51.2 S (DBN Bound)
@@ -67,6 +68,7 @@ function getRouteMarkers(twtContent) {
            // addMarker2(pointIndexC);
             //addMarkerCheck(pointIndexC);
             //alert('lt' + setLat);
+            
         }
 
        // if (ChaingeGet == routeStr) { 
@@ -102,3 +104,5 @@ function getMarkerCode() {
     document.write(ChaingeClean3);
     var routeChainge = ChaingeClean3;
 }
+
+

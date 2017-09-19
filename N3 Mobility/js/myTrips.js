@@ -120,3 +120,72 @@ function calTolls() {
     
 
 };
+
+function showN3Route() {
+   var start = [28.02670701, -26.1665238];
+    //start = document.getElementById("selectStart").value;
+   var end = [30.42495982, -29.4231125];
+    //end = document.getElementById("selectEnd").value;
+     var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+    //var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start + ';' + end + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+    $.ajax({
+        method: 'GET',
+        url: directionsRequest,
+    }).done(function (data) {
+        var route = data.routes[0].geometry;
+        map2.addLayer({
+            id: 'route',
+            type: 'line',
+            source: {
+                type: 'geojson',
+                data: {
+                    type: 'Feature',
+                    geometry: route
+                }
+            },
+            paint: {
+                'line-width': 5,
+                'line-color': '#3bb2d0',
+                'line-opacity': 0.8
+            }
+        });
+        map2.addLayer({
+            id: 'start',
+            type: 'circle',
+            paint: {
+                'circle-radius': 15,
+                'circle-color': '#3bb2d0'
+            },
+            source: {
+                type: 'geojson',
+                data: {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: start
+
+                    }
+                }
+            }
+        });
+        map2.addLayer({
+            id: 'end',
+            type: 'circle',
+            paint: {
+                'circle-radius': 15,
+                'circle-color': '#8a8bc9'
+            },
+            source: {
+                type: 'geojson',
+                data: {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: end
+                    }
+                }
+            }
+        });
+       
+    });
+}

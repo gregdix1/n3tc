@@ -1,7 +1,7 @@
 // Set url service app
 var urlRequest = "";
 // http://intellimall.co.za/maps/admin/
-var urlService  = urlRequest+"index.php/";
+var urlService  = urlRequest+"index.html/";
 // Set maps variabel
 var map,
 	myLat,
@@ -106,9 +106,9 @@ function init(req,status,street) {
 
 	}else{
 
-    	directionsDisplay.setMap(null);
-        $('#directions_panel').empty();
-        $("#topHead").html("no direction");
+    	//directionsDisplay.setMap(null);
+       // $('#directions_panel').empty();
+       // $("#topHead").html("no direction");
 		
 	}
 			
@@ -154,8 +154,8 @@ function init(req,status,street) {
             displayLocation(data[i]);
         }
 		if(!req){
-			map.fitBounds(bounds);
-    		map.panToBounds(bounds);
+			//map.fitBounds(bounds);
+    		//map.panToBounds(bounds);
 		}
     });
 	
@@ -219,7 +219,7 @@ function getLocationRoute(lng,lat){
 function getLocationCategory(){
 	$('#list-category').empty();
    // var url = urlService + 'service/get_category';
-    var url = 'http://localhost/n3mobility/mapfinder/category.json';
+    var url = 'https://biz-park.co.za/dev/n3/data/category.json';
 	getRequest(url, function(data) {
       var data = JSON.parse(data.responseText);         
       for (var i = 0; i < data.length; i++) {
@@ -234,7 +234,8 @@ function getLocationList(categoryId){
 	$('#search-list').val('');
 	$('#list-detail').empty();
 	$('#category-id').val(categoryId);
-	var url = urlService+'service/get_list?id='+categoryId;
+  //  var url = urlService + 'service/get_list?id=' + categoryId;
+    var url = 'https://biz-park.co.za/dev/n3/data/markers_poi.json';
 	getRequest(url, function(data) {
         var data = JSON.parse(data.responseText);         
         for (var i = 0; i < data.length; i++) {
@@ -250,7 +251,8 @@ function getFilterList(categoryId){
 	var categoryId = $('#category-id').val();
 	var filter	   = $('#search-list').val();
 	
-	var url = urlService+'service/get_list?id='+categoryId+"&q="+filter;
+   // var url = urlService + 'service/get_list?id=' + categoryId + "&q=" + filter;
+    var url = 'https://biz-park.co.za/dev/n3/data/markers_poi.json';
 	getRequest(url, function(data) {
         var data = JSON.parse(data.responseText);        
 		$('#list-detail').empty();
@@ -276,7 +278,7 @@ function getNearby(){
 		$('#list-nearby').append("<li class='list-dividers'>Near "+address+"</li>");
 		
         for (var i = 0; i < data.length; i++) {
-			var logo = urlRequest+"/upload/logo/"+data[i]['markers_logo'];
+			var logo = urlRequest+"data/upload/logo/"+data[i]['markers_logo'];
         	$('#list-nearby').append("<li onClick='detailShowLocation("+data[i]['markers_id']+")'><a transition='side' href='#page_show_location'><strong>"+data[i]['markers_name']+"</strong><p>"+data[i]['markers_address']+"</p><span class='distance'>"+data[i]['distance']+" "+ distances +"</span><div class='img-box'><img src='"+logo+"' width='60' height='60'></div></a></li>");
 			
 		}
@@ -301,8 +303,8 @@ function getNearby(){
 			Title : $("#form-title").val(),
 			Desc : $("#form-desc").val(),
 			Lon : myLong,
-			Lat : myLat,
-			Location : address,
+            Lat: myLat,
+            Location: $("#tripCoords").html(),
 			Dates : now
 		});
 		
@@ -352,18 +354,19 @@ function getNearby(){
 	
 	function detailShowLocation(id){
 		$('#show-images').empty();
-		var url = urlService+'service/get_detail?id='+id;
+        // gbd edit //var url = urlService + 'service/get_detail?id=' + id;
+        var url = 'https://biz-park.co.za/dev/n3/data/markers_poi.json';
 		getRequest(url, function(data) {
         	var data = JSON.parse(data.responseText);        
         	for (var i = 0; i < data.length; i++) {
 				
-				var urlGetImages = urlRequest+'service/get_images?id='+data[i]['markers_id'];
-				
+				//gbd // var urlGetImages = urlRequest+'service/get_images?id='+data[i]['markers_id'];
+                var urlGetImages = 'https://biz-park.co.za/dev/n3/data/images.json';
 				getRequest(urlGetImages, function(dataImages) {
 											   
         			var dataImages = JSON.parse(dataImages.responseText);        
         				for (var i = 0; i < dataImages.length; i++) {
-							$('#show-images').append('<li><img src="'+urlRequest+'upload/images/'+dataImages[i]['images_url']+'"></li>');
+							$('#show-images').append('<li><img src="'+urlRequest+'data/upload/images/'+dataImages[i]['images_url']+'"></li>');
 						}
 				});
 				

@@ -1,87 +1,104 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <title>test</title>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
-  
+
     <script type="text/javascript">
+       //var checkUser = '';
+      // var checkPass = '';
+       var usrpss = '';
         $(document).ready(function () {
-            jQuery.get('https://biz-park.co.za/dev/n3/mail/Hoozet2.txt', function (data) {
-                  
-               $('#xx').html(data);
-               $('#trg').html(data);
-               $gethtml = $('#xx').html();
-               $("#jsonIn").val($gethtml);
-              
+
+            
+
+            var passpGet = localStorage.getItem("myUserID");
+
+            jQuery.get('https://biz-park.co.za/dev/n3/mail/' + passpGet + '.txt', function (data) {
+
+                $('#xx').html(data);
+                $('#trg').html(data);
+                $gethtml = $('#xx').html();
+                $("#jsonIn").val($gethtml);
+
             });
-          //  $('#div').html("dfdsfdf");
-            var passp = localStorage.getItem("myPassword");
-           // alert(passp);
+            //  $('#div').html("dfdsfdf");
+            var passp = localStorage.getItem("myUserID");
+            // alert(passp);
             $("#passphrase").val(passp);
         });
-        </script>
+    </script>
     <script type="text/javascript">
-         $(document).ready(function (e) {
-             $("#auth").on('submit', (function (e) {
-                 e.preventDefault();
-                
-                
-                     $.ajax({
-                         url: "https://biz-park.co.za/dev/n3/mail/n3-js-to-php2-rec.php",
-                         type: "POST",
-                         data: new FormData(this),
-                         contentType: false,
-                         cache: false,
-                         processData: false,
-                         success: function (data) {
-                             $("#formResponse").html(data);
+        $(document).ready(function (e) {
+            $("#auth").on('submit', (function (e) {
+                e.preventDefault();
 
-                             //Do stuff with the JSON data
 
-                             console.log(data);
+                $.ajax({
+                    url: "https://biz-park.co.za/dev/n3/mail/n3-js-to-php2-rec.php",
+                    type: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        $("#formResponse").html(data);
 
-                             var obj = jQuery.parseJSON(data);
-                            // alert(obj.firstName === "bill2");
+                        //Do stuff with the JSON data
 
-                             //map items etc
-                       //      var items = data.map(function (item) {
-                             var items = 'Name: ' + obj.firstName + ' Last: ' + obj.lastName + ' Email: ' + obj.email + ' Pass: ' + obj.pass + ' Cell: ' + obj.mobile;
-                          //   });
-                             $('#listView').empty();
+                        console.log(data);
 
-                            // if (items.length) {
-                             //    var content = '<li>' + items.join('</li><li>') + '</li>';
-                            //     var list = $('<ul />').html(content);
-                                $('#listView').append(items);
-                           //  }
+                        var obj = jQuery.parseJSON(data);
+                        // alert(obj.firstName === "bill2");
 
-                         },
-                         error: function () { }
+                        //map items etc
+                        //      var items = data.map(function (item) {
+                        var items = 'Username: ' + obj.username + ' Name: ' + obj.firstName + ' Last: ' + obj.lastName + ' Email: ' + obj.email + ' Pass: ' + obj.pass + ' Cell: ' + obj.mobile + ' GUUID: ' + obj.GUUID;
+                        //   });
+                         var checkUser = obj.username;
+                        var checkPass = obj.pass;
+                        usrpss = checkUser + checkPass;
+                        $('#listView').empty();
 
-                     });
-                 
-             }));
+                        // if (items.length) {
+                        //    var content = '<li>' + items.join('</li><li>') + '</li>';
+                        //     var list = $('<ul />').html(content);
+                        $('#listView').append(items);
+                        
+                        window.parent.document.getElementById('testP').value = usrpss;
+                        //  }
 
-           
+                    },
+                    error: function () { }
 
-         });
+                });
+
+            }));
+
+         
+            setTimeout(function () { $("#auth").submit(); }, 3000);
+
+        });
+        
+        //setTimeout(function () { window.parent.document.getElementById('testP').value = 'usrpss';  }, 3000);
+       
     </script>
 </head>
 <body>
-   
+
     <div id="xx" onclick="xxx()" hidden></div>
 
-    <form id="auth" name="d" action="n3-js-to-php2-rec.php" method="POST" >
+    <form id="auth" name="d" action="n3-js-to-php2-rec.php" method="POST">
         <div id="formResponse" hidden></div>
         Password: <input type="text" id="passphrase" name="pass" class="pass" size="45" /><br />
         <input type="text" name="json" id="jsonIn" class="json" size="90" onclick="this.select()" hidden />
         <input id="submit" type="submit" name="decrypt" value="Send to server and decrypt" />
     </form>
-   
+
     <div id="listView"></div>
 
-   
+
 </body>
 </html>

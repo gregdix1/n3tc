@@ -1,0 +1,52 @@
+[
+  
+  {
+    "category_id": "1",
+    "category_name": "Restaurants",
+    "category_icon": "&#x69;",
+    "category_marker": "pin1.png",
+    "category_desc": "Category Restaurants"
+  },
+  {
+    "category_id": "2",
+    "category_name": "Bars",
+    "category_icon": "&#xf236;",
+    "category_marker": "pin1.png",
+    "category_desc": "Category Bars"
+  },
+  {
+    "category_id": "3",
+    "category_name": "Coffee & Tea",
+    "category_icon": "&#xf235;",
+    "category_marker": "pin1.png",
+    "category_desc": "Category Coffee & Tea"
+  },
+  {
+    "category_id": "4",
+    "category_name": "Gas & Service Stations",
+    "category_icon": "&#xf216;",
+    "category_marker": "pin1.png",
+    "category_desc": "Category Gas & Service Stations"
+  },
+  {
+    "category_id": "5",
+    "category_name": "Drugstores",
+    "category_icon": "&#xf27e;",
+    "category_marker": "pin1.png",
+    "category_desc": "Category Drugstores"
+  },
+  {
+    "category_id": "6",
+    "category_name": "Store",
+    "category_icon": "&#x2d;",
+    "category_marker": "pin1.png",
+    "category_desc": "Category Store"
+  },
+  {
+    "category_id": "7",
+    "category_name": "ATM & Bank",
+    "category_icon": "&#xf271;",
+    "category_marker": "pin1.png",
+    "category_desc": "Category ATM & Bank"
+  }
+]
