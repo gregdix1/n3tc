@@ -37,8 +37,8 @@
     <script type="text/javascript" src="js/transition.min.js"></script>
     <script type="text/javascript" src="js/ratchet.js"></script>
 
-    
-   
+
+
 
     <style>
         body {
@@ -100,7 +100,7 @@
             top: 90px;
             left: 10px;
         }
-    
+
         #geocoder-container > div {
             min-width: 50%;
             margin-left: 25%;
@@ -137,6 +137,7 @@
             cursor: pointer;
             padding: 0;
         }
+
         #fit {
             display: block;
             position: relative;
@@ -151,6 +152,7 @@
             color: #fff;
             background: #ee8a65;
         }
+
         .poilist {
             margin-bottom: 0px;
             list-style: none;
@@ -161,12 +163,13 @@
             border-bottom: 10px solid #f1f1f1;
             overflow: scroll;
         }
+
         .poiLi {
             border-top: 1px solid rgba(0, 0, 0, .1);
             margin: 10px 0px 10px 0px;
             padding: 5px;
-        
         }
+
         .markerLbl {
             margin-top: 22px;
             font-size: 8pt;
@@ -176,6 +179,7 @@
             text-shadow: 1px 1px 0px #fff;
             color: #383838;
         }
+
         .markerLblPOI {
             margin-top: -20px;
             font-size: 8pt;
@@ -184,17 +188,14 @@
             position: absolute;
             text-align: right;
             margin-left: -110px;
-        
         }
 
         .poiMenuDiv {
-            
             background-size: contain;
             background-repeat: no-repeat;
             width: 38px;
             height: 40px;
         }
-        
     </style>
 
     <script>
@@ -209,13 +210,13 @@
             myLoc();
             //setTimeout(function () { $('.loading').hide(); }, 4000);
 
-          //  $(".suggestions").click(function () {
-              //  alert("Y");
-          //  });
+            //  $(".suggestions").click(function () {
+            //  alert("Y");
+            //  });
 
         });
     </script>
-    
+
 </head>
 <body>
 
@@ -234,14 +235,14 @@
                             <span aria-hidden="true" class="icon-home-2"></span>
                             <a id="home" transition="side" href="#page_home" onclick="openPage(this.href)"> Home</a>
                         </li>
-                        <li id="li_page_location_map">
-                            <span aria-hidden="true" class="icon-chris-spittles-geo-location"></span>
-                            <a id="location-map-pnl" transition="side" href="#page_location_map" onclick="openPage(this.href)">Location Map</a>
-                        </li>
-                        <li id="li_page_nearby">
+                        <li id="li_page_location_map_trip">
                             <span aria-hidden="true" class="icon-checkin"></span>
-                            <a id="nearby" transition="side" href="#page_location_map" onclick="openPageFly(this.href)"> N3 Route </a>
+                            <a id="location-map-pnl" transition="side" href="#page_location_map_trip" onclick="openPageLocmap(this.href)">N3 Route</a>
                         </li>
+                        <!--<li id="li_page_nearby">
+                            <span aria-hidden="true" class="icon-chris-spittles-geo-location"></span>
+                            <a id="nearby" transition="side" href="#page_location_map" onclick="openPageFly(this.href)"> N3 Route </a>
+                        </li>-->
                         <li id="li_page_location_list">
                             <span aria-hidden="true" class="icon-maps"></span>
                             <a id="location-list" transition="side" href="#page_save_location" onclick="openPage(this.href)">Saved Trips</a>
@@ -258,13 +259,13 @@
                             <span aria-hidden="true" class="icon-twitter"></span>
                             <a id="twitter" transition="side" href="#page_twitter" onclick="openPage(this.href)"> @N3Route </a>
                         </li>
-                       <!-- <li id="li_page_twitter_fetch">
-                            <span aria-hidden="true" class="icon-twitter"></span>
-                            <a id="twitterFetch" transition="side" href="#page_twitter_fetch" onclick="openPage(this.href)"> Incident Alerts </a>
-                        </li> -->
+                        <!-- <li id="li_page_twitter_fetch">
+                             <span aria-hidden="true" class="icon-twitter"></span>
+                             <a id="twitterFetch" transition="side" href="#page_twitter_fetch" onclick="openPage(this.href)"> Incident Alerts </a>
+                         </li> -->
                         <li id="li_page_contact">
                             <span aria-hidden="true" class="icon-user"></span>
-                            <a id="contact" transition="side" href="#page_myaccount" onclick="openPage(this.href)"> Contact</a>
+                            <a id="contact" transition="side" href="#page_contact" onclick="openPage(this.href)"> Contact</a>
                         </li>
                         <li id="li_page_poi">
                             <span aria-hidden="true" class="icon-maps"></span>
@@ -393,7 +394,7 @@
                     </div>
                     <iframe frameborder="0" id="twtscroll" style=" width:100%; height:42px" src="twitter/index.html"></iframe>
                     <ul class="list">
-                       <li>
+                        <li>
                             <a id="twt-map" transition="side" href="#page_twitter" onclick="openPage(this.href)">
                                 <div class="fs1" aria-hidden="true" data-icon="&#xf16a;"></div>
                                 <strong>@N3Route</strong>
@@ -408,7 +409,7 @@
                             </a>
                         </li>
                         <li>
-                            <a id="location-map" transition="side" href="#page_location_map" onclick="openPage(this.href)">
+                            <a id="location-map" transition="side" href="#page_location_map_trip" onclick="openPageLocmap(this.href)">
                                 <div class="fs1" aria-hidden="true" data-icon="&#xe008;"></div>
                                 <strong>Expand Map</strong>
                                 <span class="chevron"></span>
@@ -421,7 +422,7 @@
                                 <span class="chevron"></span>
                             </a>
                         </li>
-                       
+
                         <li>
                             <a id="n3tc-banner-pg" transition="side" href="#page_test" onclick="openPage(this.href)">
 
@@ -455,10 +456,10 @@
             <!-- PAGE NEARBY -->
             <div id="page_nearby" data-role="page" data-title="Page Nearby">
                 <div id="nearby-wrapper" class="wrapper">
-                   
+
 
                     <ul id="list-nearby" class="list"></ul>
-                   
+
                 </div>
             </div>
             <!-- END PAGE NEARBY -->
@@ -469,8 +470,7 @@
                 </div>
             </div>
             <!--END PAGE CONTACT  -->
-            
-             <!-- PAGE TEST  -->
+            <!-- PAGE TEST  -->
             <div id="page_test" data-role="page" data-title="Page Test">
                 <div class="wrapper">
 
@@ -480,28 +480,27 @@
                         </li>
                     </ul>
                     <iframe frameborder="0" id="crypt" scrolling="auto" height="300" style=" width:100%;" src="assets/simpleget.html"></iframe>
-                  </div>
                 </div>
+            </div>
             <!--END PAGE TEST  -->
-            
             <!-- PAGE MYACCOUNT -->
             <div id="page_myaccount" data-role="page" data-title="Page My Account">
                 <div class="wrapper">
-                   <iframe frameborder="0" id="frameForm" scrolling="yes" style=" width:100%;" src="assets/login.html"></iframe>
+                    <iframe frameborder="0" id="frameForm" scrolling="yes" style=" width:100%;" src="assets/login.html"></iframe>
                 </div>
             </div>
             <!-- END PAGE MYACCOUNT -->
             <!-- PAGE Accounts -->
             <div id="page_accounts" data-role="page" data-title="Page Accounts">
                 <div class="wrapper">
-                    
+
                 </div>
             </div>
             <!-- END PAGE Accounts -->
             <!-- PAGE Accounts Detail -->
             <div id="page_acc_detail" data-role="page" data-title="Page Accounts Detail">
                 <div class="wrapper">
-                   
+
                 </div>
             </div>
             <!-- END PAGE Accounts Detail -->
@@ -537,84 +536,83 @@
             <!-- PAGE MANAGE -->
             <div id="page_manage" data-role="page" data-title="Page Manage">
                 <div class="wrapper">
-                   
+
                 </div>
             </div>
             <!-- END PAGE MANGE -->
-             
             <!-- PAGE POI -->
             <div id="page_poi" data-role="page" data-title="Page Places">
                 <div class="wrapper">
                     <div id="srch-bar" style="text-align:center;padding-top: 10px;}">
                         <div class="fs1" aria-hidden="true" data-icon="&#xf472;" style="display: inline-block; margin-right: 20px;font-size: 14pt;" onclick="proxMinus()"></div>
                         <span><input class="" style="width: 80px;border-radius: 50px; text-align: center; font-weight: 700;background-image: URL(images/km-bck.png);background-size:contain;" type="text" id="kmCounter" value="5" /></span>
-                        <div class="fs1" aria-hidden="true" data-icon="&#xf473;" style="display: inline-block; margin-left: 20px;font-size: 14pt;"onclick="proxPlus()"></div>
+                        <div class="fs1" aria-hidden="true" data-icon="&#xf473;" style="display: inline-block; margin-left: 20px;font-size: 14pt;" onclick="proxPlus()"></div>
                     </div>
                     <ul class="list">
-                        
+
                         <li>
-                            
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(images/Toll_pin.png);"></div>
-                                
-                                <strong>Toll Plaza</strong>
-                                <span id="tourbtn" class="count" style="margin-right: 100px;">0</span>
-                            
-                           
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(images/Toll_pin.png);"></div>
+
+                            <strong>Toll Plaza</strong>
+                            <span id="tourbtn" class="count" style="margin-right: 100px;">0</span>
+
+
                             <div class="toggle-box">
                                 <label for="toggle-tolls" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
                                 <input type="checkbox" value="1" id="toggle-tolls" class="toggle-control" onclick="setPOI(this.id)">
                             </div>
                         </li>
                         <li>
-                            
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
-                                <strong>Service Stations</strong>
-                                <span id="petbtn" class="count" style="margin-right: 100px;">0</span>
-                            
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
+                            <strong>Service Stations</strong>
+                            <span id="petbtn" class="count" style="margin-right: 100px;">0</span>
+
                             <div class="toggle-box">
                                 <label for="toggle-petrol" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
                                 <input type="checkbox" value="1" id="toggle-petrol" class="toggle-control" onclick="setPOI(this.id)">
                             </div>
                         </li>
                         <li>
-                            
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon=""  style="background-image: url(img/pin/rest150.png);"></div>
-                                <strong>Restaurants</strong>
-                                <span id="restbtn" class="count" style="margin-right: 100px;">0</span>
-                           
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/rest150.png);"></div>
+                            <strong>Restaurants</strong>
+                            <span id="restbtn" class="count" style="margin-right: 100px;">0</span>
+
                             <div class="toggle-box">
                                 <label for="toggle-rest" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
                                 <input type="checkbox" value="1" id="toggle-rest" class="toggle-control" onclick="setPOI(this.id)">
                             </div>
                         </li>
                         <li>
-                           
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/events150.png);"></div>
-                                <strong>Events</strong>
-                                <span id="evebtn" class="count" style="margin-right: 100px;">0</span>
-                            
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/events150.png);"></div>
+                            <strong>Events</strong>
+                            <span id="evebtn" class="count" style="margin-right: 100px;">0</span>
+
                             <div class="toggle-box">
                                 <label for="toggle-events" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
                                 <input type="checkbox" value="1" id="toggle-events" class="toggle-control" onclick="setPOI(this.id)">
                             </div>
                         </li>
                         <li>
-                            
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/activity150.png);"></div>
-                                <strong>Activities</strong>
-                                <span id="activebtn" class="count" style="margin-right: 100px;">0</span>
-                           
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/activity150.png);"></div>
+                            <strong>Activities</strong>
+                            <span id="activebtn" class="count" style="margin-right: 100px;">0</span>
+
                             <div class="toggle-box">
                                 <label for="toggle-activ" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
                                 <input type="checkbox" value="1" id="toggle-activ" class="toggle-control" onclick="setPOI(this.id)">
                             </div>
                         </li>
                         <li>
-                           
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/accomodation150.png);"></div>
-                                <strong>Accomodation</strong>
-                                <span id="accbtn" class="count" style="margin-right: 100px;">0</span>
-                           
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/accomodation150.png);"></div>
+                            <strong>Accomodation</strong>
+                            <span id="accbtn" class="count" style="margin-right: 100px;">0</span>
+
                             <div class="toggle-box">
                                 <label for="toggle-accom" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
                                 <input type="checkbox" value="1" id="toggle-accom" class="toggle-control" onclick="setPOI(this.id)">
@@ -633,20 +631,20 @@
                         </li>
                         <li style="padding: 8px;">
                             <div style="text-align:center;" id="longlatXX">...</div>
-                         </li>
+                        </li>
                         <li onclick="runpoi()">
                             <!--<a id="srch" transition="side" href="#page_location_map" onclick="runpoi()">-->
-                                <div id="srch" class="fs1" aria-hidden="true" data-icon="&#xf473;"></div>
-                                <strong>Search</strong>
-                                <span class=""></span>
+                            <div id="srch" class="fs1" aria-hidden="true" data-icon="&#xf473;"></div>
+                            <strong>Search</strong>
+                            <span class=""></span>
                             </a>
                         </li>
                     </ul>
-                    
-                    
-                     <ul id="poiList" class="poilist">
-                       <li></li>
-                     </ul>
+
+
+                    <ul id="poiList" class="poilist">
+                        <li></li>
+                    </ul>
                 </div>
             </div>
             <!-- END PAGE MANGE -->
@@ -672,14 +670,14 @@
             <div id="page_myaccountXX" data-role="page" data-title="Page My Accountxx">
                 <div class="wrapper">
 
-                   <!-- <iframe frameborder="0" id="formFrmXX" style=" width:100%;" src="assets/cda_appform.html"></iframe>-->
+                    <!-- <iframe frameborder="0" id="formFrmXX" style=" width:100%;" src="assets/cda_appform.html"></iframe>-->
                 </div>
             </div>
             <!-- END PAGE iframe -->
             <!-- PAGE SAVE LOCATION -->
             <div id="page_save_location" data-role="page" data-title="Page Save Location">
                 <div class="bar-standard bar-header-secondary">
-                    <a class="button-block" href="#page_add_location" onclick="openPage(this.href)">Add New Trip</a>
+                    <a class="button-block" href="#page_location_map_trip" onclick="openPage(this.href)">Add New Trip</a>
                 </div>
                 <div class="wrapper-bar">
                     <ul id="list-save-location" class="list"></ul>
@@ -711,6 +709,10 @@
                     </div>
                     <div class="content-padded">
                         <div id="button-save-location"></div>
+                        <div id="button-save-location2">
+                            <a class="button-positive button-block" href="#page_save_location">Saved Trips</a>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -718,36 +720,8 @@
             <!-- PAGE ADD LOCATION -->
             <div id="page_add_location" data-role="page" data-title="Page Save Location">
                 <div class="content-padded">
-                    <select name="selectStart" id="selectStart" onchange="setStart()">
-                        <option value="">Select Start Point</option>
-                        <option value="28.047509,-26.203940">Johannesburg</option>
-                        <option value="28.384111,-26.491229">Heidleburg</option>
-                        <option value="28.599867,-27.034575">Villiers</option>
-                        <option value="28.965656,-27.851299">Warden</option>
-                        <option value="29.124584,-28.273439">Harrismith</option>
-                        <option value="29.7457694,-28.5596668">Ladysmith</option>
-                        <option value="29.872916,-29.011289">Escourt</option>
-                        <option value="30.004094,-29.211785">Mooi River</option>
-                        <option value="30.215438,-29.492109">Howick</option>
-                        <option value="30.375012,-29.605513">Pietermaritzburg</option>
-                        <option value="31.018727,-29.859694">Durban</option>
-                    </select>
-
-                    <select name="selectEnd" style="display:none;" id="selectEnd" onchange="setEnd()">
-                        <option value="">Select Destination</option>
-                        <option value="31.018727,-29.859694">Durban</option>
-                        <option value="30.375012,-29.605513">Pietermaritzburg</option>
-                        <option value="30.215438,-29.492109">Howick</option>
-                        <option value="30.004094,-29.211785">Mooi River</option>
-                        <option value="29.872916,-29.011289">Escourt</option>
-                        <option value="29.7457694,-28.5596668">Ladysmith</option>
-                        <option value="29.124584,-28.273439">Harrismith</option>
-                        <option value="28.965656,-27.851299">Warden</option>
-                        <option value="28.599867,-27.034575">Villiers</option>
-                        <option value="28.384111,-26.491229">Heidleburg</option>
-                        <option value="28.047509,-26.203940">Johannesburg</option>
-                    </select>
-
+                
+                
                     <form>
                         <input type="text" id="form-title" placeholder="Title">
                         <textarea rows="5" id="form-desc" placeholder="Description"></textarea>
@@ -756,9 +730,10 @@
                         <span id="show-location-address" class="count">Location</span>
 
                     </form>
-                    
+
 
                 </div>
+                
             </div>
             <!-- END PAGE ADD LOCATION -->
             <!-- PAGE LOCATION MAP-->
@@ -766,9 +741,15 @@
                 <div id='mapcont' data-snap-ignore="true"></div>
 
                 <div id="map_canvas" style="width: 100%;" data-snap-ignore="true"></div>
-               
-                </div>
+
+            </div>
             <!-- END PAGE LOCATION MAP-->
+            <!-- PAGE LOCATION MAPTRIP-->
+            <div id="page_location_map_trip" data-role="page" data-title="Page Location Map">
+                <iframe frameborder="0" id="frameTrip" scrolling="yes" style=" width:100%;" src="assets/testmapn3.html"></iframe>
+
+            </div>
+            <!-- END PAGE LOCATION MAPTIRP-->
             <!-- PAGE DETAIL LOCATION -->
             <div id="page_show_location" data-role="page">
                 <nav class="bar-standard">
@@ -836,15 +817,15 @@
 
     <script type="text/javascript" src="js/snap.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
-    
+
     <script type="text/javascript" src="js/points.js"></script>
     <script type="text/javascript" src="js/poirun.js"></script>
-    
+
     <script type="text/javascript" src="js/myTrips.js"></script>
 
     <script src="js/twtfetch.js"></script>
-    
-   
+
+
 
     <script>
         function openPage(href) {
@@ -870,13 +851,21 @@
         };
         function openPageAcc(href) {
             var chkAthnav = localStorage.getItem("Authcheck");
-           
+          
             screenHeight();
             var idrefAcc = href;
             window.location.href = idrefAcc;
 
         };
-        
+        function openPageLocmap(href) {
+            //  var chkAthnav = localStorage.getItem("Authcheck");
+             //$('#frameTrip').src ='assets/testmapn3.html';
+            screenHeight();
+            var idrefLocmap = href;
+            window.location.href = idrefLocmap;
+
+        };
+
         function openPageFly(href) {
             screenHeight();
             var idrefAcc = href;
@@ -901,9 +890,10 @@
         //adjust screen size
         function screenHeight() {
             sHeight = $(window).height();
-            frmHeight = sHeight - 51;
+            frmHeight = sHeight - 50;
             $("#formFrm").attr("height", frmHeight);
             $("#frameForm").attr("height", sHeight + 50);
+            $("#frameTrip").attr("height", frmHeight);
             //alert(sHeight + 'px');
 
         };
@@ -912,125 +902,125 @@
 
     <script>
 
-        //Toll markers 
-       var geojsonToll = {
-           "type": "FeatureCollection",
-                        "features": [{
-                            "type": "Feature",
-                            "properties": {
-                                "title": "Tugela Mainline",
-                                "imageUrl": "https://pbs.twimg.com/profile_images/886116557105049600/ljd_Cnos_400x400.jpg",
-                                "type": "beach",
-                                "iconSize": [60, 60]
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [29.56157, -28.4625]
-                            }
-                        }, {
-                            "type": "Feature",
-                            "properties": {
-                                "title": "Bergville Ramp",
-                                "imageUrl": "https://c1.staticflickr.com/5/4379/36844732181_78bd19e9eb_q.jpg",
-                                "type": "beach",
-                                "iconSize": [50, 50]
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [29.60895, -28.58687]
-                            }
-                        }, {
-                            "type": "Feature",
-                            "properties": {
-                                "title": "Mooi Local Ramp (N)",
-                                "imageUrl": "https://c1.staticflickr.com/5/4348/36844765631_03e90607bd_q.jpg",
-                                "type": "beach",
-                                "iconSize": [40, 40]
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [29.99377, -29.19301]
-                            }
-                        }, {
-                            "type": "Feature",
-                            "properties": {
-                                "title": "Mooi Mainline",
-                                "imageUrl": "https://c1.staticflickr.com/5/4333/36825444362_4291ce6d1e_q.jpg",
-                                "type": "city",
-                                "iconSize": [40, 40]
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [30.00389, -29.21795]
-                            }
-                        }, {
-                            "type": "Feature",
-                            "properties": {
-                                "title": "Mooi Local Ramp (S)",
-                                "imageUrl": "https://c1.staticflickr.com/5/4347/36857337771_d1bb7f798a_q.jpg",
-                                "type": "jungle",
-                                "iconSize": [40, 40]
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [30.00448, -29.22157]
-                            }
-                        }, {
-                            "type": "Feature",
-                            "properties": {
-                                "title": "Wilge Mainline",
-                                "imageUrl": "https://c1.staticflickr.com/5/4421/36997408855_bfdb9f1fba_q.jpg",
-                                "type": "mountain"
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [28.62628, -27.04038]
-                            }
-                        }, {
-                            "type": "Feature",
-                            "properties": {
-                                "title": "De Hoek Mainline",
-                                "imageUrl": "https://c1.staticflickr.com/5/4388/36837224452_98940aa9e4_q.jpg",
-                                "type": "city"
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [28.38988, -26.66397]
-                            }
-                        }, {
-                            "type": "Feature",
-                            "properties": {
-                                "title": "Mariannhill Mainline",
-                                "imageUrl": "https://c1.staticflickr.com/5/4357/36172707494_2b8ea05f04_q.jpg",
-                                "type": "city"
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [30.80275, -29.823006]
-                            }
-                        }, {
-                            "type": "Feature",
-                            "properties": {
-                                "title": "Tugela East Ramp",
-                                "imageUrl": "https://c1.staticflickr.com/5/4390/36837410552_fbeb6d1cdc_q.jpg",
-                                "type": "beach"
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [29.569956, -28.458096]
-                            }
-                        }, {
-                            "type": "Feature",
-                            "properties": {
-                                "title": "Treverton Ramp",
-                                "imageUrl": "https://c1.staticflickr.com/5/4390/36837410552_fbeb6d1cdc_q.jpg",
-                                "type": "beach"
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [29.993112, -29.193292]
-                            }
-                        }]
+        //Toll markers
+        var geojsonToll = {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "properties": {
+                    "title": "Tugela Mainline",
+                    "imageUrl": "https://pbs.twimg.com/profile_images/886116557105049600/ljd_Cnos_400x400.jpg",
+                    "type": "beach",
+                    "iconSize": [60, 60]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.56157, -28.4625]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Bergville Ramp",
+                    "imageUrl": "https://c1.staticflickr.com/5/4379/36844732181_78bd19e9eb_q.jpg",
+                    "type": "beach",
+                    "iconSize": [50, 50]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.60895, -28.58687]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mooi Local Ramp (N)",
+                    "imageUrl": "https://c1.staticflickr.com/5/4348/36844765631_03e90607bd_q.jpg",
+                    "type": "beach",
+                    "iconSize": [40, 40]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.99377, -29.19301]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mooi Mainline",
+                    "imageUrl": "https://c1.staticflickr.com/5/4333/36825444362_4291ce6d1e_q.jpg",
+                    "type": "city",
+                    "iconSize": [40, 40]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.00389, -29.21795]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mooi Local Ramp (S)",
+                    "imageUrl": "https://c1.staticflickr.com/5/4347/36857337771_d1bb7f798a_q.jpg",
+                    "type": "jungle",
+                    "iconSize": [40, 40]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.00448, -29.22157]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Wilge Mainline",
+                    "imageUrl": "https://c1.staticflickr.com/5/4421/36997408855_bfdb9f1fba_q.jpg",
+                    "type": "mountain"
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [28.62628, -27.04038]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "De Hoek Mainline",
+                    "imageUrl": "https://c1.staticflickr.com/5/4388/36837224452_98940aa9e4_q.jpg",
+                    "type": "city"
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [28.38988, -26.66397]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mariannhill Mainline",
+                    "imageUrl": "https://c1.staticflickr.com/5/4357/36172707494_2b8ea05f04_q.jpg",
+                    "type": "city"
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.80275, -29.823006]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Tugela East Ramp",
+                    "imageUrl": "https://c1.staticflickr.com/5/4390/36837410552_fbeb6d1cdc_q.jpg",
+                    "type": "beach"
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.569956, -28.458096]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Treverton Ramp",
+                    "imageUrl": "https://c1.staticflickr.com/5/4390/36837410552_fbeb6d1cdc_q.jpg",
+                    "type": "beach"
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.993112, -29.193292]
+                }
+            }]
         };
 
         //small map slider add
@@ -1042,7 +1032,7 @@
             zoom: 6 // starting zoom
         });
 
-   mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
         var map = new mapboxgl.Map({
             container: 'map_canvas', // container id
             style: 'mapbox://styles/mapbox/streets-v9',
@@ -1167,24 +1157,9 @@
             });
         };
 
-        //flyN3
-        function flyN3() {
-            map2.flyTo({
-                center: [30.2518344, -29.8823032],
-                pitch: 60, // pitch in degrees
-                bearing: -10, // bearing in degrees
-                zoom: 7,
-                speed: 0.8,
-                curve: 1,
-                easing(t) {
-                    return t
-                }
-            });
-            AddTollMarkers();
 
-        };
 
-        
+
         var url = 'https://wanderdrone.appspot.com/';
         var trackState = 0;
         function trackOn() {
@@ -1273,7 +1248,7 @@
         // styling for a single point.
         map.on('load', function () {
             $('.loading').hide();
-            
+
             //showRoute();
 
             map.addLayer({
@@ -1285,38 +1260,38 @@
                     "circle-color": "#007cbf"
                 }
             });
-        
+
         });
-           // mapX.addSource('single-point', {
-           //     "type": "geojson",
-           //     "data": {
-            //        "type": "FeatureCollection",
-            //        "features": []
-            //    }
-          //  });
+        // mapX.addSource('single-point', {
+        //     "type": "geojson",
+        //     "data": {
+        //        "type": "FeatureCollection",
+        //        "features": []
+        //    }
+        //  });
 
-        
 
-            map2.on('load', function () {
 
-                //addRouteLocal();
-                setTimeout(function () { addRouteLocal(); }, 4000);
-               // AddTollMarkers();
-            });
-            
+        map2.on('load', function () {
 
-          
+            //addRouteLocal();
+            setTimeout(function () { addRouteLocal(); }, 4000);
+            // AddTollMarkers();
+        });
 
-          
 
-            // Listen for the `geocoder.input` event that is triggered when a user
-            // makes a selection and add a symbol that matches the result.
-            geocoder.on('result', function (ev) {
-                map.getSource('single-point').setData(ev.result.geometry);
 
-                var evstr = JSON.stringify(ev.result.geometry);
-                alert("mygeo ev" + evstr);
-            });      
+
+
+
+        // Listen for the `geocoder.input` event that is triggered when a user
+        // makes a selection and add a symbol that matches the result.
+        geocoder.on('result', function (ev) {
+            map.getSource('single-point').setData(ev.result.geometry);
+
+            var evstr = JSON.stringify(ev.result.geometry);
+            alert("mygeo ev" + evstr);
+        });
 
         ///watch position START
 
@@ -1447,27 +1422,48 @@
 
 
     </script>
-    
-  <script>
 
-    document.addEventListener("deviceready", onDeviceReady, false);
-    function onDeviceReady() {
-    console.log(device.cordova);
-        var model = device.model;
-        var devPlatform = device.platform;
-        var deviceID = device.uuid;
-        var deviceVersion = device.version;
-        var manu = device.manufacturer;
-        var deviceSerial = device.serial;
+    <script>
 
-        var devSpec='mod: ' + model + ' Plat: ' + devPlatform + ' uuid: ' + deviceID +' ver: ' + deviceVersion + ' Manufac: ' + manu + ' serial: ' + deviceSerial;
-        //document.getElementById("n3tc-banner").innerHTML = devSpec;
-        localStorage.setItem("deviceSpec", devSpec);
-        
-     }
+        document.addEventListener("deviceready", onDeviceReady, false);
+        function onDeviceReady() {
+            console.log(device.cordova);
+            var model = device.model;
+            var devPlatform = device.platform;
+            var deviceID = device.uuid;
+            var deviceVersion = device.version;
+            var manu = device.manufacturer;
+            var deviceSerial = device.serial;
+
+            var devSpec = 'mod: ' + model + ' Plat: ' + devPlatform + ' uuid: ' + deviceID + ' ver: ' + deviceVersion + ' Manufac: ' + manu + ' serial: ' + deviceSerial;
+            document.getElementById("n3tc-banner").innerHTML += devSpec;
+            localStorage.setItem("deviceSpec", devSpec);
+
+            // cordova.dialogGPS("hello world",function(buttonIndex) {
+            //do something with the buttonIndex
+            // });
+        }
+
+        //flyN3
+        function flyN3() {
+            map2.flyTo({
+                center: [30.2518344, -29.8823032],
+                pitch: 60, // pitch in degrees
+                bearing: -10, // bearing in degrees
+                zoom: 7,
+                speed: 0.8,
+                curve: 1,
+                easing(t) {
+                    return t
+                }
+            });
+
+            AddTollMarkers();
+
+        };
     </script>
 
-   <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">
         app.initialize();

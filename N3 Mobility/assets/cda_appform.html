@@ -118,6 +118,7 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function (e) {
+            PopulateCDA();
             $("#msform").on('submit', (function (e) {
                 e.preventDefault();
                 $('#loader-icon').show();
@@ -256,6 +257,8 @@
             <textarea name="Physical" id="Physical" class="demoInputBox" placeholder="Physical Address.." cols="60" rows="3"></textarea>
             <textarea name="Postal" id="Postal" class="demoInputBox" placeholder="Postal Address.." cols="60" rows="3"></textarea>
             <input type="text" name="Magisterial" id="Magisterial" placeholder="Magisterial District" class="demoInputBox" value="" />
+            <input type="text" name="userid" id="userid" class="" value="" />
+            <input type="text" name="appid" id="appid" class="" value="" />
 
             <input type="button" name="previous" class="previous action-button" value="Previous" />
             <input type="button" id="next2" name="next" class="next  action-button" value="Next" />
@@ -321,7 +324,7 @@
 
                     <!-- <input type="submit" value="Submit" class="btnAction" onclick="runSendCdnServer()" />-->
                     <input type="button" name="previous" class="previous action-button" value="Previous" />
-                    <input type="button" id="next2" name="next" class="next  action-button" value="Next" />
+                    <input type="button" id="next2" name="next" class="next  action-button" value="Next" onclick="setAPPID()" />
 
                 </fieldset>
         <fieldset>
@@ -360,6 +363,24 @@
 
             }, 5000);
         }
+
+        //
+       
+
+
+        function updateLocalcda() {
+
+           
+
+        }
+        function setAPPID() {
+            var usrId = localStorage.getItem("myUserID");
+            var randomNum = Math.floor((Math.random() * 100) + 1);
+            var AppID = usrId + randomNum;
+            document.getElementById("appid").value = AppID; 
+            document.getElementById("userid").value = usrId; 
+        };
+
 
     </script>
    

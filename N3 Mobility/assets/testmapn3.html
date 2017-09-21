@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link href="../css/icomoon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/stylen3.css">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.css' type='text/css' />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        .instructions1 {
+            position: absolute;
+            right: 10px;
+            width: 220px;
+            max-height: 80%;
+            top: 73px;
+            bottom: 0px;
+            padding: 10px;
+            border-top: 1px solid #f1f1f1;
+            background-color: rgba(28, 123, 204, 0.9);
+            overflow-y: scroll;
+            font-family: sans-serif;
+            font-size: 10pt;
+            color: #fff;
+            z-index: 5;
+        }
+        .insHide{
+            display:none;
+        }
+        #selectCont {
+            position: absolute;
+            /* margin: 20px; */
+            width: 95%;
+            height: 50px;
+            top: 30px;
+            /* bottom: 0px;*/
+            padding: 10px;
+            
+            background-color: rgba(255, 255, 255, 0.0);
+            overflow-y: scroll;
+            font-family: sans-serif;
+            z-index: 5;
+        }
+        .markerLbl {
+            margin-top: 22px;
+            font-size: 7pt;
+            font-weight: bold;
+            width: 110px;
+            position: absolute;
+            text-shadow: 1px 1px 0px #fff;
+            color: #383838;
+        }
+
+
+        .tipStyle {
+            position: absolute;
+            z-index: 1;
+            width: 232px;
+            border-radius: 0px 0px 4px 4px;
+            border: 1px solid #ccc;
+            float: right;
+            right: 9px;
+            top: 50px;
+            font-family: sans-serif;
+            font-size: 9pt;
+            font-weight: bolder;
+            color: #fff;
+            padding: 4px;
+            background-color: rgb(0, 124, 191);
+        }
+
+        .titlebox {
+            border-bottom: 1px dotted #fff;
+            margin-bottom: 5px;
+            padding-bottom: 3px;
+        }
+
+        .titleBtn {
+            display: inline;
+            float: left;
+            margin-right: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #fff;
+            padding: 5px;
+            min-width: 55px;
+            text-align: center;
+            border-radius: 2px;
+            background-color: rgba(255, 255, 255, 0.09);
+        }
+
+        .vSelect {
+            display: list-item;
+            margin-bottom: 10px;
+            width: 100%;
+            border: none;
+            padding: 4px;
+        }
+        .direc {
+            font-weight: normal;
+            font-size: 12px;
+            border-bottom: 1px dotted #fff;
+            padding: 3px 0px 3px;
+        }
+        .insShrink {
+            height: 0px;
+            padding: 0px;
+        
+        }
+
+    </style>
+</head>
+<body>
+   <!-- <div id="selectCont">
+        <select name="selectStart" id="selectStart" onchange="setStart()">
+            <option value="">Select Start Point</option>
+            <option value="31.018727,-29.859694">Durban</option>
+            <option value="30.375012,-29.605513">Pietermaritzburg</option>
+            <option value="30.215438,-29.492109">Howick</option>
+            <option value="30.004094,-29.211785">Mooi River</option>
+            <option value="29.872916,-29.011289">Escourt</option>
+            <option value="29.7457694,-28.5596668">Ladysmith</option>
+            <option value="29.124584,-28.273439">Harrismith</option>
+            <option value="28.965656,-27.851299">Warden</option>
+            <option value="28.599867,-27.034575">Villiers</option>
+            <option value="28.384111,-26.491229">Heidleburg</option>
+            <option value="28.047509,-26.203940">Johannesburg</option>
+        </select>
+        <select name="selectEnd" style="display:none;" id="selectEnd" onchange="setEnd()">
+            <option value="">Select Destination</option>
+            <option value="31.018727,-29.859694">Durban</option>
+            <option value="30.375012,-29.605513">Pietermaritzburg</option>
+            <option value="30.215438,-29.492109">Howick</option>
+            <option value="30.004094,-29.211785">Mooi River</option>
+            <option value="29.872916,-29.011289">Escourt</option>
+            <option value="29.7457694,-28.5596668">Ladysmith</option>
+            <option value="29.124584,-28.273439">Harrismith</option>
+            <option value="28.965656,-27.851299">Warden</option>
+            <option value="28.599867,-27.034575">Villiers</option>
+            <option value="28.384111,-26.491229">Heidleburg</option>
+            <option value="28.047509,-26.203940">Johannesburg</option>
+        </select>
+    </div>-->
+    <div id='tripCoords' style="position: absolute; z-index: 6; width:50%; float:left;" onclick="initRoutes()"></div>
+    <div id='tips' class="tipStyle" onclick=""> Enter Start Location </div>
+    <div id='testBtn' style="position: absolute; display:none; background-color:#ccc; z-index: 7;width:30%; margin-left: 0%;" onclick="addRouteLocal()">Add route local</div>
+    <div id='instructions' class="instructions1 insHide">
+    <select class="titleBtn" style="width: 100%" id="vclass" onchange="calTollsTEST()">
+        <option value="1">Vehicle Class</option>
+        <option value="1">1 Light Vehicle</option>
+        <option value="2">2 Heavy Vehicle 2 axles</option>
+        <option value="3">3 Heavy Vehicle 3, 4 axles</option>
+        <option value="4">4 Heavy Vehicle 5 + axles</option>
+           </select>
+    <div class="titlebox titleBtn" style="width: 38%" onclick="saveTrip1()">SAVE</div><div class="titlebox titleBtn" style="width: 38%" onclick="resetTrip()">RESET</div><div class="titlebox titleBtn" style="width: 95%" onclick="shrinkBox()">VIEW MAP</div><br /><br /><br /><div id="tripTime" class="titlebox">Time: </div><span style="position: absolute; margin-top: -22px;  margin-left: 120px;">hrs</span><div id="distKm" class="titlebox">Distance: </div><span style="position: absolute; margin-top: -22px;  margin-left: 120px;">kms</span><div style="text-align:center" class="titlebox">...</div><div id="tollfee" class="">Total Fee: R </div><div id="tolls"></div><div style="text-align:center" class="titlebox">...</div><div class="titlebox">Directions</div></div>
+    <div id='map'></div>
+
+
+    
+ <script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
+var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
+        center: [29.3188754, -28.7786563], // starting position [lng, lat]
+    zoom: 6 // starting zoom
+        });
+
+  ///geocoder
+        var geocoder = new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken
+        });
+
+        map.addControl(geocoder);
+
+  //on map load
+
+map.on('load', function () {
+
+         map.addSource('single-point', {
+                "type": "geojson",
+                "data": {
+                    "type": "FeatureCollection",
+                    "features": []
+                }
+    });
+
+         map.addLayer({
+             "id": "point",
+             "source": "single-point",
+             "type": "circle",
+             "paint": {
+                 "circle-radius": 10,
+                 "circle-color": "#007cbf"
+             }
+         });
+
+         addRouteLocal();
+
+        });
+        
+
+       
+
+     
+
+   /// plot route
+        var start = '';
+        var end = '';
+        var routeDist;
+        var routeDurantion;
+  function getRoute() {
+  //  start = [28.02670701, -26.1665238];
+    //  start = document.getElementById("selectStart").value;
+     //   end = [30.42495982, -29.4231125];
+      //  end = document.getElementById("selectEnd").value;
+       // var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+        var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start + ';' + end + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+    $.ajax({
+        method: 'GET',
+        url: directionsRequest,
+    }).done(function (data) {
+        var route = data.routes[0].geometry;
+        routeDist = data.routes[0].distance / 1000;
+        routeDurantion = data.routes[0].duration / 3600;
+        routeDist = routeDist.toFixed(2);
+        routeDurantion = routeDurantion.toFixed(2);
+        //alert('Dist ' + routeDist + ' Time ' + routeDurantion);
+        map.addLayer({
+            id: 'route1',
+            type: 'line',
+            source: {
+                type: 'geojson',
+                data: {
+                    type: 'Feature',
+                    geometry: route
+                }
+            },
+            paint: {
+                'line-width': 5,
+                'line-color': '#15c119',
+                'line-opacity': 0.8
+            }
+        });
+        map.addLayer({
+            id: 'start1',
+            type: 'circle',
+            paint: {
+                'circle-radius': 15,
+                'circle-color': '#3bb2d0'
+            },
+            source: {
+                type: 'geojson',
+                data: {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: start
+
+                    }
+                }
+            }
+        });
+        map.addLayer({
+            id: 'end1',
+            type: 'circle',
+            paint: {
+                'circle-radius': 15,
+                'circle-color': '#15c119'
+            },
+            source: {
+                type: 'geojson',
+                data: {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: end
+                    }
+                }
+            }
+        });
+        //  var i = 0;
+        document.getElementById('distKm').innerHTML += routeDist;
+        document.getElementById('tripTime').innerHTML += routeDurantion;
+        var instructions = document.getElementById('instructions');
+        var steps = data.routes[0].legs[0].steps;
+        steps.forEach(function (step) {
+           // var rte = data.routes.geometry[i].coordinates;
+            instructions.insertAdjacentHTML('beforeend', '<p class="direc">' + step.maneuver.instruction + '</p>'); //i++;
+        });
+      
+// this is where the JavaScript from the next step will go
+
+    });
+        }
+        
+       
+        function initRoutes() {
+            getRoute();
+        }
+
+        //local get route
+        function addRouteLocal() {
+                
+       flyN3X();        
+         
+            
+            map.addLayer({
+                id: 'routeN3',
+                type: 'line',
+                source: {
+                    type: 'geojson',
+                    data: {
+                        type: 'Feature',
+                        properties: {},
+                        geometry: {
+                            type: "LineString",
+                            coordinates: [
+                              //  [28.026304, -26.16668],
+                              //  [28.032338, -26.21171],
+                              //  [28.13606, -26.211772],
+                              //  [28.156642, -26.294383],
+                                [28.380304, -26.497302],
+                                [28.401415, -26.702917],
+                                [28.758794, -27.269274],
+                                [28.84372, -27.577899],
+                                [28.950695, -27.736669],
+                                [28.988801, -28.008842],
+                                [29.134796, -28.29303],
+                                [29.558688, -28.454024],
+                                [29.64719, -28.736327],
+                                [29.822358, -29.021836],
+                                [29.921372, -29.06684],
+                                [30.05096, -29.32345],
+                                [30.217006, -29.506893],
+                               // [30.394778, -29.588352]
+                                [30.80275, -29.823006]
+                               
+
+                            ]
+                        }
+                    }
+                   },
+                paint: {
+                    'line-width': 8,
+                    'line-color': '#3bb2d0',
+                    'line-opacity': 0.8
+                }
+            });
+            map.addLayer({
+                id: 'startN3',
+                type: 'circle',
+                paint: {
+                    'circle-radius': 10,
+                    'circle-color': '#3bb2d0'
+                },
+                source: {
+                    type: 'geojson',
+                    data: {
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [28.380304, -26.497302]
+
+                        }
+                    }
+                }
+            });
+            map.addLayer({
+                id: 'endN3',
+                type: 'circle',
+                paint: {
+                    'circle-radius': 10,
+                    'circle-color': '#3bb2d0'
+                },
+                source: {
+                    type: 'geojson',
+                    data: {
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [30.80275, -29.823006] //[30.394778, -29.588352]
+                        }
+                    }
+                }
+            });
+        };
+
+        
+
+        ////add toll source
+        //Toll markers 
+        var geojsonToll = {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "properties": {
+                    "title": "Tugela Mainline",
+                    "imageUrl": "",
+                    "type": "beach",
+                    "iconSize": [30, 30]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.56157, -28.4625]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Bergville Ramp",
+                    "imageUrl": "",
+                    "type": "beach",
+                    "iconSize": [30, 30]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.60895, -28.58687]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mooi Local Ramp (N)",
+                    "imageUrl": "",
+                    "type": "beach",
+                    "iconSize": [30, 30]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.99377, -29.19301]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mooi Mainline",
+                    "imageUrl": "",
+                    "type": "city",
+                    "iconSize": [30, 30]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.00389, -29.21795]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mooi Local Ramp (S)",
+                    "imageUrl": "",
+                    "type": "jungle",
+                    "iconSize": [30, 30]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.00448, -29.22157]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Wilge Mainline",
+                    "imageUrl": "",
+                    "type": "mountain",
+                    "iconSize": [30, 30]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [28.62628, -27.04038]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "De Hoek Mainline",
+                    "imageUrl": "",
+                    "type": "city",
+                    "iconSize": [30, 30]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [28.38988, -26.66397]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Mariannhill Mainline",
+                    "imageUrl": "",
+                    "type": "city",
+                    "iconSize": [30, 30]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.80275, -29.823006]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Tugela East Ramp",
+                    "imageUrl": "",
+                    "type": "beach",
+                    "iconSize": [30, 30]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.569956, -28.458096]
+                }
+            }, {
+                "type": "Feature",
+                "properties": {
+                    "title": "Treverton Ramp",
+                    "imageUrl": "",
+                    "type": "beach",
+                    "iconSize": [30, 30]
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.993112, -29.193292]
+                }
+            }]
+        };
+
+        function AddTollMarkers() {
+            // add Toll markers to map
+            geojsonToll.features.forEach(function (marker) {
+                // create a DOM element for the marker
+                var el = document.createElement('div');
+                el.className = 'marker';
+                el.style.backgroundImage = 'url(css/icon-twt-cup150.png)';
+                el.style.backgroundSize = 'contain';
+                // el.style.width = marker.properties.iconSize[0] + 'px';
+                // el.style.height = marker.properties.iconSize[1] + 'px';
+                el.style.width = '30px';
+                el.style.height = '30px';
+                var titleTxt = marker.properties.title;
+                el.innerHTML = '<span class="markerLbl">' + titleTxt + '</span>';
+
+                el.addEventListener('click', function () {
+                    //window.alert(marker.properties.message);
+                });
+
+                // add marker to maps
+                new mapboxgl.Marker(el)
+                    .setLngLat(marker.geometry.coordinates)
+                    .addTo(map);
+                // .addTo(map2);
+            });
+        };
+
+        function resetTrip() {
+            routepoint = 1;
+            document.getElementById("tips").innerHTML = 'Enter Start Location';
+            document.getElementById('tollfee').innerHTML = 'Total Fee: R ';
+            document.getElementById('tolls').innerHTML = '';
+            document.getElementById("distKm").innerHTML = 'Distance: ';
+            document.getElementById("tripTime").innerHTML = 'Time: ';
+            $("#instructions").addClass("insHide");
+            $(".geocoder-icon-close").click();
+            $("#vclass").prop("selectedIndex", 0);
+            
+            map.removeLayer('start1');
+            map.removeLayer('end1');
+            map.removeLayer('route1');
+           
+        }
+
+        function shrinkBox() {
+            $("#instructions").addClass("insShrink");
+            document.getElementById("tips").innerHTML = '<div onclick="insSHow()">Show Details</div>';
+        }
+        function insSHow() {
+        $("#instructions").removeClass("insShrink");
+        document.getElementById("tips").innerHTML = 'Trip Details';
+        }
+
+       ///Geocoder event listner
+        var routepoint = 1;
+        var startLat;
+        var endLat;
+        // Listen for the `geocoder.input` event that is triggered when a user
+        // makes a selection and add a symbol that matches the result.
+        geocoder.on('result', function (ev) {
+            map.getSource('single-point').setData(ev.result.geometry);
+
+            var evstr = JSON.stringify(ev.result.geometry);
+            var coords = JSON.stringify(ev.result.geometry.coordinates);
+            if (routepoint <= 2) {
+                var str = coords;
+                var str2 = str.replace("[", "");
+                start = str2.replace("]", "");
+                var resStart = start.split(",");
+                startLon = resStart[0];
+                startLat = resStart[1];
+                
+               // alert(startLat);
+                routepoint++; var textS = 'Start: ';
+            } else {
+                var strE = coords;
+                var str2E = strE.replace("[", "");
+                end = str2E.replace("]", "");
+                var resEnd = end.split(",");
+                endLon = resEnd[0];
+                endLat = resEnd[1];
+                
+           //     alert(endLat);
+                routepoint++; var textS = 'End: ';
+            }
+           // alert(routepoint + '' + textS + coords);
+
+            if (routepoint === 3) {
+                
+                setTimeout(function () {
+                   // alert('Enter Destination');
+                    document.getElementById("tips").innerHTML = 'Enter Destination';
+                    $(".geocoder-icon-close").click();
+                }, 2500);
+            }
+            
+            if (routepoint === 4) {
+                getRoute(); $("#instructions").removeClass("insHide");
+                document.getElementById("tips").innerHTML = 'Select Vehicle Class';
+                var TripLL = startLon + ', ' + startLat + ':' + endLon + ', ' + endLat;
+                localStorage.setItem("myTripLonLat", TripLL);
+            }
+        });
+
+
+
+     ///call tolls test
+        
+      var address1="Johannesburg, South Africa";
+      var address2="Durban, South Africa";
+            vClass = 1;
+        function calTollsTEST() {
+          //  startLat = -28.4625; 
+            //endLat = -29.193292; 
+            vClass = document.getElementById("vclass").value;
+
+            if (vClass == 1) {
+                var DeHoekM = 40;
+                var TugelaM = 51;
+                var WilgeM = 55;
+                var BergvilleR = 18;
+                var MooiM = 41;
+                var MarianM = 9.5;
+            }
+
+
+            if (vClass == 2) {
+                var DeHoekM = 62;
+                var TugelaM = 98;
+                var WilgeM = 95;
+                var BergvilleR = 18;
+                var MooiM = 30;
+                var MarianM = 18;
+            }
+
+            if (vClass == 3) {
+                var DeHoekM = 95;
+                var TugelaM = 154;
+                var WilgeM = 127;
+                var BergvilleR = 38;
+                var MooiM = 142;
+                var MarianM = 22;
+            }
+
+            if (vClass == 4) {
+                var DeHoekM = 136;
+                var TugelaM = 213;
+                var WilgeM = 180;
+                var BergvilleR = 18;
+                var MooiM = 192;
+                var MarianM = 34;
+            }
+                        
+           // alert("Start lat: " + startLat + " End lat: " + endLat );
+            
+           
+          
+            var plaza1 = -26.66397;
+            var plaza2 = -27.04038;
+            var plaza3 = -28.4625;
+            var plaza4 = -28.58687;
+            var plaza5 = -29.2;
+            var plaza6 = -29.823006;
+
+            var PlazaName = "";
+            var TollCount = 0;
+
+            startLat = Number(startLat);
+            endLat = Number(endLat);
+
+            if (startLat > endLat) {
+                	//alert("Bearing south");
+                if (plaza1 < startLat && plaza1 > endLat) {
+                    PlazaName = "<br /><div class='titlebox'>T " + "Dehoek Mainline</div>";
+                    TollCount = TollCount + DeHoekM;
+                }
+                if (plaza2 < startLat && plaza2 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Wilge Mainline</div>"; TollCount = TollCount + WilgeM; }
+                if (plaza3 < startLat && plaza3 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Tugela Mainline</div>"; TollCount = TollCount + TugelaM; }
+                if (plaza4 < startLat && plaza4 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Bergville Ramp</div>"; TollCount = TollCount + BergvilleR; }
+                if (plaza5 < startLat && plaza5 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Mooi Mainline</div>"; TollCount = TollCount + MooiM; }
+                if (plaza6 < startLat && plaza6 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Mariannhill Mainline</div>"; TollCount = TollCount + MarianM; }
+
+
+            } else {
+               // alert("Bearing north");
+                if (plaza6 < endLat && plaza6 > startLat) { PlazaName = "<br/><div class='titlebox'>T " + "Mariannhill Mainline</div>"; TollCount = TollCount + MarianM; }
+                if (plaza5 < endLat && plaza5 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Mooi Mainline</div>"; TollCount = TollCount + MooiM; }
+                if (plaza4 < endLat && plaza4 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Bergville Ramp</div>"; TollCount = TollCount + BergvilleR; }
+                if (plaza3 < endLat && plaza3 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Tugela Mainline</div>"; TollCount = TollCount + TugelaM; }
+                if (plaza2 < endLat && plaza2 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Wilge Mainline</div>"; TollCount = TollCount + WilgeM; }
+                if (plaza1 < endLat && plaza1 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Dehoek Mainline</div>"; TollCount = TollCount + DeHoekM; }
+            }
+
+            //[29.56157, -28.4625] [29.993112, -29.193292]
+            var lat1 = startLat;
+            var lon1 = startLon;
+            var lat2 = Number(endLat);
+            var lon2 = Number(endLon);
+
+            var radlat1 = Math.PI * lat1 / 180;
+            var radlat2 = Math.PI * lat2 / 180;
+            var radlon1 = Math.PI * lon1 / 180;
+            var radlon2 = Math.PI * lon2 / 180;
+            var theta = lon1 - lon2;
+            var radtheta = Math.PI * theta / 180;
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            dist = Math.acos(dist);
+            dist = dist * 180 / Math.PI;
+            dist = dist * 60 * 1.1515;
+            dist = dist * 1.609344
+            //if (unit=="N") { dist = dist * 0.8684 }
+            //return dist;
+            //alert(dist);
+
+           // document.getElementById('distHolder').innerHTML = "<div><p class='tt-route-control-instructionText' id='dist' ></p></div>";
+
+            //document.getElementById('dist').innerHTML = "<hr size='1'>" + "<strong><span id='cost'>Total Cost: R " + TollCount + "</span></strong><br /><div id='extraInfo' >" + "Toll Points - " + address1 + " to " + address2 + "<br>" + PlazaName + "<br>" + "<img src='images/dircBtn.png' width='25%' height='auto' style='margin:8px' onclick='direcShow();'> <img src='images/savetrip.png' width='25%' height='auto' style='margin:8px' onclick='routeShow();'> <img src='images/viewmap.png' width='25%' height='auto' style='margin:8px' onclick='hideTabs();'><div style='height:50px'>...</div>";
+            document.getElementById('tollfee').innerHTML += TollCount;
+            document.getElementById('tolls').innerHTML = PlazaName;
+            dist = 0;
+            //alert('tc R:' + TollCount + 'PName: ' + PlazaName);
+
+      };
+
+      function saveTrip1() {
+         var get = localStorage.getItem("myTripLonLat");
+         //alert(get);
+         
+        // window.parent.document.getElementById('frameTrip').height = "100px";
+          window.parent.document.getElementById('save-location').click();
+        // window.parent.document.getElementById('form-desc').value = get;
+          window.parent.document.getElementById('tripCoords').innerHTML = get;
+          // $('#frameTrip').src ='';
+         //window.location.href = "index.html#page_add_location";
+          //alert(window.location.href);
+        
+      }
+     
+     function flyN3X() {
+            map.flyTo({
+                center: [30.2518344, -29.8823032],
+                pitch: 60, // pitch in degrees
+                bearing: -10, // bearing in degrees
+                zoom: 7,
+                speed: 0.8,
+                curve: 1,
+                easing(t) {
+                    return t
+                }
+            });
+            AddTollMarkers();
+
+        };
+
+    </script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+</body>
+</html>
