@@ -34,9 +34,21 @@ window.onpopstate = function(event)
 	} else if (hash === "#page_detail") {
 		$("#li_page_location_list").addClass("active");
     } else if (hash == "#page_save_location") {
-        
-		$("#li_page_save_location").addClass("active");
-		listMyLocation();
+
+        $("#li_page_save_location").addClass("active");
+        listMyLocation();
+    }  else if (hash == "#page_save_application") {
+
+        $("#li_page_save_application").addClass("active");
+        listMyApplication();
+
+    } else if (hash === "#page_detail_save_application") {
+        $("#li_page_save_application").addClass("active");
+    } else if (hash === "#page_add_application") {
+        $("#li_page_save_application").addClass("active");
+        $('#page_add_application').find('form')[0].reset();
+    
+
 	} else if (hash === "#page_detail_save_location") {
 		$("#li_page_save_location").addClass("active");
 	} else if (hash === "#page_add_location") {
@@ -53,6 +65,11 @@ window.onpopstate = function(event)
 	
 $("#form-add").bind("click",function(){		
 	addMyLocation();
+});
+
+//gbd for application list add
+$("#form-add-app").bind("click", function () {
+    addMyApplication();
 });
 
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset='utf-8' />
@@ -23,6 +23,7 @@
             bottom: 0;
             width: 100%;
         }
+
         .instructions1 {
             position: absolute;
             right: 10px;
@@ -39,9 +40,11 @@
             color: #fff;
             z-index: 5;
         }
-        .insHide{
-            display:none;
+
+        .insHide {
+            display: none;
         }
+
         #selectCont {
             position: absolute;
             /* margin: 20px; */
@@ -50,12 +53,12 @@
             top: 30px;
             /* bottom: 0px;*/
             padding: 10px;
-            
             background-color: rgba(255, 255, 255, 0.0);
             overflow-y: scroll;
             font-family: sans-serif;
             z-index: 5;
         }
+
         .markerLbl {
             margin-top: 22px;
             font-size: 7pt;
@@ -111,215 +114,288 @@
             border: none;
             padding: 4px;
         }
+
         .direc {
             font-weight: normal;
             font-size: 12px;
             border-bottom: 1px dotted #fff;
             padding: 3px 0px 3px;
         }
+
         .insShrink {
             height: 0px;
             padding: 0px;
-        
         }
-
     </style>
+
 </head>
 <body>
-   <!-- <div id="selectCont">
-        <select name="selectStart" id="selectStart" onchange="setStart()">
-            <option value="">Select Start Point</option>
-            <option value="31.018727,-29.859694">Durban</option>
-            <option value="30.375012,-29.605513">Pietermaritzburg</option>
-            <option value="30.215438,-29.492109">Howick</option>
-            <option value="30.004094,-29.211785">Mooi River</option>
-            <option value="29.872916,-29.011289">Escourt</option>
-            <option value="29.7457694,-28.5596668">Ladysmith</option>
-            <option value="29.124584,-28.273439">Harrismith</option>
-            <option value="28.965656,-27.851299">Warden</option>
-            <option value="28.599867,-27.034575">Villiers</option>
-            <option value="28.384111,-26.491229">Heidleburg</option>
-            <option value="28.047509,-26.203940">Johannesburg</option>
-        </select>
-        <select name="selectEnd" style="display:none;" id="selectEnd" onchange="setEnd()">
-            <option value="">Select Destination</option>
-            <option value="31.018727,-29.859694">Durban</option>
-            <option value="30.375012,-29.605513">Pietermaritzburg</option>
-            <option value="30.215438,-29.492109">Howick</option>
-            <option value="30.004094,-29.211785">Mooi River</option>
-            <option value="29.872916,-29.011289">Escourt</option>
-            <option value="29.7457694,-28.5596668">Ladysmith</option>
-            <option value="29.124584,-28.273439">Harrismith</option>
-            <option value="28.965656,-27.851299">Warden</option>
-            <option value="28.599867,-27.034575">Villiers</option>
-            <option value="28.384111,-26.491229">Heidleburg</option>
-            <option value="28.047509,-26.203940">Johannesburg</option>
-        </select>
-    </div>-->
+    <!-- <div id="selectCont">
+         <select name="selectStart" id="selectStart" onchange="setStart()">
+             <option value="">Select Start Point</option>
+             <option value="31.018727,-29.859694">Durban</option>
+             <option value="30.375012,-29.605513">Pietermaritzburg</option>
+             <option value="30.215438,-29.492109">Howick</option>
+             <option value="30.004094,-29.211785">Mooi River</option>
+             <option value="29.872916,-29.011289">Escourt</option>
+             <option value="29.7457694,-28.5596668">Ladysmith</option>
+             <option value="29.124584,-28.273439">Harrismith</option>
+             <option value="28.965656,-27.851299">Warden</option>
+             <option value="28.599867,-27.034575">Villiers</option>
+             <option value="28.384111,-26.491229">Heidleburg</option>
+             <option value="28.047509,-26.203940">Johannesburg</option>
+         </select>
+         <select name="selectEnd" style="display:none;" id="selectEnd" onchange="setEnd()">
+             <option value="">Select Destination</option>
+             <option value="31.018727,-29.859694">Durban</option>
+             <option value="30.375012,-29.605513">Pietermaritzburg</option>
+             <option value="30.215438,-29.492109">Howick</option>
+             <option value="30.004094,-29.211785">Mooi River</option>
+             <option value="29.872916,-29.011289">Escourt</option>
+             <option value="29.7457694,-28.5596668">Ladysmith</option>
+             <option value="29.124584,-28.273439">Harrismith</option>
+             <option value="28.965656,-27.851299">Warden</option>
+             <option value="28.599867,-27.034575">Villiers</option>
+             <option value="28.384111,-26.491229">Heidleburg</option>
+             <option value="28.047509,-26.203940">Johannesburg</option>
+         </select>
+     </div>-->
     <div id='tripCoords' style="position: absolute; z-index: 6; width:50%; float:left;" onclick="initRoutes()"></div>
-    <div id='tips' class="tipStyle" onclick=""> Enter Start Location </div>
+    <div id='tips' class="tipStyle" onclick="checkSavedTrips()"> Enter Start Location </div>
     <div id='testBtn' style="position: absolute; display:none; background-color:#ccc; z-index: 7;width:30%; margin-left: 0%;" onclick="addRouteLocal()">Add route local</div>
-    <div id='instructions' class="instructions1 insHide">
-    <select class="titleBtn" style="width: 100%" id="vclass" onchange="calTollsTEST()">
-        <option value="1">Vehicle Class</option>
-        <option value="1">1 Light Vehicle</option>
-        <option value="2">2 Heavy Vehicle 2 axles</option>
-        <option value="3">3 Heavy Vehicle 3, 4 axles</option>
-        <option value="4">4 Heavy Vehicle 5 + axles</option>
-           </select>
-    <div class="titlebox titleBtn" style="width: 38%" onclick="saveTrip1()">SAVE</div><div class="titlebox titleBtn" style="width: 38%" onclick="resetTrip()">RESET</div><div class="titlebox titleBtn" style="width: 95%" onclick="shrinkBox()">VIEW MAP</div><br /><br /><br /><div id="tripTime" class="titlebox">Time: </div><span style="position: absolute; margin-top: -22px;  margin-left: 120px;">hrs</span><div id="distKm" class="titlebox">Distance: </div><span style="position: absolute; margin-top: -22px;  margin-left: 120px;">kms</span><div style="text-align:center" class="titlebox">...</div><div id="tollfee" class="">Total Fee: R </div><div id="tolls"></div><div style="text-align:center" class="titlebox">...</div><div class="titlebox">Directions</div></div>
+    <div id='instructions' class="instructions1 insHide" onclick="">
+        <select class="titleBtn" style="width: 100%" id="vclass" onchange="callTollTriff()">
+            <option value="1">Vehicle Class</option>
+            <option value="1">1 Light Vehicle</option>
+            <option value="2">2 Heavy Vehicle 2 axles</option>
+            <option value="3">3 Heavy Vehicle 3, 4 axles</option>
+            <option value="4">4 Heavy Vehicle 5 + axles</option>
+        </select>
+        <div class="titlebox titleBtn" style="width: 38%" onclick="saveTrip1()">SAVE</div><div class="titlebox titleBtn" style="width: 38%" onclick="resetTriptestmap()">RESET</div><div class="titlebox titleBtn" style="width: 95%" onclick="shrinkBox()">VIEW MAP</div><br /><br /><br /><div id="tripTime" class="titlebox">Time: </div><span style="position: absolute; margin-top: -22px;  margin-left: 120px;">hrs</span><div id="distKm" class="titlebox">Distance: </div><span style="position: absolute; margin-top: -22px;  margin-left: 120px;">kms</span><div style="text-align:center" class="titlebox">...</div><div id="form-tariff" class="">Total Fee: R </div><div id="form-plaza"></div><div style="text-align:center" class="titlebox">...</div><div class="titlebox">Directions</div>
+    </div>
     <div id='map'></div>
+    <script>
+        var start = '';
+        var end = '';
+        function checkSavedTrips() {
+
+            var tripType = localStorage.getItem("savedTrip");
+            if (tripType === 'YES') {
+                // alert(tripType);
+                $("#tips").html("START TRIP");
+
+                startLon = localStorage.getItem("stLon");
+                startLat = localStorage.getItem("stLat");
+
+                endLon = localStorage.getItem("enLon");
+                endLat = localStorage.getItem("enLat");
+
+                var StartClean = localStorage.getItem("start");
+                start = StartClean.replace(" ", "");
+                var EndClean = localStorage.getItem("end");
+                end = EndClean.replace(" ", "");
+                //tripType = 'NO';
+                localStorage.setItem("savedTrip", "NO");
+                getRoute();
+                $("#instructions").removeClass("insHide");
+                myLocation();
+                // flyStart();
+
+                // alert(tripType);
+            };
+        }
+
+        // geo locate user
+
+        function myLocation() {
 
 
-    
- <script>
-mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
-var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
-        center: [29.3188754, -28.7786563], // starting position [lng, lat]
-    zoom: 6 // starting zoom
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, errorGettingPosition);
+
+
+            } else {
+                // document.getElementById("demo").innerHTML = "Geolocation is not supported by this browser.";
+                alert("Please enable your GPS on your device");
+            }
+
+            function showPosition(position) {
+
+                startLat = position.coords.latitude;
+                startLon = position.coords.longitude;
+                //below for maps-gbd.js scripts etc...
+                mylong = position.coords.longitude;
+
+                map.flyTo({ center: [startLon, startLat], zoom: 11 });
+            }
+        };
+
+        function errorGettingPosition(err) {
+            return err;
+            if (err.code == 1) {
+                //alert("User denied geolocation.");
+                // document.getElementById("gpsout").innerHTML += "Cannot detect GPS. Please enable your GPS location feature" + "<br><div onClick='gpsEnabled()' style=' background-color: #4b80ac; display:inline-block; padding: 5px;  border-radius: 50px; margin: 15px; border: solid 1px #fff;'>MY GPS IS NOW ENABLED</div><div onClick='gpsIgnore()' style=' background-color: #4b80ac; display:inline-block; padding: 5px;  border-radius: 50px; margin: 15px; border: solid 1px #fff;'>IGNORE GPS</div>";
+            }
+            else if (err.code == 2) {
+                //alert("Position unavailable.");
+                // document.getElementById("gpsout").innerHTML += "<br>" + "Position unavailable";
+            }
+            else if (err.code == 3) {
+                alert("Timeout expired.");
+            }
+            else {
+                alert("ERROR:" + err.message);
+                // document.getElementById("gpsout").innerHTML = err.message;
+
+            }
+        };
+    </script>
+
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
+            center: [29.3188754, -28.7786563], // starting position [lng, lat]
+            zoom: 6 // starting zoom
         });
 
-  ///geocoder
+        ///geocoder
         var geocoder = new MapboxGeocoder({
             accessToken: mapboxgl.accessToken
         });
 
         map.addControl(geocoder);
 
-  //on map load
+        //on map load
 
-map.on('load', function () {
+        map.on('load', function () {
 
-         map.addSource('single-point', {
+            map.addSource('single-point', {
                 "type": "geojson",
                 "data": {
                     "type": "FeatureCollection",
                     "features": []
                 }
-    });
+            });
 
-         map.addLayer({
-             "id": "point",
-             "source": "single-point",
-             "type": "circle",
-             "paint": {
-                 "circle-radius": 10,
-                 "circle-color": "#007cbf"
-             }
-         });
+            map.addLayer({
+                "id": "point",
+                "source": "single-point",
+                "type": "circle",
+                "paint": {
+                    "circle-radius": 10,
+                    "circle-color": "#007cbf"
+                }
+            });
 
-         addRouteLocal();
+            addRouteLocal();
 
         });
-        
 
-       
 
-     
+         /// plot route
 
-   /// plot route
-        var start = '';
-        var end = '';
         var routeDist;
         var routeDurantion;
-  function getRoute() {
-  //  start = [28.02670701, -26.1665238];
-    //  start = document.getElementById("selectStart").value;
-     //   end = [30.42495982, -29.4231125];
-      //  end = document.getElementById("selectEnd").value;
-       // var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
-        var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start + ';' + end + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
-    $.ajax({
-        method: 'GET',
-        url: directionsRequest,
-    }).done(function (data) {
-        var route = data.routes[0].geometry;
-        routeDist = data.routes[0].distance / 1000;
-        routeDurantion = data.routes[0].duration / 3600;
-        routeDist = routeDist.toFixed(2);
-        routeDurantion = routeDurantion.toFixed(2);
-        //alert('Dist ' + routeDist + ' Time ' + routeDurantion);
-        map.addLayer({
-            id: 'route1',
-            type: 'line',
-            source: {
-                type: 'geojson',
-                data: {
-                    type: 'Feature',
-                    geometry: route
-                }
-            },
-            paint: {
-                'line-width': 5,
-                'line-color': '#15c119',
-                'line-opacity': 0.8
-            }
-        });
-        map.addLayer({
-            id: 'start1',
-            type: 'circle',
-            paint: {
-                'circle-radius': 15,
-                'circle-color': '#3bb2d0'
-            },
-            source: {
-                type: 'geojson',
-                data: {
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: start
+        function getRoute() {
 
+            //  start = [28.02670701, -26.1665238];
+            //  start = document.getElementById("selectStart").value;
+            //   end = [30.42495982, -29.4231125];
+            //  end = document.getElementById("selectEnd").value;
+            // var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+            var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start + ';' + end + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+            $.ajax({
+                method: 'GET',
+                url: directionsRequest,
+            }).done(function (data) {
+                var route = data.routes[0].geometry;
+                routeDist = data.routes[0].distance / 1000;
+                routeDurantion = data.routes[0].duration / 3600;
+                routeDist = routeDist.toFixed(2);
+                routeDurantion = routeDurantion.toFixed(2);
+                //alert('Dist ' + routeDist + ' Time ' + routeDurantion);
+                map.addLayer({
+                    id: 'route1',
+                    type: 'line',
+                    source: {
+                        type: 'geojson',
+                        data: {
+                            type: 'Feature',
+                            geometry: route
+                        }
+                    },
+                    paint: {
+                        'line-width': 5,
+                        'line-color': '#15c119',
+                        'line-opacity': 0.8
                     }
-                }
-            }
-        });
-        map.addLayer({
-            id: 'end1',
-            type: 'circle',
-            paint: {
-                'circle-radius': 15,
-                'circle-color': '#15c119'
-            },
-            source: {
-                type: 'geojson',
-                data: {
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: end
-                    }
-                }
-            }
-        });
-        //  var i = 0;
-        document.getElementById('distKm').innerHTML += routeDist;
-        document.getElementById('tripTime').innerHTML += routeDurantion;
-        var instructions = document.getElementById('instructions');
-        var steps = data.routes[0].legs[0].steps;
-        steps.forEach(function (step) {
-           // var rte = data.routes.geometry[i].coordinates;
-            instructions.insertAdjacentHTML('beforeend', '<p class="direc">' + step.maneuver.instruction + '</p>'); //i++;
-        });
-      
-// this is where the JavaScript from the next step will go
+                });
+                map.addLayer({
+                    id: 'start1',
+                    type: 'circle',
+                    paint: {
+                        'circle-radius': 15,
+                        'circle-color': '#3bb2d0'
+                    },
+                    source: {
+                        type: 'geojson',
+                        data: {
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Point',
+                                coordinates: start
 
-    });
+                            }
+                        }
+                    }
+                });
+                map.addLayer({
+                    id: 'end1',
+                    type: 'circle',
+                    paint: {
+                        'circle-radius': 15,
+                        'circle-color': '#15c119'
+                    },
+                    source: {
+                        type: 'geojson',
+                        data: {
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Point',
+                                coordinates: end
+                            }
+                        }
+                    }
+                });
+                //  var i = 0;
+                document.getElementById('distKm').innerHTML += routeDist;
+                document.getElementById('tripTime').innerHTML += routeDurantion;
+                var instructions = document.getElementById('instructions');
+                var steps = data.routes[0].legs[0].steps;
+                steps.forEach(function (step) {
+                    // var rte = data.routes.geometry[i].coordinates;
+                    instructions.insertAdjacentHTML('beforeend', '<p class="direc">' + step.maneuver.instruction + '</p>'); //i++;
+                });
+
+                // this is where the JavaScript from the next step will go
+
+            });
         }
-        
-       
+
+
         function initRoutes() {
             getRoute();
         }
 
         //local get route
         function addRouteLocal() {
-                
-       flyN3X();        
-         
-            
+
+            flyN3X();
+
+
             map.addLayer({
                 id: 'routeN3',
                 type: 'line',
@@ -331,10 +407,10 @@ map.on('load', function () {
                         geometry: {
                             type: "LineString",
                             coordinates: [
-                              //  [28.026304, -26.16668],
-                              //  [28.032338, -26.21171],
-                              //  [28.13606, -26.211772],
-                              //  [28.156642, -26.294383],
+                                //  [28.026304, -26.16668],
+                                //  [28.032338, -26.21171],
+                                //  [28.13606, -26.211772],
+                                //  [28.156642, -26.294383],
                                 [28.380304, -26.497302],
                                 [28.401415, -26.702917],
                                 [28.758794, -27.269274],
@@ -348,14 +424,14 @@ map.on('load', function () {
                                 [29.921372, -29.06684],
                                 [30.05096, -29.32345],
                                 [30.217006, -29.506893],
-                               // [30.394778, -29.588352]
+                                // [30.394778, -29.588352]
                                 [30.80275, -29.823006]
-                               
+
 
                             ]
                         }
                     }
-                   },
+                },
                 paint: {
                     'line-width': 8,
                     'line-color': '#3bb2d0',
@@ -401,10 +477,10 @@ map.on('load', function () {
             });
         };
 
-        
+
 
         ////add toll source
-        //Toll markers 
+        //Toll markers
         var geojsonToll = {
             "type": "FeatureCollection",
             "features": [{
@@ -557,33 +633,18 @@ map.on('load', function () {
             });
         };
 
-        function resetTrip() {
-            routepoint = 1;
-            document.getElementById("tips").innerHTML = 'Enter Start Location';
-            document.getElementById('tollfee').innerHTML = 'Total Fee: R ';
-            document.getElementById('tolls').innerHTML = '';
-            document.getElementById("distKm").innerHTML = 'Distance: ';
-            document.getElementById("tripTime").innerHTML = 'Time: ';
-            $("#instructions").addClass("insHide");
-            $(".geocoder-icon-close").click();
-            $("#vclass").prop("selectedIndex", 0);
-            
-            map.removeLayer('start1');
-            map.removeLayer('end1');
-            map.removeLayer('route1');
-           
-        }
+
 
         function shrinkBox() {
             $("#instructions").addClass("insShrink");
             document.getElementById("tips").innerHTML = '<div onclick="insSHow()">Show Details</div>';
         }
         function insSHow() {
-        $("#instructions").removeClass("insShrink");
-        document.getElementById("tips").innerHTML = 'Trip Details';
+            $("#instructions").removeClass("insShrink");
+            document.getElementById("tips").innerHTML = 'Trip Details';
         }
 
-       ///Geocoder event listner
+        ///Geocoder event listner
         var routepoint = 1;
         var startLat;
         var endLat;
@@ -601,8 +662,8 @@ map.on('load', function () {
                 var resStart = start.split(",");
                 startLon = resStart[0];
                 startLat = resStart[1];
-                
-               // alert(startLat);
+
+                // alert(startLat);
                 routepoint++; var textS = 'Start: ';
             } else {
                 var strE = coords;
@@ -611,23 +672,25 @@ map.on('load', function () {
                 var resEnd = end.split(",");
                 endLon = resEnd[0];
                 endLat = resEnd[1];
-                
-           //     alert(endLat);
+
+                //     alert(endLat);
                 routepoint++; var textS = 'End: ';
             }
-           // alert(routepoint + '' + textS + coords);
+            // alert(routepoint + '' + textS + coords);
 
             if (routepoint === 3) {
-                
+
                 setTimeout(function () {
-                   // alert('Enter Destination');
+                    // alert('Enter Destination');
                     document.getElementById("tips").innerHTML = 'Enter Destination';
                     $(".geocoder-icon-close").click();
                 }, 2500);
             }
-            
+
             if (routepoint === 4) {
-                getRoute(); $("#instructions").removeClass("insHide");
+                getRoute();
+               // getDirections();
+                $("#instructions").removeClass("insHide");
                 document.getElementById("tips").innerHTML = 'Select Vehicle Class';
                 var TripLL = startLon + ', ' + startLat + ':' + endLon + ', ' + endLat;
                 localStorage.setItem("myTripLonLat", TripLL);
@@ -636,14 +699,14 @@ map.on('load', function () {
 
 
 
-     ///call tolls test
-        
-      var address1="Johannesburg, South Africa";
-      var address2="Durban, South Africa";
-            vClass = 1;
+        ///call tolls test
+
+        var address1 = "Johannesburg, South Africa";
+        var address2 = "Durban, South Africa";
+        vClass = 1;
         function calTollsTEST() {
-          //  startLat = -28.4625; 
-            //endLat = -29.193292; 
+            //  startLat = -28.4625;
+            //endLat = -29.193292;
             vClass = document.getElementById("vclass").value;
 
             if (vClass == 1) {
@@ -682,11 +745,11 @@ map.on('load', function () {
                 var MooiM = 192;
                 var MarianM = 34;
             }
-                        
-           // alert("Start lat: " + startLat + " End lat: " + endLat );
-            
-           
-          
+
+            // alert("Start lat: " + startLat + " End lat: " + endLat );
+
+
+
             var plaza1 = -26.66397;
             var plaza2 = -27.04038;
             var plaza3 = -28.4625;
@@ -701,7 +764,7 @@ map.on('load', function () {
             endLat = Number(endLat);
 
             if (startLat > endLat) {
-                	//alert("Bearing south");
+                //alert("Bearing south");
                 if (plaza1 < startLat && plaza1 > endLat) {
                     PlazaName = "<br /><div class='titlebox'>T " + "Dehoek Mainline</div>";
                     TollCount = TollCount + DeHoekM;
@@ -714,7 +777,7 @@ map.on('load', function () {
 
 
             } else {
-               // alert("Bearing north");
+                // alert("Bearing north");
                 if (plaza6 < endLat && plaza6 > startLat) { PlazaName = "<br/><div class='titlebox'>T " + "Mariannhill Mainline</div>"; TollCount = TollCount + MarianM; }
                 if (plaza5 < endLat && plaza5 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Mooi Mainline</div>"; TollCount = TollCount + MooiM; }
                 if (plaza4 < endLat && plaza4 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Bergville Ramp</div>"; TollCount = TollCount + BergvilleR; }
@@ -744,31 +807,50 @@ map.on('load', function () {
             //return dist;
             //alert(dist);
 
-           // document.getElementById('distHolder').innerHTML = "<div><p class='tt-route-control-instructionText' id='dist' ></p></div>";
+            // document.getElementById('distHolder').innerHTML = "<div><p class='tt-route-control-instructionText' id='dist' ></p></div>";
 
             //document.getElementById('dist').innerHTML = "<hr size='1'>" + "<strong><span id='cost'>Total Cost: R " + TollCount + "</span></strong><br /><div id='extraInfo' >" + "Toll Points - " + address1 + " to " + address2 + "<br>" + PlazaName + "<br>" + "<img src='images/dircBtn.png' width='25%' height='auto' style='margin:8px' onclick='direcShow();'> <img src='images/savetrip.png' width='25%' height='auto' style='margin:8px' onclick='routeShow();'> <img src='images/viewmap.png' width='25%' height='auto' style='margin:8px' onclick='hideTabs();'><div style='height:50px'>...</div>";
-            document.getElementById('tollfee').innerHTML += TollCount;
-            document.getElementById('tolls').innerHTML = PlazaName;
+            document.getElementById('form-tariff').innerHTML += TollCount;
+            document.getElementById('form-plaza').innerHTML = PlazaName;
             dist = 0;
             //alert('tc R:' + TollCount + 'PName: ' + PlazaName);
 
-      };
+        };
 
-      function saveTrip1() {
-         var get = localStorage.getItem("myTripLonLat");
-         //alert(get);
-         
-        // window.parent.document.getElementById('frameTrip').height = "100px";
-          window.parent.document.getElementById('save-location').click();
-        // window.parent.document.getElementById('form-desc').value = get;
-          window.parent.document.getElementById('tripCoords').innerHTML = get;
-          // $('#frameTrip').src ='';
-         //window.location.href = "index.html#page_add_location";
-          //alert(window.location.href);
-        
-      }
-     
-     function flyN3X() {
+        function saveTrip1() {
+            var get = localStorage.getItem("myTripLonLat");
+            //alert(get);
+
+            // window.parent.document.getElementById('frameTrip').height = "100px";
+            window.parent.document.getElementById('save-location').click();
+            // window.parent.document.getElementById('form-desc').value = get;
+            window.parent.document.getElementById('tripCoords').innerHTML = get;
+            // $('#frameTrip').src ='';
+            //window.location.href = "index.html#page_add_location";
+            //alert(window.location.href);
+
+        };
+
+
+
+        function resetTriptestmap() {
+            routepoint = 1;
+            document.getElementById("tips").innerHTML = 'Enter Start Location';
+            document.getElementById('tollfee').innerHTML = 'Total Fee: R ';
+            document.getElementById('tolls').innerHTML = '';
+            document.getElementById("distKm").innerHTML = 'Distance: ';
+            document.getElementById("tripTime").innerHTML = 'Time: ';
+            $("#instructions").addClass("insHide");
+            $(".geocoder-icon-close").click();
+            $("#vclass").prop("selectedIndex", 0);
+
+            map.removeLayer('start1');
+            map.removeLayer('end1');
+            map.removeLayer('route1');
+
+        };
+
+        function flyN3X() {
             map.flyTo({
                 center: [30.2518344, -29.8823032],
                 pitch: 60, // pitch in degrees
@@ -786,5 +868,18 @@ map.on('load', function () {
 
     </script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script>
+        $(document).ready(function () {
+            var tripType = localStorage.getItem("savedTrip");
+            if (tripType === 'YES') {
+
+                $("#tips").html("START TRIP");
+                // tripType = 'NO';
+
+            }
+            // alert(tripType);
+        });
+
+    </script>
 </body>
 </html>

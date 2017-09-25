@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -126,7 +126,7 @@
                 valid = validateContact();
                 if (valid) {
                     $.ajax({
-                        url: "https://biz-park.co.za/dev/n3/mail/application_mail.php",
+                        url: "https://mobiapps.n3tc.co.za/data/application_mail.php",
                         type: "POST",
                         data: new FormData(this),
                         contentType: false,
@@ -224,7 +224,7 @@
             <div class="topSpacer"></div>
             <h2 class="fs-title">Terms and Conditions</h2>
            
-            <iframe id="frm" src="terms.html" style="border: 1px solid #ccc; width: 100%; z-index:0; height: 400px;left: 0;right: 0; " frameborder="0" scrolling="auto"></iframe>
+            <iframe id="frm" src="terms.html" style="border: 1px solid #ccc; width: 100%; z-index:0; overflow: scroll; height: 400px; left: 0;right: 0; " frameborder="0" scrolling="auto"></iframe>
             <p>By clicking the button below, I acknowledge that I have read and understood the terms and conditions contained herein and agree to be bound by them.</p>
             <input type="button" name="previous" class="previous action-button" value="Previous">
             <input type="button" id="nextterms" name="next" class="next action-button" value="I Agree">

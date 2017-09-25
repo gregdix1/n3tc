@@ -2,22 +2,103 @@
 //tripp calc
 var tripStart = '';
 var tripEnd = '';
+var startName = '';
+var endName = '';
+var startLat;
+var endLat;
+var start;
+var end;
+
 function setStart() {
     tripStart = document.getElementById("selectStart").value;
-    document.getElementById("selectEnd").style.display = ("block");
+   // document.getElementById("selectEnd").style.display = ("block");
+   // startName = document.getElementById("selectStart").
+    var text = selectStart.options[selectStart.selectedIndex].text;
+    startName = text;
+    document.getElementById("form-title").value = startName + ' - ' + '...';
 
 }
 
 function setEnd() {
     tripEnd = document.getElementById("selectEnd").value;
-    document.getElementById("selectEnd").style.display = ("none");
+   // document.getElementById("selectEnd").style.display = ("none");
     document.getElementById("tripCoords").innerHTML = tripStart + "][" + tripEnd; 
+    var text2 = selectEnd.options[selectEnd.selectedIndex].text;
+    endName = text2;
+    document.getElementById("form-title").value = startName + ' to ' + endName;
+
+
+}
+// 28.01447, -26.03133][29.8833, -29
+function cleanCoords() {
+    coords = document.getElementById("tripCoords").innerHTML;
+    var splitcoords = coords.split("][");
+    start = splitcoords[0];
+    end = splitcoords[1];
+    //start corods
+    var splitstart = start.split(",");
+    startLon = splitstart[0];
+    startLat = splitstart[1];    
+    //end coords
+    var splitend = end.split(",");
+    endLon = splitend[0];
+    endLat = splitend[1];
+    //get toll fees
+   // alert('Slon1: ' + startLon + ' Slat1: ' + startLat);
+    //get directions mapbox api
+    getDirections();
+    callTollTriff();
+}
+
+function flyN3X() {
+    map.flyTo({
+        center: [30.2518344, -29.8823032],
+        pitch: 60, // pitch in degrees
+        bearing: -10, // bearing in degrees
+        zoom: 7,
+        speed: 0.8,
+        curve: 1,
+        easing(t) {
+            return t
+        }
+    });
+    AddTollMarkers();
+
+};
+
+
+function resetTripStatic() {
+    routepoint = 1;
+    document.getElementById("tips").innerHTML = 'Enter Start Location';
+    document.getElementById('form-tariff').innerHTML = 'Total Fee: R ';
+    document.getElementById('form-plaza').innerHTML = '';
+    document.getElementById("form-distance").innerHTML = 'Distance: ';
+    document.getElementById("form-time").innerHTML = 'Time: ';
+    $("#instructions").addClass("insHide");
+    $("#vclass").prop("selectedIndex", 0);
+
+   // map.removeLayer('start1');   
 
 }
 
-function calTolls() {
+function shrinkBox() {
+    $("#instructions").addClass("insShrink");
+    document.getElementById("tips").innerHTML = '<div onclick="insSHow()">Show Details</div>';
+}
+function insSHow() {
+    $("#instructions").removeClass("insShrink");
+    document.getElementById("tips").innerHTML = 'Trip Details';
+}
 
-    //vClass = document.getElementById("vclass").value;
+///call tolls test
+
+var address1 = "Johannesburg, South Africa";
+var address2 = "Durban, South Africa";
+function callTollTriff() {
+    //  startLat = -28.4625; 
+    //endLat = -29.193292; 
+    vClass = document.getElementById("vclass").value;
+
     if (vClass == 1) {
         var DeHoekM = 40;
         var TugelaM = 51;
@@ -55,8 +136,8 @@ function calTolls() {
         var MarianM = 34;
     }
 
-    //alert("start lat:" + startLat);
-    //alert("End lat:" + endLat);
+    // alert("Start lat: " + startLat + " End lat: " + endLat );
+
 
 
     var plaza1 = -26.66397;
@@ -66,38 +147,41 @@ function calTolls() {
     var plaza5 = -29.2;
     var plaza6 = -29.823006;
 
-    var PlazaName = "None ";
+    var PlazaName = "";
     var TollCount = 0;
 
+    startLat = Number(startLat);
+    endLat = Number(endLat);
+    
     if (startLat > endLat) {
-        //	alert("south");
+       // alert("Bearing south");
         if (plaza1 < startLat && plaza1 > endLat) {
-            PlazaName = "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Dehoek Mainline";
+            PlazaName = "<br /><div class='titlebox'>T " + "Dehoek Mainline</div>";
             TollCount = TollCount + DeHoekM;
         }
-        if (plaza2 < startLat && plaza2 > endLat) { PlazaName = PlazaName + " <br><hr size='1'> " + "<img  src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Wilge Mainline"; TollCount = TollCount + WilgeM; }
-        if (plaza3 < startLat && plaza3 > endLat) { PlazaName = PlazaName + " <br><hr size='1'> " + "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Tugela Mainline"; TollCount = TollCount + TugelaM; }
-        if (plaza4 < startLat && plaza4 > endLat) { PlazaName = PlazaName + " <br><hr size='1'> " + "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Bergville Ramp"; TollCount = TollCount + BergvilleR; }
-        if (plaza5 < startLat && plaza5 > endLat) { PlazaName = PlazaName + " <br><hr size='1'> " + "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Mooi Mainline"; TollCount = TollCount + MooiM; }
-        if (plaza6 < startLat && plaza6 > endLat) { PlazaName = PlazaName + " <br><hr size='1'> " + "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Mariannhill Mainline"; TollCount = TollCount + MarianM; }
+        if (plaza2 < startLat && plaza2 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Wilge Mainline</div>"; TollCount = TollCount + WilgeM; }
+        if (plaza3 < startLat && plaza3 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Tugela Mainline</div>"; TollCount = TollCount + TugelaM; }
+        if (plaza4 < startLat && plaza4 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Bergville Ramp</div>"; TollCount = TollCount + BergvilleR; }
+        if (plaza5 < startLat && plaza5 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Mooi Mainline</div>"; TollCount = TollCount + MooiM; }
+        if (plaza6 < startLat && plaza6 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Mariannhill Mainline</div>"; TollCount = TollCount + MarianM; }
 
 
     } else {
-        //alert("north");
-        if (plaza6 < endLat && plaza6 > startLat) { PlazaName = "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Mariannhill Mainline"; TollCount = TollCount + MarianM; }
-        if (plaza5 < endLat && plaza5 > startLat) { PlazaName = PlazaName + "<img  src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' > <br><hr size='1'> " + "Mooi Mainline"; TollCount = TollCount + MooiM; }
-        if (plaza4 < endLat && plaza4 > startLat) { PlazaName = PlazaName + " <br><hr size='1'> " + "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Bergville Ramp"; TollCount = TollCount + BergvilleR; }
-        if (plaza3 < endLat && plaza3 > startLat) { PlazaName = PlazaName + " <br><hr size='1'> " + "<img  src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Tugela Mainline"; TollCount = TollCount + TugelaM; }
-        if (plaza2 < endLat && plaza2 > startLat) { PlazaName = PlazaName + " <br><hr size='1'> " + "<img  src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Wilge Mainline"; TollCount = TollCount + WilgeM; }
-        if (plaza1 < endLat && plaza1 > startLat) { PlazaName = PlazaName + " <br><hr size='1'> " + "<img  src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Dehoek Mainline"; TollCount = TollCount + DeHoekM; }
+        // alert("Bearing north");
+        if (plaza6 < endLat && plaza6 > startLat) { PlazaName = "<br/><div class='titlebox'>T " + "Mariannhill Mainline</div>"; TollCount = TollCount + MarianM; }
+        if (plaza5 < endLat && plaza5 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Mooi Mainline</div>"; TollCount = TollCount + MooiM; }
+        if (plaza4 < endLat && plaza4 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Bergville Ramp</div>"; TollCount = TollCount + BergvilleR; }
+        if (plaza3 < endLat && plaza3 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Tugela Mainline</div>"; TollCount = TollCount + TugelaM; }
+        if (plaza2 < endLat && plaza2 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Wilge Mainline</div>"; TollCount = TollCount + WilgeM; }
+        if (plaza1 < endLat && plaza1 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Dehoek Mainline</div>"; TollCount = TollCount + DeHoekM; }
     }
 
-
+    //[29.56157, -28.4625] [29.993112, -29.193292]
     var lat1 = startLat;
-    var lon1 = startLon;
-    var lat2 = endLat;
-    var lon2 = endLon;
-
+    var lon1 = Number(startLon);
+    var lat2 = Number(endLat);
+    var lon2 = Number(endLon);
+    //alert('lat1: ' + lat1 + 'lon1: ' + lon1 + 'lat2: ' + lat2 + 'lon2: ' + lon2);
     var radlat1 = Math.PI * lat1 / 180;
     var radlat2 = Math.PI * lat2 / 180;
     var radlon1 = Math.PI * lon1 / 180;
@@ -113,18 +197,28 @@ function calTolls() {
     //return dist;
     //alert(dist);
 
-    document.getElementById('distHolder').innerHTML = "<div><p class='tt-route-control-instructionText' id='dist' ></p></div>";
+    // document.getElementById('distHolder').innerHTML = "<div><p class='tt-route-control-instructionText' id='dist' ></p></div>";
 
-    document.getElementById('dist').innerHTML = "<hr size='1'>" + "<strong><span id='cost'>Total Cost: R " + TollCount + "</span></strong><br /><div id='extraInfo' >" + "Toll Points - " + address1 + " to " + address2 + "<br>" + PlazaName + "<br>" + "<img src='images/dircBtn.png' width='25%' height='auto' style='margin:8px' onclick='direcShow();'> <img src='images/savetrip.png' width='25%' height='auto' style='margin:8px' onclick='routeShow();'> <img src='images/viewmap.png' width='25%' height='auto' style='margin:8px' onclick='hideTabs();'><div style='height:50px'>...</div>";
+    //document.getElementById('dist').innerHTML = "<hr size='1'>" + "<strong><span id='cost'>Total Cost: R " + TollCount + "</span></strong><br /><div id='extraInfo' >" + "Toll Points - " + address1 + " to " + address2 + "<br>" + PlazaName + "<br>" + "<img src='images/dircBtn.png' width='25%' height='auto' style='margin:8px' onclick='direcShow();'> <img src='images/savetrip.png' width='25%' height='auto' style='margin:8px' onclick='routeShow();'> <img src='images/viewmap.png' width='25%' height='auto' style='margin:8px' onclick='hideTabs();'><div style='height:50px'>...</div>";
 
+    //testmapn3.html
+    ///////document.getElementById('tollfee').innerHTML += TollCount;
+   /////// document.getElementById('tolls').innerHTML = PlazaName;
+
+    //index - 
+    document.getElementById('form-tariff').value += TollCount;
+    document.getElementById('form-plaza').innerHTML = PlazaName;
     
+
+    dist = 0;
+    //alert('tc R:' + TollCount + 'PName: ' + PlazaName);
 
 };
 
 function showN3Route() {
-   var start = [28.02670701, -26.1665238];
+    start = [28.02670701, -26.1665238];
     //start = document.getElementById("selectStart").value;
-   var end = [30.42495982, -29.4231125];
+   end = [30.42495982, -29.4231125];
     //end = document.getElementById("selectEnd").value;
      var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
     //var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start + ';' + end + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
@@ -187,5 +281,50 @@ function showN3Route() {
             }
         });
        
+    });
+}
+
+//Trip calc static
+var routeDist;
+var routeDurantion;
+var DirStart;
+var DirEnd;
+/// MAPBOX API js only 
+function getDirections() {
+
+    // var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+    // var url = 'https://api.mapbox.com/directions/v5/mapbox/driving-traffic/28.02670701,-26.1665238;30.42495982,-29.4231125?steps=true&geometries=geojson&access_token=pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
+
+    var url = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start + ';' + end + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+
+   
+    getRequest(url, function (data) {
+        var data = JSON.parse(data.responseText);
+        var dataStr = JSON.stringify(data);
+
+        for (var i = 0; i < dataStr.length; i++) {
+
+            var route = data.routes[0].geometry;
+            routeDist = data.routes[0].distance / 1000;
+            routeDurantion = data.routes[0].duration / 3600;
+            routeDist = routeDist.toFixed(2);
+            routeDurantion = routeDurantion.toFixed(2);
+            var rt = JSON.stringify(route);
+            var testV = 'coords ' + rt;
+
+        }
+
+        //document.getElementById("holder").innerHTML = testV;
+        document.getElementById('form-distance').value += routeDist;
+        document.getElementById('form-time').value += routeDurantion;
+        var instructions = document.getElementById('form-directions');
+        var steps = data.routes[0].legs[0].steps;
+        var steps = data.routes[0].legs[0].steps;
+        // var stepCoord = data.routes[0].legs[0].steps.location;
+        steps.forEach(function (step) {
+
+            instructions.insertAdjacentHTML('beforeend', '<p id="' + step.geometry.coordinates + '" class="direc">' + step.maneuver.instruction + '</p>'); //i++;
+        });
+
     });
 }

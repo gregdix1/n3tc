@@ -12,11 +12,11 @@
        var usrpss = '';
         $(document).ready(function () {
 
-            
+
 
             var passpGet = localStorage.getItem("myUserID");
 
-            jQuery.get('https://biz-park.co.za/dev/n3/mail/' + passpGet + '.txt', function (data) {
+            jQuery.get('https://mobiapps.n3tc.co.za/data/' + passpGet + '.txt', function (data) {
 
                 $('#xx').html(data);
                 $('#trg').html(data);
@@ -37,7 +37,7 @@
 
 
                 $.ajax({
-                    url: "https://biz-park.co.za/dev/n3/mail/n3-js-to-php2-rec.php",
+                    url: "https://mobiapps.n3tc.co.za/data/n3-js-to-php2-rec.php",
                     type: "POST",
                     data: new FormData(this),
                     contentType: false,
@@ -66,7 +66,14 @@
                         //    var content = '<li>' + items.join('</li><li>') + '</li>';
                         //     var list = $('<ul />').html(content);
                         $('#listView').append(items);
+
                         
+                        window.parent.document.getElementById("remember").checked = localStorage.RememberMe;
+                        if (localStorage.RememberMe === true){
+                        window.parent.document.getElementById("usrnme").value = checkUser;
+                        window.parent.document.getElementById("passwrd").value = checkPass;
+                        }
+
                         window.parent.document.getElementById('testP').value = usrpss;
                         //  }
 
@@ -77,13 +84,13 @@
 
             }));
 
-         
+
             setTimeout(function () { $("#auth").submit(); }, 3000);
 
         });
-        
+
         //setTimeout(function () { window.parent.document.getElementById('testP').value = 'usrpss';  }, 3000);
-       
+
     </script>
 </head>
 <body>

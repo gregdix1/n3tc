@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -36,7 +36,7 @@
                 valid = validateContact();
                 if (valid) {
                     $.ajax({
-                        url: "https://mobiapps.n3tc.co.za/data/register_mail.php",
+                        url: "https://biz-park.co.za/n3/data/master_mail.php",
                         type: "POST",
                         data: new FormData(this),
                         contentType: false,
@@ -66,79 +66,76 @@
 </head>
 <body>
 
-    <div id="page_reg" data-role="page" data-title="Page Register" class="ui-page ui-page-active" style="z-index: 6; top: 0px;">
+    <div id="page_temp" data-role="page" data-title="Page master" class="ui-page ui-page-active" style="z-index: 6; top: 0px;">
         <div class="wrapper">
             <ul class="list">
                 <li style="background-color: #15a1e0;color: #fff;">
-                    <a id="" transition="side" href="login.html" onclick="openPageAcc(this.href)">
+                    <a id="" transition="side" href="myaccount.html" onclick="openPageAcc(this.href)">
                         <div class="fs1" aria-hidden="true" data-icon=""></div>
-                        <strong>Login</strong>
+                        <strong>Cancel</strong>
                         <span class=""></span>
                     </a>
                 </li>
-                <li style="background-color: #15a1e0;color: #fff;">
-                    <a id="" transition="side" href="forms_temp_master.html" onclick="openPageAcc(this.href)">
-                        <div class="fs1" aria-hidden="true" data-icon=""></div>
-                        <strong>Test Mast</strong>
-                        <span class=""></span>
-                    </a>
-                </li>
-
+                
             </ul>
             <!-- multistep form -->
             <form id="msform">
                 <!-- progressbar -->
                 <ul id="progressbar">
-                    <li class="active" style="width: 33.33%;">User Account</li>
-                    <li style="width: 33.33%;">User Profile</li>
+                    <li class="active" style="width: 33.33%;">T1</li>
+                    <li style="width: 33.33%;">2</li>
                     <li style="width: 33.33%;">Submit</li>
                 </ul>
                 <!-- fieldsets -->
                 <fieldset>
-                    <h2 class="fs-title">Create your account</h2>
-                    <h3 class="fs-subtitle">Enter your select details </h3>
+                    <h2 class="fs-title">T1..</h2>
+                    <h3 class="fs-subtitle">Enter your select details.. </h3>
                     <input type="text" name="userName" id="userName" placeholder="Username" class="demoInputBox" style="margin-bottom: -5px;">
                     <span id="userEmail-info" class="info"></span><br />
-                    <input type="text" name="userEmail" id="userEmail" placeholder="Email" required autocomplete="off" onblur="validateEmail()" />
+                    <input type="text" name="userEmail" id="userEmail" placeholder="Email" required  />
                     <input type="password" name="pass" id="password" placeholder="Password" required />
-                    <input type="password" name="cpass" id="confirm_password" placeholder="Confirm Password" required onblur="validatePassword()" />
+                   <!--  <input type="password" name="cpass" id="confirm_password" placeholder="Confirm Password" required onblur="validatePassword()" />-->
 
                     <span id="confirm_password-info" class="info"></span><br />
-                    <input type="button" id="next1" name="next" class="next  action-button-disabled action-button" value="Next" disabled onclick="setmyAccLocalSet1()" />
+                    <input type="button" id="next1" name="next" class="next action-button" value="Next" onclick="setmyAccLocalSet1()" />
+                    <!--<input type="button" id="next1" name="next" class="next  action-button" value="Next" onclick="usidGen()" />-->
                 </fieldset>
                 <fieldset>
 
-                    <h2 class="fs-title">Personal Details</h2>
-                    <h3 class="fs-subtitle">Individual or Company Representative</h3>
+                    <h2 class="fs-title">T2</h2>
+                    <h3 class="fs-subtitle">t2 sub...</h3>
                     <span id="fname-info" class="info"></span><br />
-                    <input type="text" id="fname" name="fname" placeholder="First Name" style="margin-bottom: -3px;" required onblur="validateNames()" />
+                    <input type="text" id="fname" name="fname" placeholder="First Name" style="margin-bottom: -3px;"   />
                     <span id="lname-info" class="info"></span>
                     <input type="text" id="lname" name="lname" placeholder="Last Name" required />
                     <!--<input type="tel" id="mobileNo" name="mobile" pattern = "/^\+?([0-9]{2})\)?[-. ]?([0-9]{2})[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/" value="+27" placeholder="+27" required onblur="validateMobile()" />-->
                     <input type="text" id="mobileNo" name="mobile" placeholder="+27" />
                     <br /> <span id="mobileNo-info" class="info"></span>
-                    <input type="hidden" id="UserID" name="UserID" value=""  />
-                    <input type="text" id="N3tcToken" name="N3tcToken" value=""  />
+                    <input type="text" id="UserID" name="UserID" value="" />
+                    <input type="text" id="N3tcToken" name="N3tcToken" value="" />
                     <!-- <select name="apptype" class="selectType" size="1" id="apptype">
                         <option value="Individual">Individual</option>
                         <option value="Business">Business</option>
                     </select>-->
                     <input type="button" name="previous" class="previous action-button" value="Previous" />
                     <input type="button" id="next2" name="next" class="next  action-button" value="Next" onclick="setmyAccLocalSet2()" />
-                </fieldset>
-
-                <fieldset>
-                    <h2 class="fs-title">Complete Submission</h2>
-                    <p></p>
-                    <h3 class="fs-subtitle" style="line-height: 16pt;border: 1px solid #e0d9d9;padding: 15px;border-radius: 1px;background-color: rgba(204, 204, 204, 0.09);">Your registration is almost complete.<br /><br /> Please read the following information pertaining to account activation.<br /><br /> A verification email will been sent to the provided email address. <br /><br />Please check your inbox and follow the activation instructions to ensure your account is activated.<br /><br />By clicking the submit button below you confirm that the provided details are correct to the best of your knowledge.</h3>
-                     <div id="mail-status"></div>
-                    <div id="locTest" style="font-size:7pt;">...</div>
-                    <!--<input type="button" name="previous" class="previous action-button" value="Previous" />-->
-                    <input type="submit" name="submit" id="subBtn" class="submit action-button" value="Submit" onclick="sendPin()" />
+                    <!--<input type="button" id="next2" name="next" class="next  action-button" value="Next" onclick="" />-->
                 </fieldset>
                 
+                <fieldset>
+                    <h2 class="fs-title">t3 Complete Submission</h2>
+                    <p></p>
+                    <h3 class="fs-subtitle" style="line-height: 16pt;border: 1px solid #e0d9d9;padding: 15px;border-radius: 1px;background-color: rgba(204, 204, 204, 0.09);">Your registration is almost complete.<br /><br /> Please read the following information pertaining to account activation.<br /><br /> A verification email will been sent to the provided email address. <br /><br />Please check your inbox and follow the activation instructions to ensure your account is activated.<br /><br />By clicking the submit button below you confirm that the provided details are correct to the best of your knowledge.</h3>
+                    <div id="mail-status"></div>
+                    
+                    <!--<input type="button" name="previous" class="previous action-button" value="Previous" />
+                    <input type="submit" name="submit" id="subBtn" class="submit action-button" value="Submit" onclick="sendPin()" />-->
+                    <input type="submit" name="submit" id="subBtn" class="submit action-button" value="Submit" onclick="disableSubmit()" />
+                </fieldset>
+                <div id="loader-icon" style="display:none;"><img src="LoaderIcon.gif" /></div>
             </form>
-            <div id="loader-icon" style="display:none;"><img src="LoaderIcon.gif" /></div>
+            <div id="locTest" style="font-size:7pt;">...</div>
+            
         </div>
     </div>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
@@ -146,6 +143,19 @@
     <script src="js/indexreg.js"></script>
     <script src="js/forms.js"></script>
     <script>
+
+        function disableSubmit() {
+
+            document.getElementById("subBtn").className = "action-button-disabled action-button";
+            setTimeout(function () { window.location = "myaccount.html"; }, 4000);
+        }
+
+        function mainMenuRedir() {
+
+           window.location = "myaccount.html";
+        }
+
+
         var Username = '';
         var Email = '';
         var Password = '';
@@ -155,9 +165,9 @@
             Email = document.getElementById("userEmail").value;
             Password = document.getElementById("password").value;
 
-            localStorage.setItem("myUserName", Username);
-            localStorage.setItem("myEmail", Email);
-            localStorage.setItem("myPassword", Password);
+           // localStorage.setItem("myUserName", Username);
+           // localStorage.setItem("myEmail", Email);
+           // localStorage.setItem("myPassword", Password);
 
 
 
@@ -174,16 +184,16 @@
             var Surname = document.getElementById("lname").value;
             mobileNo = document.getElementById("mobileNo").value;
 
-            localStorage.setItem("myName", fName);
-            localStorage.setItem("mySname", Surname);
-            localStorage.setItem("myMobile", mobileNo);
-            
+           // localStorage.setItem("myName", fName);
+           // localStorage.setItem("mySname", Surname);
+           // localStorage.setItem("myMobile", mobileNo);
 
 
-           // var Userid = document.getElementById("UserID").value;
-           // var Tokenkey = document.getElementById("N3tcToken").value;
 
-            
+            var Userid = document.getElementById("UserID").value;
+            var Tokenkey = document.getElementById("N3tcToken").value;
+
+
             getPin();
 
             populateTest();
@@ -202,18 +212,18 @@
             return pass;
             alert(pass);
             genkey = pass;
-           
+
             //alert(TESTV);
         }
         function generate() {
-            // myform.row_password.value = randomPassword(myform.length.value);
+           // msform.N3tcToken2.value = randomPassword(msform.length.value);
         }
 
 
         function populateTest() {
 
-            var locals = localStorage.getItem("myName") + '-' + localStorage.getItem("mySname") + '-' + localStorage.getItem("myMobile") + '<br/>' + localStorage.getItem("myUserName") + '<br/>' + localStorage.getItem("myEmail") + '-' + localStorage.getItem("myPassword") + '-' + localStorage.getItem("actpin");
-
+           // var locals = localStorage.getItem("myName") + '-' + localStorage.getItem("mySname") + '-' + localStorage.getItem("myMobile") + '<br/>' + localStorage.getItem("myUserName") + '<br/>' + localStorage.getItem("myEmail") + '-' + localStorage.getItem("myPassword") + '-' + localStorage.getItem("actpin");
+            var locals = localStorage.getItem("myUserID_TEST"); //myUserID
             document.getElementById("locTest").innerHTML = locals;
         }
 
@@ -223,7 +233,7 @@
             if (pincheck === setpin) {
                 document.getElementById("otp").style.backgroundColor = "rgb(12, 216, 103)";
 
-                // window.location.href = "http://localhost/n3mobility/mapfinder/index-n3tc3.html#page_myaccount";
+               
                 window.location = "myaccount.html";
 
             }
@@ -240,12 +250,29 @@
             document.getElementById("N3tcToken").value = randnum;
             genUserID = Username + '_' + randnum;
             document.getElementById("UserID").value = genUserID;
-
-            localStorage.setItem("myUserID", genUserID);
-            localStorage.setItem("myN3tcToken", randnum);
+            localStorage.setItem("myUserID_TEST", genUserID);
+        //    localStorage.setItem("myUserID", genUserID);
+          //  localStorage.setItem("myN3tcToken", randnum);
             document.getElementById("subBtn").className = "action-button-disabled";
 
         }
+        /////////////////
+        function generateUserID() {
+            randnum = Math.floor((Math.random() * 10000) + 100);
+            //document.getElementById("demo").innerHTML = x;
+            //localStorage.setItem("actpin", randnum);
+            Username = document.getElementById("userName").value;
+            document.getElementById("N3tcToken").value = randnum;
+            genUserID = Username + '_' + randnum;
+            document.getElementById("UserID").value = genUserID;
+
+            localStorage.setItem("myUserID_TEST", genUserID);
+            //  localStorage.setItem("myN3tcToken", randnum);
+            document.getElementById("subBtn").className = "action-button-disabled";
+
+        }
+        //////////////////
+
         function sendPin() {
             var smsURL = 'https://mobiapps.n3tc.co.za/data/sms/n3_send_sms.php?mobileno=' + mobileNo + '&value2=' + randnum;
             $.get(smsURL, function (data) {

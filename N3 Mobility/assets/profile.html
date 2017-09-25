@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -19,7 +19,6 @@
     <link href="../css/icomoon.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/stylen3.css">
     <style type="text/css">
-
     </style>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -33,7 +32,7 @@
                 valid = validateContact();
                 if (valid) {
                     $.ajax({
-                        url: "https://biz-park.co.za/dev/n3/mail/mail_handler_updateprofile.php",
+                        url: "https://mobiapps.n3tc.co.za/data/mail_handler_updateprofile.php",
                         type: "POST",
                         data: new FormData(this),
                         contentType: false,
@@ -57,8 +56,9 @@
 
         });
 
-       
+
     </script>
+
 
 </head>
 <body>
@@ -66,14 +66,14 @@
     <div id="page_inbox" data-role="page" data-title="Page Inbox" class="ui-page ui-page-active" style="z-index: 6; top: 0px;">
         <div class="wrapper" style="height: 631px;">
             <ul class="list">
-                <li>
+                <li style="background-color: #15a1e0;color: #fff;">
                     <a id="" transition="side" href="myaccount.html" onclick="openPageAcc(this.href)">
                         <div class="fs1" aria-hidden="true" data-icon=""></div>
                         <strong>Back</strong>
                         <span class=""></span>
                     </a>
                 </li>
-                
+
             </ul>
             <!-- multistep form -->
             <form id="msform">
@@ -98,11 +98,11 @@
                     <input type="text" name="CompanyName" id="CompanyName" placeholder="Company Name.." class="demoInputBox">
                     <input type="text" name="CompanyReg" id="CompanyReg" placeholder="Company Reg No.." class="demoInputBox">
                     <!--<select name="idtype" size="1" id="idtype" onchange="">
-                <option value="Select">Select ID Type</option>
-                <option value="SA Identity">SA Identity</option>
-                <option value="SA Passport">Passport</option>
-                <option value="NON Passport">NON Passport</option>
-            </select>-->
+                        <option value="Select">Select ID Type</option>
+                        <option value="SA Identity">SA Identity</option>
+                        <option value="SA Passport">Passport</option>
+                        <option value="NON Passport">NON Passport</option>
+                    </select>-->
                     <input type="text" name="IdentityNo" data-validation="length alphanumeric" data-validation-length="min12" id="IdentityNo" placeholder="Identity Number" class="demoInputBox error" style="border-color: rgb(185, 74, 72);">
                     <input type="text" name="userEmail" id="userEmail" data-validation="email" placeholder="Email" class="demoInputBox" value="" />
                     <input type="text" name="HomeTel" id="HomeTel" placeholder="Contact Home" class="demoInputBox" value="" />
@@ -128,7 +128,7 @@
         </div>
     </div>
     <script>
-    
+
 
         function updateLocal() {
 
@@ -136,7 +136,7 @@
             localStorage.setItem("CompanyName", CoName);
 
             var CoReg = document.getElementById("CompanyReg").value;
-            localStorage.setItem("CompanyName", CoName);
+            localStorage.setItem("CompanyReg", CoReg);
 
             var idNo = document.getElementById("IdentityNo").value;
             localStorage.setItem("IDnumber", idNo);
@@ -161,10 +161,10 @@
                 if (document.getElementById("mail-status").innerHTML !== '.') {
                     window.location = 'myaccount.html';
                 } else { }
-                
+
             }, 5000);
 
-            
+
 
         }
     </script>

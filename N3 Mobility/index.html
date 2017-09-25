@@ -28,10 +28,6 @@
 
     <link href="css/icomoon.css" rel="stylesheet" />
 
-
-
-
-
     <script type="text/javascript" src="js/maps-gbd.js"></script>
     <script type="text/javascript" src="js/zepto.min.js"></script>
     <script type="text/javascript" src="js/transition.min.js"></script>
@@ -196,6 +192,24 @@
             width: 38px;
             height: 40px;
         }
+        .startSelect {
+            background-image: url(images/startPin.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            padding-left: 60px;
+            font-weight: 700;
+        }
+        .endtSelect {
+            background-image: url(images/endPin.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            padding-left: 60px;
+            font-weight: 700;
+        }
+        .classSelect {
+            background-image: url(images/classPin.png);
+            
+        }
     </style>
 
     <script>
@@ -206,7 +220,7 @@
             var localStoreMail = localStorage.getItem("myEmail");
             var localStoreUPass = localStorage.getItem("myPassword");
             document.getElementById("n3tc-banner").innerHTML = localStoreUsr + '-' + localStoreMail + '-' + localStoreUPass;
-
+            localStorage.setItem("savedTrip", "NO");
             myLoc();
             //setTimeout(function () { $('.loading').hide(); }, 4000);
 
@@ -247,7 +261,11 @@
                             <span aria-hidden="true" class="icon-maps"></span>
                             <a id="location-list" transition="side" href="#page_save_location" onclick="openPage(this.href)">Saved Trips</a>
                         </li>
-                        <li id="li_page_save_location" onclick="">
+                        <li id="li_page_application_list">
+                            <span aria-hidden="true" class="icon-maps"></span>
+                            <a id="application-list" transition="side" href="#page_save_application" onclick="openPage(this.href)">Saved Applics.</a>
+                        </li>
+                        <li id="li_page_save_location" onclick="" style="display: none;">
                             <span aria-hidden="true" class="icon-bookmarks"></span>
                             <a id="save-location" transition="side" href="#page_add_location" onclick="openPage(this.href)">Add New Trip</a>
                         </li>
@@ -267,15 +285,16 @@
                             <span aria-hidden="true" class="icon-user"></span>
                             <a id="contact" transition="side" href="#page_contact" onclick="openPage(this.href)"> Contact</a>
                         </li>
-                        <li id="li_page_poi">
-                            <span aria-hidden="true" class="icon-maps"></span>
-                            <a id="poi" transition="side" href="#page_location_list" onclick="openPage(this.href)"> POI</a>
-                        </li>
+                        <!--   <li id="li_page_poi">
+                              <span aria-hidden="true" class="icon-maps"></span>
+                              <a id="poi" transition="side" href="#page_location_list" onclick="openPage(this.href)"> POI</a>
+                          </li> -->
                         <li id="mylocgps" onclick="myLoc()">
-                            <span id="gpsout" style="padding: 10px 8px; font-size: 12px; line-height: 18px;">GPS</span>
+                            <span aria-hidden="true" class="icon-chris-spittles-geo-location"></span>
+                            <span id="gpsout" style="margin-left: 40px; padding: 10px 8px; font-size: 10px; line-height: 18px;">Get GPS</span>
                         </li>
                         <li id="copy" onclick="flytoZoom()">
-                            N3 Toll Concession &copy; 2017
+                            MOBILITY v2.1 N3TC &copy; 2017
                         </li>
                     </ul>
                 </div>
@@ -289,6 +308,7 @@
             <li class="list-divider">Nearby Setting</li>
             <li onclick="toggleSrch()">
                 <div class="fs1" aria-hidden="true" data-icon="&#xf220;"></div>
+                <a id="places" transition="side" href="#page_location_map_trip" onclick="openPage(this.href)"></a>
                 Search Places
                 <!--<div class="toggle-box">
                     <label for="toggle-nearby-distances" class="toggle-label">KM &nbsp;&nbsp; MIL</label>
@@ -298,6 +318,7 @@
             <li class="list-divider">Tools</li>
             <li id="directionsBtn" onclick="addDirections()">
                 <div class="fs1" aria-hidden="true" data-icon="&#xf21b;"></div>
+                <a id="dirclink" transition="side" href="#page_location_map_trip" onclick="openPage(this.href)"></a>
                 Directions
                 <div class="toggle-box">
 
@@ -313,31 +334,31 @@
                     <input type="checkbox" value="1" id="toggle-active-nav" class="toggle-control" />
                 </div>
             </li>
-            <li id="voiceBtn" onclick="voiceOn()">
-                <div class="fs1" aria-hidden="true" data-icon="&#xf18c;"></div>
-                Voice Commands
-                <div class="toggle-box">
-                    <label for="toggle-voice-comm" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                    <input type="checkbox" value="1" id="toggle-voice-comm" class="toggle-control" />
-                </div>
-            </li>
+            <!-- <li id="voiceBtn" onclick="voiceOn()">
+                 <div class="fs1" aria-hidden="true" data-icon="&#xf18c;"></div>
+                 Voice Commands
+                 <div class="toggle-box">
+                     <label for="toggle-voice-comm" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                     <input type="checkbox" value="1" id="toggle-voice-comm" class="toggle-control" />
+                 </div>
+             </li> -->
             <li class="list-divider">Maps Layer Setting</li>
-            <li>
-                <div class="fs1" aria-hidden="true" data-icon="&#xf22a;"></div>
-                Traffic Layer
-                <div class="toggle-box">
-                    <label for="toggle-traffic-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                    <input type="checkbox" value="1" id="toggle-traffic-layer" class="toggle-control" />
-                </div>
-            </li>
-            <li>
-                <div class="fs1" aria-hidden="true" data-icon="&#xe05b;"></div>
-                Weather Layer
-                <div class="toggle-box">
-                    <label for="toggle-weather-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                    <input type="checkbox" value="1" id="toggle-weather-layer" class="toggle-control" />
-                </div>
-            </li>
+            <!-- <li>
+                 <div class="fs1" aria-hidden="true" data-icon="&#xf22a;"></div>
+                 Traffic Layer
+                 <div class="toggle-box">
+                     <label for="toggle-traffic-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                     <input type="checkbox" value="1" id="toggle-traffic-layer" class="toggle-control" />
+                 </div>
+             </li>
+             <li>
+                 <div class="fs1" aria-hidden="true" data-icon="&#xe05b;"></div>
+                 Weather Layer
+                 <div class="toggle-box">
+                     <label for="toggle-weather-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                     <input type="checkbox" value="1" id="toggle-weather-layer" class="toggle-control" />
+                 </div>
+             </li>-->
             <li>
                 <div class="fs1" aria-hidden="true" data-icon="&#x2b;"></div>
                 <a id="poi2" transition="side" href="#page_poi" onclick="openPage(this.href)"></a>
@@ -411,7 +432,7 @@
                         <li>
                             <a id="location-map" transition="side" href="#page_location_map_trip" onclick="openPageLocmap(this.href)">
                                 <div class="fs1" aria-hidden="true" data-icon="&#xe008;"></div>
-                                <strong>Expand Map</strong>
+                                <strong>Full Map</strong>
                                 <span class="chevron"></span>
                             </a>
                         </li>
@@ -479,6 +500,7 @@
                             <div id="n3tc-banner"></div>
                         </li>
                     </ul>
+                    <input type="file" name="attachmentFile" id="attachmentFile" class="demoBrowseBox" />
                     <iframe frameborder="0" id="crypt" scrolling="auto" height="300" style=" width:100%;" src="assets/simpleget.html"></iframe>
                 </div>
             </div>
@@ -677,7 +699,7 @@
             <!-- PAGE SAVE LOCATION -->
             <div id="page_save_location" data-role="page" data-title="Page Save Location">
                 <div class="bar-standard bar-header-secondary">
-                    <a class="button-block" href="#page_location_map_trip" onclick="openPage(this.href)">Add New Trip</a>
+                    <a class="button-block" href="#page_add_location" onclick="openPage(this.href)">Add New Trip</a>
                 </div>
                 <div class="wrapper-bar">
                     <ul id="list-save-location" class="list"></ul>
@@ -693,7 +715,7 @@
                             <label>Date</label>
                             <div id="date-save-location"></div>
                         </div>
-                        <div class="input-row">
+                        <div class="input-row" hidden>
                             <label>Location</label>
                             <!--<input type="text" id="form-title" placeholder="Title">-->
                             <div id="address-save-location"></div>
@@ -706,36 +728,202 @@
                             <label>Description</label>
                             <div id="desc-save-location"></div>
                         </div>
-                    </div>
+                        <!-- NEW -->
+                        <div class="input-row">
+                            <label>Duration H</label>
+                            <div id="duration-save-location"></div>
+                        </div>
+                        <div class="input-row">
+                            <label>Distance  Kms</label>
+                            <div id="distance-save-location"></div>
+                        </div>
+                        <div class="input-row">
+                            <label>Tariff  R</label>
+                            <div id="tariff-save-location"></div>
+                        </div>
+                        <div class="input-row">
+                            <label>Plaza</label>
+                            <div id="plaza-save-location"></div>
+                        </div>
+                        <div class="input-row">
+                            <label>Directions</label>
+                            <div id="directions-save-location"></div>
+                        </div>
+
+                       </div>
                     <div class="content-padded">
                         <div id="button-save-location"></div>
+                        <div id="button-save-location3">
+                            <a class="button-positive button-block" href="#page_location_map_trip" onclick="startTrip()">Open Trip</a>
+
+                        </div>
                         <div id="button-save-location2">
                             <a class="button-positive button-block" href="#page_save_location">Saved Trips</a>
-                            
+
                         </div>
+
                     </div>
                 </div>
             </div>
             <!-- END PAGE DETAIL SAVE LOCATION -->
             <!-- PAGE ADD LOCATION -->
             <div id="page_add_location" data-role="page" data-title="Page Save Location">
+
+                <div class="wrapper content-padded">
+                    <select name="selectStart" id="selectStart" class="startSelect" onchange="setStart()">
+                        <option value="">Select Start Point</option>
+                        <option value="28.1837,-25.8621">Centurion</option>
+                        <option value="28.01447,-26.03133">Johannesburg</option>
+                        <option value="28.1219,-26.2672">Alberton</option>
+                        <option value="28.3583,-26.5006">Heidelberg</option>
+                        <option value="28.9667,-27.85">Warden</option>
+                        <option value="28.2333,-26.1">KemptonPark</option>
+                        <option value="28.1672,-26.2178">Germiston</option>
+                        <option value="28.2075,-26.3583">Vosloorus</option>
+                        <option value="28.8508,-27.2342">Cornelia</option>
+                        <option value="29.7813,-28.5561">Ladysmith</option>
+                        <option value="29.2763,-28.3483">Swinburne</option>
+                        <option value="29.381,-28.376">VanReenen</option>
+                        <option value="29.1333,-28.2833">Harrismith</option>
+                        <option value="29.8833,-29">Estcourt</option>
+                        <option value="29.9833,-29.2">MooiRiver</option>
+                        <option value="30.2333,-29.4667">Howick</option>
+                        <option value="28.6,-27.0333">Villiers</option>
+                        <option value="30.3,-29.55">Hilton</option>
+                        <option value="31.0039,-29.9247">Bluff</option>
+                        <option value="30.85,-29.8167">Pinetown</option>
+                        <option value="30.3793,-29.6013">Pietermaritzburg</option> 
+                        <option value="30.9938,-29.7789319">Durban</option>
+                        </select>
+
+                    <select name="selectEnd" id="selectEnd" class="endtSelect" onchange="setEnd()"><!--setEnd()-->
+                        <option value="">Select Destination</option>
+                        <option value="28.1837,-25.8621">Centurion</option>
+                        <option value="28.01447,-26.03133">Johannesburg</option>
+                        <option value="28.1219,-26.2672">Alberton</option>
+                        <option value="28.3583,-26.5006">Heidelberg</option>
+                        <option value="28.9667,-27.85">Warden</option>
+                        <option value="28.2333,-26.1">KemptonPark</option>
+                        <option value="28.1672,-26.2178">Germiston</option>
+                        <option value="28.2075,-26.3583">Vosloorus</option>
+                        <option value="28.8508,-27.2342">Cornelia</option>
+                        <option value="29.7813,-28.5561">Ladysmith</option>
+                        <option value="29.2763,-28.3483">Swinburne</option>
+                        <option value="29.381,-28.376">VanReenen</option>
+                        <option value="29.1333,-28.2833">Harrismith</option>
+                        <option value="29.8833,-29">Estcourt</option>
+                        <option value="29.9833,-29.2">MooiRiver</option>
+                        <option value="30.2333,-29.4667">Howick</option>
+                        <option value="28.6,-27.0333">Villiers</option>
+                        <option value="30.3,-29.55">Hilton</option>
+                        <option value="31.0039,-29.9247">Bluff</option>
+                        <option value="30.85,-29.8167">Pinetown</option>
+                        <option value="30.3793,-29.6013">Pietermaritzburg</option>
+                        <option value="30.9938,-29.7789319">Durban</option>
+                    </select>
+                    <select class="endtSelect classSelect" id="vclass" onchange="cleanCoords()">
+                        <option value="1">Vehicle Class</option>
+                        <option value="1">1 Light Vehicle</option>
+                        <option value="2">2 Heavy Vehicle 2 axles</option>
+                        <option value="3">3 Heavy Vehicle 3, 4 axles</option>
+                        <option value="4">4 Heavy Vehicle 5 + axles</option>
+                    </select>
+
+                        <form>
+                            <input type="text" id="form-title" style="background-color: #f8f8f8;" placeholder="Trip Locations">
+                            <textarea rows="3" id="form-desc" placeholder="Description"></textarea>
+
+                            <input type="text" id="form-time" style=" background-color: #f8f8f8;width: 45%; margin-right: 15px; display: inline-block;" placeholder="hh:mm" onclick="resetTripStatic()">
+                            <input type="text" id="form-distance" style="background-color: #f8f8f8;width: 45%; float: right; display: inline-block;" placeholder="   Kms">
+                            <input type="text" id="form-tariff" style="background-color: #f8f8f8;" placeholder="Tariffs">
+                            <!--<input type="text" id="form-plaza" placeholder="Plazas">-->
+                            <div style="overflow: auto; height: 50px;" id="form-plaza"></div>
+                           <!-- <textarea rows="6" style="border: none; box-shadow: none;" id="form-directions" placeholder="Directions"></textarea>-->
+                            <div style="overflow: auto; height: 150px;" id="form-directions"></div>
+                            <a id="form-add" class="button-positive button-block" href="#page_save_location" onclick="openPage(this.href)">Save Trip</a>
+                            <span id="tripCoords" class="count" style="display:none;">x</span>
+                            <span id="show-location-address" class="count" style="display:none;">Location</span>
+                            
+                        </form>
+
+
+</div>
+
+            </div>
+            <!-- END PAGE ADD LOCATION -->
+
+
+            <!-- PAGE SAVE APPLICATION -->
+            <div id="page_save_application" data-role="page" data-title="Page Save Application">
+                <div class="bar-standard bar-header-secondary">
+                    <a class="button-block" href="#page_add_application" onclick="openPage(this.href)">Add New Application</a>
+                </div>
+                
+                <div class="wrapper-bar">
+                    <ul id="list-save-application" class="list"></ul>
+                </div>
+
+            </div>
+            <!-- END PAGE SAVE APPLICATION -->
+            <!-- PAGE DETAIL SAVE APPLICATION -->
+            <div id="page_detail_save_application" data-role="page" data-title="Page Detail Save Application">
+                <div class="wrapper">
+                    <div class="input-group">
+                        <div class="input-row">
+                            <label>Date</label>
+                            <div id="date-save-application"></div>
+                        </div>
+                        <div class="input-row">
+                            <label>Location</label>
+                            <!--<input type="text" id="form-title" placeholder="Title">-->
+                            <div id="address-save-application"></div>
+                        </div>
+                        <div class="input-row">
+                            <label>Title</label>
+                            <div id="title-save-application"></div>
+                        </div>
+                        <div class="input-row">
+                            <label>Description</label>
+                            <div id="desc-save-application"></div>
+                        </div>
+                    </div>
+                    <div class="content-padded">
+                        <div id="button-save-locationXXXXX"></div>
+
+                        <div id="button-save-application">
+                            <a class="button-positive button-block" href="#page_save_application">Saved Trips</a>
+
+                        </div>
+                        <div id="button-save-application2">
+                            <a class="button-positive button-block" href="#page_save_application">Saved Applications</a>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE DETAIL SAVE APPLICATION -->
+            <!-- PAGE ADD APPLICATION -->
+            <div id="page_add_application" data-role="page" data-title="Page Save Application">
                 <div class="content-padded">
-                
-                
+
+
                     <form>
-                        <input type="text" id="form-title" placeholder="Title">
-                        <textarea rows="5" id="form-desc" placeholder="Description"></textarea>
-                        <a id="form-add" class="button-positive button-block" href="#page_save_location" onclick="openPage(this.href)">Add Trip</a>
-                        <span id="tripCoords" class="count">x</span>
-                        <span id="show-location-address" class="count">Location</span>
+                        <input type="text" id="form-title-app" placeholder="Title..">
+                        <textarea rows="5" id="form-desc-app" placeholder="Description.."></textarea>
+                        <a id="form-add-app" class="button-positive button-block" href="#page_save_application" onclick="openPage(this.href)">Add Application</a>
+                        <span id="tripCoords-app" class="count" style="display:block;">app..</span>
+                        <span id="show-application-code" class="count" style="display:block;">Location</span>
 
                     </form>
 
 
                 </div>
-                
+
             </div>
-            <!-- END PAGE ADD LOCATION -->
+            <!-- END PAGE ADD APPLICATION -->
+
+
             <!-- PAGE LOCATION MAP-->
             <div id="page_location_map" data-role="page" data-title="Page Location Map">
                 <div id='mapcont' data-snap-ignore="true"></div>
@@ -828,6 +1016,29 @@
 
 
     <script>
+        function startTrip() {
+            screenHeight();
+            var strC = document.getElementById("address-save-location").innerHTML;
+            var startEnd = strC.split(":");
+            var Tstart = startEnd[0]; // 31.0292, -29.8579
+
+            var TstartCoords = Tstart.split(",");
+            localStorage.setItem("stLon", TstartCoords[0]); //31.0292
+            localStorage.setItem("stLat", TstartCoords[1]); //-29.8579
+            localStorage.setItem("start", TstartCoords[0] + ',' + TstartCoords[1]);
+
+
+            var Tend = startEnd[1]; // 28.0328, -26.1633
+            var TendCoords = Tend.split(",");
+            localStorage.setItem("enLon", TendCoords[0]); //28.0328
+            localStorage.setItem("enLat", TendCoords[1]); // -26.1633
+            localStorage.setItem("end", TendCoords[0] + ',' + TendCoords[1]);
+            //  alert('tripcoords.Html ' + strC + ' StartLon ' + TstartCoords[0] + ' StartLat ' + TstartCoords[1] + ' endLon ' + TendCoords[0] + ' endLat ' + TendCoords[1]);
+            localStorage.setItem("savedTrip", "YES");
+            document.getElementById("frameTrip").src = "assets/testmapn3.html";
+        }
+
+
         function openPage(href) {
             var idref = href;
             window.location.href = idref;
@@ -851,7 +1062,7 @@
         };
         function openPageAcc(href) {
             var chkAthnav = localStorage.getItem("Authcheck");
-          
+
             screenHeight();
             var idrefAcc = href;
             window.location.href = idrefAcc;
@@ -859,7 +1070,7 @@
         };
         function openPageLocmap(href) {
             //  var chkAthnav = localStorage.getItem("Authcheck");
-             //$('#frameTrip').src ='assets/testmapn3.html';
+            //$('#frameTrip').src ='assets/testmapn3.html';
             screenHeight();
             var idrefLocmap = href;
             window.location.href = idrefLocmap;
@@ -880,9 +1091,9 @@
         };
 
         function toggleSrch() {
-            $('.mapboxgl-ctrl-geocoder').show();
-            $('.mapboxgl-ctrl-directions').hide();
-            $('.mapboxgl-ctrl-top-right').show();
+            //  $('.mapboxgl-ctrl-geocoder').show();
+            // $('.mapboxgl-ctrl-directions').hide();
+            // $('.mapboxgl-ctrl-top-right').show();
         };
 
         var sHeight = '';
@@ -890,7 +1101,7 @@
         //adjust screen size
         function screenHeight() {
             sHeight = $(window).height();
-            frmHeight = sHeight - 50;
+            frmHeight = sHeight - 49;
             $("#formFrm").attr("height", frmHeight);
             $("#frameForm").attr("height", sHeight + 50);
             $("#frameTrip").attr("height", frmHeight);
@@ -1251,6 +1462,14 @@
 
             //showRoute();
 
+            map.addSource('single-point', {
+                "type": "geojson",
+                "data": {
+                    "type": "FeatureCollection",
+                    "features": []
+                }
+            });
+
             map.addLayer({
                 "id": "point",
                 "source": "single-point",
@@ -1262,13 +1481,7 @@
             });
 
         });
-        // mapX.addSource('single-point', {
-        //     "type": "geojson",
-        //     "data": {
-        //        "type": "FeatureCollection",
-        //        "features": []
-        //    }
-        //  });
+
 
 
 

@@ -293,15 +293,23 @@ function getNearby(){
 
 	var tbSaveLocation = localStorage.getItem("tbSaveLocation");//Retrieve the stored data
 
-	tbSaveLocation = JSON.parse(tbSaveLocation); //Converts string to object
+    tbSaveLocation = JSON.parse(tbSaveLocation); //Converts string to object
 
-	if(tbSaveLocation == null) //If there is no data, initialize an empty array
-		tbSaveLocation = [];
+    if (tbSaveLocation == null)  //If there is no data, initialize an empty array
+        tbSaveLocation = [];
+       
+     
 
 	function addMyLocation(){
 		var client = JSON.stringify({
 			Title : $("#form-title").val(),
-			Desc : $("#form-desc").val(),
+            Desc: $("#form-desc").val(),
+            Class: $("#vclass").val(),
+            Durnation: $("#form-time").val(),
+            Distance: $("#form-distance").val(),
+            Tariff: $("#form-tariff").val(),
+            Plaza: $("#form-plaza").html(),
+            Directions: $("#form-directions").html(),
 			Lon : myLong,
             Lat: myLat,
             Location: $("#tripCoords").html(),
@@ -327,7 +335,8 @@ function getNearby(){
 			
 			$('#list-save-location').append("<li><span onClick='detailListMyLocation("+i+")'><strong>"+cli.Title+"</strong><p>"+date.toLocaleString()+"</p></span><a onClick='deleteMyLocation("+i+");' class='button-negative'>Delete</a></li>");
 
-		}
+        }
+       
 	}
 
 	function detailListMyLocation(selected_index){
@@ -347,7 +356,12 @@ function getNearby(){
 		$("#date-save-location").html(date);
 		$("#title-save-location").html(cli.Title);
 		$("#address-save-location").html(cli.Location);
-		$("#desc-save-location").html(cli.Desc);
+        $("#desc-save-location").html(cli.Desc);
+        $("#duration-save-location").html(cli.Durnation);
+        $("#distance-save-location").html(cli.Distance);
+        $("#tariff-save-location").html(cli.Tariff);
+        $("#plaza-save-location").html(cli.Plaza);
+        $("#directions-save-location").html(cli.Directions);        
 		$("#button-save-location").html('<a onClick="getMyLocationMap('+cli.Lon+','+cli.Lat+')" class="button-positive button-block" href="#page_location_map">Map View</a>');
 	}
 	
@@ -420,4 +434,89 @@ function getNearby(){
 		setTimeout('init("false","","true")',2500);
 		//streetPlace = new google.maps.LatLng(lat, lon);
 	
-	}
+    }
+
+// test-json.js ALL
+    var nowApp = Math.round(new Date().getTime() / 1000); // Get timestamp
+
+    var selected_index_app = -1; //Index of the selected list item
+
+    //var tbSaveLocation = localStorage.getItem("tbSaveLocation");//Retrieve the stored data
+    var tbSaveApplication = localStorage.getItem("tbSaveApplication");//Retrieve the stored data
+   
+    //tbSaveLocation = JSON.parse(tbSaveLocation); //Converts string to object
+    tbSaveApplication = JSON.parse(tbSaveApplication); //Converts string to object
+
+    if (tbSaveApplication == null) //If there is no data, initialize an empty array
+        tbSaveApplication = [];
+       
+    
+
+    function addMyApplication() {
+        var clientApp = JSON.stringify({
+            Titlea: $("#form-title-app").val(),
+            Desca: $("#form-desc-app").val(),
+            Lona: myLong,
+            Lata: myLat,
+            Locationa: $("#tripCoords-app").html(),
+            Dates: nowApp
+        });
+
+        tbSaveApplication.push(clientApp);
+        localStorage.setItem("tbSaveApplication", JSON.stringify(tbSaveApplication));
+        
+        $('#topHead').html("Saved..");
+        return true;
+    }
+
+
+    //function listMyLocation(){
+    function listMyApplication() {
+        //$('#list-save-location').empty();
+        $('#list-save-application').empty();
+       // $('.loading').hide();
+        $('#tripCoords-app').html("Near : " + "aadd");
+        for (var iapp in tbSaveApplication) {
+            var cda = JSON.parse(tbSaveApplication[iapp]);
+
+            var date = new Date(cda.Dates * 1000);
+
+            $('#list-save-application').append("<li><span onClick='detailListMyApplications(" + iapp + ")'><strong>" + cda.Titlea + "</strong><p>" + date.toLocaleString() + "</p></span><a onClick='deleteMyApplication(" + iapp + ");' class='button-negative'>Delete</a></li>");
+
+        }
+        
+    }
+
+
+    //function detailListMyLocation(selected_index){
+    function detailListMyApplications(selected_index_app) {
+        //window.location.href = "#page_detail_save_location";
+        window.location.href = "#page_detail_save_application";
+
+        //var cli 	= JSON.parse(tbSaveLocation[selected_index]);
+        var cda = JSON.parse(tbSaveApplication[selected_index_app]);
+        var date = new Date(cda.Dates * 1000);
+        var pw = $(window).width();
+
+        $("#page_detail_save_application .slider ul").empty();
+        //$("#page_detail_save_location .slider ul").append('<li><img src="http://maps.googleapis.com/maps/api/staticmap?center='+cda.Lat+','+cda.Lon+'&markers=color:blue|label:S|'+cda.Lat+','+cda.Lon+'&zoom=15&size='+pw+'x220&sensor=false"></li>');
+        //$("#page_detail_save_location .slider ul").append('<li><img src="http://maps.googleapis.com/maps/api/streetview?size=' + pw + 'x230&location=' + myLat + ',' + myLong + '&fov=90&heading=235&pitch=10&sensor=false"></li>');
+        // $("#page_detail_save_location .slider ul").append('<li><img src="http://maps.googleapis.com/maps/api/staticmap?center=-26.0442972,27.9904109&markers=color:blue|label:S|-26.0442972,27.9904109&zoom=15&size=420x220&sensor=false"></li>');
+        // $("#page_detail_save_location .slider ul").append('<li><img src="http://maps.googleapis.com/maps/api/staticmap?center=-26.0442972,27.9904109&markers=color:blue|label:S|-26.0442972,27.9904109&zoom=15&size=420x220&sensor=false"></li>');
+       // var cleandate = date.replace("(South Africa Standard Time)", "");
+        $("#date-save-application").html(date);
+        $("#title-save-application").html(cda.Titlea);
+        $("#address-save-application").html(cda.Locationa);
+        $("#desc-save-application").html(cda.Desca);
+        // $("#button-save-application").html('<a onClick="getMyLocationMap(' + cda.Lon + ',' + cda.Lat + ')" class="button-positive button-block" href="#page_location_map">Map View app</a>');
+        $("#button-save-application").html('<a onClick="getMyLocationMap(' + cda.Lona + ',' + cda.Lata + ')" class="button-positive button-block" href="#page_location_map">Send Application</a>');
+    }
+
+    function deleteMyApplication(selected_index_app) {
+        if (confirm('Are you sure you want to remove application?')) {
+            tbSaveApplication.splice(selected_index_app, 1);
+            localStorage.setItem("tbSaveApplication", JSON.stringify(tbSaveApplication));
+            
+            listMyApplication();
+        }
+    }

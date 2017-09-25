@@ -18,22 +18,23 @@
 
     <link href="../css/icomoon.css" rel="stylesheet" />
     <style type="text/css">
-     
+
     </style>
-     <script>
-    $(document).ready(function () {
-           
-       var chkAth = localStorage.getItem("Authcheck");
-        if(chkAth === 0){ window.location = "login.html";
-            
-        }else{ 
-          var usrn = localStorage.getItem("myUserName");
-            window.parent.document.getElementById('topHead').innerHTML = usrn;
-            //window.location = "myaccount.html";
-            
-        }
-                
-   </script> 
+    <script>
+        $(document).ready(function () {
+
+            var chkAth = localStorage.getItem("Authcheck");
+            if (chkAth === 0) {
+            window.location = "login.html";
+
+            } else {
+                var usrn = localStorage.getItem("myUserName");
+                window.parent.document.getElementById('topHead').innerHTML = usrn;
+                //window.location = "myaccount.html";
+
+            }
+
+    </script>
 </head>
 <body>
 
@@ -87,6 +88,6 @@
             </ul>
         </div>
     </div>
-    
+
 </body>
 </html>

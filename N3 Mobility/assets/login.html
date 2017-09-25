@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -49,48 +49,55 @@
         $(document).ready(function () {
 
             var userName = localStorage.getItem("myUserName");
-            var passWrd = localStorage.getItem("password"); 
+            var passWrd = localStorage.getItem("password");
            // var UID = localStorage.getItem("myUserID");
-
+         //window.parent.document.getElementById("remember").checked = localStorage.RememberMe;
             document.getElementById("usrnme").value = userName;
             document.getElementById("passwrd").value = passWrd;
-            
+
         });
-        </script>
+    </script>
 
-</head >
-            <body>
+</head>
+<body>
 
-                <div id="page_login" data-role="page" data-title="Page Login" class="ui-page ui-page-active" style="z-index: 6; top: 0px;">
-                    <div class="wrapper">
+    <div id="page_login" data-role="page" data-title="Page Login" class="ui-page ui-page-active" style="z-index: 6; top: 0px;">
+        <div class="wrapper">
 
-                        <ul class="list">
-                            <li>
-                                <a id="" transition="side" href="register.html" onclick="openPageAcc(this.href)">
-                                    <div class="fs1" aria-hidden="true" data-icon="&#x62;"></div>
-                                    <strong>Register</strong>
-                                    <span class=""></span>
-                                </a>
-                            </li>
+            <ul class="list">
+                <li>
+                    <a id="" transition="side" href="register.html" onclick="openPageAcc(this.href)">
+                        <div class="fs1" aria-hidden="true" data-icon="&#x62;"></div>
+                        <strong>Register</strong>
+                        <span class=""></span>
+                    </a>
+                </li>
 
-                        </ul>
-                        <iframe frameborder="0" id="simple" scrolling="no" height="0" style=" width:5%;" src=""></iframe>
+            </ul>
+            <iframe frameborder="0" id="simple" scrolling="no" height="0" style=" width:5%;" src=""></iframe>
 
-                        <div id="" class="loginDiv" style="">
-                            <h2 class="fs-title">Login</h2>
-                            <input type="hidden" id="testP" name="testP" value="" /><br />
-                            <input type="text" id="usrnme" name="usrnme" placeholder="Username" onclick="setFrm()" /><br />
-                            <input type="password" name="passwrd" id="passwrd" placeholder="Password" /><br /><br />
-                            <input type="checkbox" id="remember" checked="checked" />
-                            <input type="button" value="Login" class="loginBtn" id="loginsub" onclick="auth()" />
+            <div id="" class="loginDiv" style="">
+                <h2 class="fs-title">Login</h2>
+                <input type="hidden" id="testP" name="testP" value="" /><br />
+                <input type="text" id="usrnme" name="usrnme" placeholder="Username" onblur="setFrm()" /><br />
+                <input type="password" name="passwrd" id="passwrd" placeholder="Password" /><br /><br />
+                <label>Remember me</label>
+                <input type="checkbox" id="remember" onchange="setRemember()" />
+                <input type="button" value="Login" class="loginBtn" id="loginsub" onclick="auth()" />
 
 
-                        </div>
+            </div>
 
-                    </div>
-                </div>
-                <script>
-                    function setFrm() {
+        </div>
+    </div>
+    <script>
+
+        function setRemember(){
+            var isChecked = document.getElementById("remember").checked;
+            localStorage.setItem("RememberMe", isChecked);
+        }
+
+        function setFrm() {
             if (document.getElementById('simple').src !== "simpleget.html") {
                         document.getElementById('simple').src = "simpleget.html";
                     }
