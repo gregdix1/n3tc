@@ -126,7 +126,8 @@
                 valid = validateContact();
                 if (valid) {
                     $.ajax({
-                        url: "https://mobiapps.n3tc.co.za/data/application_mail.php",
+                        //url: "https://mobiapps.n3tc.co.za/data/application_mail.php",
+                        url: "https://biz-park.co.za/dev/n3/mail/application_mail.php",
                         type: "POST",
                         data: new FormData(this),
                         contentType: false,
