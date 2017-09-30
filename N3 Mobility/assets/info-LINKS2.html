@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" src="js/myacc.js"></script>
+    <!-- Include the base Snap.js CSS -->
+    <link rel="stylesheet" href="css/snap.css">
+
+    <!-- Include the compiled Ratchet CSS -->
+    <link rel="stylesheet" href="css/ratchet.css">
+
+    <!-- Include the app CSS -->
+    <link rel="stylesheet" href="css/app.css">
+
+    <link rel="stylesheet" type="text/css" href="css/transition.min.css" />
+
+    <link href="../css/icomoon.css" rel="stylesheet" />
+    <style type="text/css">
+    </style>
+   <!--  <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>-->
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var usrID = '';
+        $(document).ready(function (e) {
+            getSavedApps();
+              $("#write-json").on('submit', (function (e) {
+                  e.preventDefault();
+                 // $('#loader-icon').show();
+                 // var valid;
+                //  valid = validateContact();
+                 // if (valid) {
+                      $.ajax({
+                        //  url: "h ttps://biz-park.co.za/n3/data/jsonToFile.php",
+                          url: "http://localhost/n3mobility/gitN3/n3tc-master/N3%20Mobility/assets/jsonToFile.php",
+                          type: "POST",
+                          data: new FormData(this),
+                          contentType: false,
+                          cache: false,
+                          processData: false,
+                          success: function (data) {
+                              $("#update-status").html(data);
+                             // $('#loader-icon').hide();
+                          },
+                          error: function () { }
+
+                      });
+                //  }
+              }));
+
+              usrID = localStorage.getItem("myUserID");
+              document.getElementById("UserID").value = usrID;
+          });
+    </script>
+</head>
+<body>
+
+    <div id="page_info" data-role="page" data-title="Page Info" class="ui-page ui-page-active" style="z-index: 6; top: 0px;">
+        <div class="bar-standard bar-header-secondary">
+            <input type="search" id="search-list-test" placeholder="Search.." onkeyup="filterListSrch()">
+            <input type="hidden" id="category-id-test">
+        </div>
+        <div class="wrapper" style="height: 631px;">
+            <form>
+                <input type="text" id="form-title-accnum" placeholder="Accnum...">
+                <textarea rows="5" id="form-desc-userid" placeholder="userID..."></textarea>
+                <a id="form-add-app" class="button-positive button-block" href="#page_save_application" onclick="addMyLinkrequest()">Add Link Request</a>
+                <span id="link-request-id" class="count" style="display:block;">Near : aadd</span>
+                <span id="show-link-code" class="count" style="display:block;">Location</span>
+
+            </form>
+
+
+            <ul id="list-cda-application" class="list">
+                <li>
+                    <a id="" transition="side" href="myaccount.html" onclick="openPageAcc(this.href)">
+                        <div class="fs1" aria-hidden="true" data-icon=""></div>
+                        <strong>Back</strong>
+                        <span class=""></span>
+                    </a>
+                </li>
+                <li>
+                    <div id="getSavedApps" onclick="getSavedApps()">Get Saved Apps</div>
+                </li>
+
+            </ul>
+            <ul id="show-data-ul" class="list"></ul>
+
+            <form id="write-json" style="display: block;">
+                <input type="text" name="jsonIn" id="jsonIn" />
+                <input type="text" name="userID" id="userID" />
+                <input type="submit" name="submit" class="" value="Submit" />
+            </form>
+            <div style="text-align:center;" id="update-status">Loading...</div>
+            
+
+        </div>
+    </div>
+
+
+    <script>
+
+        var appList = localStorage.getItem("tbSaveLink");
+        var cleanedArr = appList.replace(/\\/g, '');
+        var cleanedArr2 = cleanedArr.replace(/"{/g, '{');
+        var cleanedArr3 = cleanedArr2.replace(/}",{/g, '}, {');
+        var cleanedArr4 = cleanedArr3.replace(/"]/g, ' ]');
+        appList = JSON.parse(appList);
+        //var jsonStr = JSON.stringify(appList);
+
+    function getSavedApps() {
+        $("#jsonIn").val(cleanedArr4);
+        alert(cleanedArr4);
+        setTimeout(function () {
+            $("#write-json").submit();
+           // getJsonFile();
+           // getJsonJquery();
+            filterList();
+        }, 1000);
+
+        alert(appList);
+        for (var iapp in appList) {
+            var cdaList = JSON.parse(appList[iapp]);
+
+            var date = new Date(cdaList.Dates * 1000);
+
+            $('#list-cda-application').append("<li><span onClick='detailListMyApplications(" + iapp + ")'><strong>" + cdaList.UserID + "</strong><strong>" + cdaList.AccountNumber + "</strong><p>" + date.toLocaleString() + "</p></span><a onClick='deleteMyApplication(" + iapp + ");' class='button-negative'>Delete</a></li>");
+
+          }
+
+        }
+
+       //filter
+        var filterVal = '';
+        function filterListSrch() {
+            filterVal = $("#search-list-test").val();
+            filterList();
+           
+        }
+
+
+
+      
+        ///////test
+
+        function getRequest(url, callback) {
+            $('.loading').show();
+            var request;
+            if (window.XMLHttpRequest) {
+                request = new XMLHttpRequest(); // IE7+, Firefox, Chrome, Opera, Safari
+            } else {
+                request = new ActiveXObject("Microsoft.XMLHTTP"); // IE6, IE5
+            }
+            request.onreadystatechange = function () {
+                if (request.readyState == 4 && request.status == 200) {
+                    callback(request);
+                    $('.loading').hide();
+                }
+            }
+            request.open("GET", url, true);
+            request.send();
+        }
+
+
+        var filter = '';
+        // Get  list
+       function filterList() {
+            $('#show-data-ul').empty();
+           // $('#search-list-test').val('');
+           // $('#search-list-test').empty();
+           // $('#category-id').val(categoryId);
+           //filter = $('#search-list-test').val();
+            filter = filterVal;
+           // var url = 'h ttps://biz-park.co.za/n3/data/test_apps.json';
+           //linkacc_gregdix_3979.json
+           // var url = 'h ttp://localhost/n3mobility/gitN3/n3tc-master/N3%20Mobility/assets/test_apps.json';
+            var urlPre = 'https://biz-park.co.za/n3/'
+            var url = urlPre + "linkacc_" + "gregdix_3979" + ".json";
+            getRequest(url, function (data) {
+                var data = JSON.parse(data.responseText);
+                for (var i = 0; i < data.length; i++) {
+
+                    var str = data[i]['UserID'];
+                   // alert(str);
+                    var n = str.includes(filter);
+                    if (n === true) {
+
+                        $("#show-data-ul").append("<li onClick='detailShowLocation(" + data[i]['UserID'] + ")'><a transition='side' href='#page_show_location'><strong>" + data[i]['Name'] + "</strong><p>" + data[i]['Name'] + "</p><p>" + data[i]['Surname'] + "</p><p>" + data[i]['AccountNumber'] + "</p><span class='chevron'></span></a></li>");
+                    }
+                }
+            });
+        }
+
+
+
+
+        // extracted from maps-gbd.js
+
+        // test-json.js ALL
+        var nowApp = Math.round(new Date().getTime() / 1000); // Get timestamp
+
+        var selected_index_app = -1; //Index of the selected list item
+
+        var tbSaveLink = localStorage.getItem("tbSaveLink");//Retrieve the stored data
+
+        tbSaveLink = JSON.parse(tbSaveLink); //Converts string to object
+
+        if (tbSaveLink == null) //If there is no data, initialize an empty array
+            tbSaveLink = [];
+
+
+        function addMyLinkrequest() {
+            var clientLink = JSON.stringify({
+                Titlea: $("#form-title-accnum").val(),
+                Desca: $("#form-desc-userid").val(),
+               // Lona: myLong,
+               // Lata: myLat,
+                Locationa: $("#link-request-id").html(),
+                Dates: nowApp
+            });
+
+            tbSaveLink.push(clientLink);
+            localStorage.setItem("tbSaveLink", JSON.stringify(tbSaveLink));
+
+           // $('#topHead').html("Saved..");
+            return true;
+        }
+
+    </script>
+</body>
+</html>

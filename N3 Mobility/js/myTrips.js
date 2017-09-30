@@ -70,11 +70,12 @@ function flyN3X() {
 function resetTripStatic() {
     routepoint = 1;
     document.getElementById("tips").innerHTML = 'Enter Start Location';
-    document.getElementById('form-tariff').innerHTML = 'Total Fee: R ';
+    document.getElementById('form-tariff').innerHTML = '';
     document.getElementById('form-plaza').innerHTML = '';
-    document.getElementById("form-distance").innerHTML = 'Distance: ';
-    document.getElementById("form-time").innerHTML = 'Time: ';
+    document.getElementById("form-distance").innerHTML = '';
+    document.getElementById("form-time").innerHTML = '';
     $("#instructions").addClass("insHide");
+    $("#instructions").html('');
     $("#vclass").prop("selectedIndex", 0);
 
    // map.removeLayer('start1');   
@@ -156,24 +157,24 @@ function callTollTriff() {
     if (startLat > endLat) {
        // alert("Bearing south");
         if (plaza1 < startLat && plaza1 > endLat) {
-            PlazaName = "<br /><div class='titlebox'>T " + "Dehoek Mainline</div>";
+            PlazaName = "<br /><div class='titlebox'>  Plaza: " + "Dehoek Mainline"  + " R " + DeHoekM + "</div>";
             TollCount = TollCount + DeHoekM;
         }
-        if (plaza2 < startLat && plaza2 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Wilge Mainline</div>"; TollCount = TollCount + WilgeM; }
-        if (plaza3 < startLat && plaza3 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Tugela Mainline</div>"; TollCount = TollCount + TugelaM; }
-        if (plaza4 < startLat && plaza4 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Bergville Ramp</div>"; TollCount = TollCount + BergvilleR; }
-        if (plaza5 < startLat && plaza5 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Mooi Mainline</div>"; TollCount = TollCount + MooiM; }
-        if (plaza6 < startLat && plaza6 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Mariannhill Mainline</div>"; TollCount = TollCount + MarianM; }
+        if (plaza2 < startLat && plaza2 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>  Plaza: " + "Wilge Mainline" + " R " + WilgeM + "</div>"; TollCount = TollCount + WilgeM; }
+        if (plaza3 < startLat && plaza3 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>  Plaza: " + "Tugela Mainline" + " R " + TugelaM + "</div>"; TollCount = TollCount + TugelaM; }
+        if (plaza4 < startLat && plaza4 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>  Plaza: " + "Bergville Ramp" + " R " + BergvilleR + "</div>"; TollCount = TollCount + BergvilleR; }
+        if (plaza5 < startLat && plaza5 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>  Plaza: " + "Mooi Mainline" + " R " + MooiM + "</div>"; TollCount = TollCount + MooiM; }
+        if (plaza6 < startLat && plaza6 > endLat) { PlazaName = PlazaName + "<div class='titlebox'>  Plaza: " + "Mariannhill Mainline" + " R " + MarianM + "</div>"; TollCount = TollCount + MarianM; }
 
 
     } else {
         // alert("Bearing north");
-        if (plaza6 < endLat && plaza6 > startLat) { PlazaName = "<br/><div class='titlebox'>T " + "Mariannhill Mainline</div>"; TollCount = TollCount + MarianM; }
-        if (plaza5 < endLat && plaza5 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Mooi Mainline</div>"; TollCount = TollCount + MooiM; }
-        if (plaza4 < endLat && plaza4 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Bergville Ramp</div>"; TollCount = TollCount + BergvilleR; }
-        if (plaza3 < endLat && plaza3 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Tugela Mainline</div>"; TollCount = TollCount + TugelaM; }
-        if (plaza2 < endLat && plaza2 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Wilge Mainline</div>"; TollCount = TollCount + WilgeM; }
-        if (plaza1 < endLat && plaza1 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>T " + "Dehoek Mainline</div>"; TollCount = TollCount + DeHoekM; }
+        if (plaza6 < endLat && plaza6 > startLat) { PlazaName = "<br/><div class='titlebox'>  Plaza: " + "Mariannhill Mainline" + " R " + MarianM + "</div>"; TollCount = TollCount + MarianM; }
+        if (plaza5 < endLat && plaza5 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>  Plaza: " + "Mooi Mainline" + " R " + MMooiMarianM + "</div>"; TollCount = TollCount + MooiM; }
+        if (plaza4 < endLat && plaza4 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>  Plaza: " + "Bergville Ramp" + " R " + BergvilleR + "</div>"; TollCount = TollCount + BergvilleR; }
+        if (plaza3 < endLat && plaza3 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>  Plaza: " + "Tugela Mainline" + " R " + TugelaM + "</div>"; TollCount = TollCount + TugelaM; }
+        if (plaza2 < endLat && plaza2 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>  Plaza: " + "Wilge Mainline" + " R " + WilgeM + "</div>"; TollCount = TollCount + WilgeM; }
+        if (plaza1 < endLat && plaza1 > startLat) { PlazaName = PlazaName + "<div class='titlebox'>  Plaza: " + "Dehoek Mainline" + " R " + DeHoekM + "</div>"; TollCount = TollCount + DeHoekM; }
     }
 
     //[29.56157, -28.4625] [29.993112, -29.193292]
@@ -316,6 +317,7 @@ function getDirections() {
 
         //document.getElementById("holder").innerHTML = testV;
         document.getElementById('form-distance').value += routeDist;
+        routeDurantion = routeDurantion.replace(".", "h");
         document.getElementById('form-time').value += routeDurantion;
         var instructions = document.getElementById('form-directions');
         var steps = data.routes[0].legs[0].steps;

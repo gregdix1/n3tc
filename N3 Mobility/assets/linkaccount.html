@@ -30,7 +30,7 @@
 
     <script type="text/javascript">
         $(document).ready(function (e) {
-           // populateProfileForm();
+            // populateProfileForm();
 
             $("#msform").on('submit', (function (e) {
                 e.preventDefault();
@@ -39,7 +39,7 @@
                 valid = validateContact();
                 if (valid) {
                     $.ajax({
-                        url: "https://mobiapps.n3tc.co.za/data/mail_handler_linkacc.php",
+                        url: "https://mobiapps.n3tc.co.za/data/linkvehicleid_mail.php",
                         type: "POST",
                         data: new FormData(this),
                         contentType: false,
@@ -94,30 +94,33 @@
 
                 <fieldset>
 
-                    <h2 class="fs-title">Account Details</h2>
-                    <h3 class="fs-subtitle">Link the N3TC Acount to the following User</h3>
-                    <span id="fname-info" class="info"></span><br />
-                    <input type="text" id="fname" name="fname" placeholder="First Name" style="margin-bottom: -3px;" required onblur="" />
-                    <span id="lname-info" class="info"></span>
-                    <input type="text" id="lname" name="lname" placeholder="Last Name" required />
-                    <input type="text" name="userEmail" id="userEmail" placeholder="Email" required autocomplete="off" />
-                    <input type="text" id="UserID" name="UserID" value="testuserID" required />
-                    <input type="text" id="UserName" name="UserName" value="testusername" required />
+                    <h2 class="fs-title">N3TC Account Number</h2>
+                    <h3 class="fs-subtitle">Enter the N3TC Account Number</h3>
+                    <span id="userEmail-info" class="info"></span><br />
+                    <input type="text" name="n3accnumber" id="n3accnumber" placeholder="N3TC Account number" required autocomplete="off" onblur="" />
+                    
 
                     <!-- <select name="apptype" class="selectType" size="1" id="apptype">
                          <option value="Individual">Individual</option>
                          <option value="Business">Business</option>
                      </select>-->
-                    <input type="button" name="previous" class="previous action-button" value="Cancel" />
-                    <input type="button" id="next2" name="next" class="next action-button" value="Yes" />
+                    <input type="button" name="cancel" class="action-button" value="Cancel" onclick="mainMenu()" />
+                    <input type="button" id="next2" name="next" class="next action-button" value="Yes" onclick="populateUserDetails()" />
                 </fieldset>
                 <fieldset>
-                    <h2 class="fs-title">N3TC Account Number</h2>
-                    <h3 class="fs-subtitle">Enter the N3TC Account Number</h3>
-                    <span id="userEmail-info" class="info"></span><br />
-                    <input type="text" name="n3accnumber" id="n3accnumber" placeholder="N3TC Account number" required autocomplete="off" onblur="" />
+                    <h2 class="fs-title">Account Details</h2>
+                    <h3 class="fs-subtitle">Link the N3TC Acount to the following User</h3>
+                    <span id="fname-info" class="info"></span><br />
+                    <input type="text" id="fname" name="fname" placeholder="First Name" style="margin-bottom: -3px;" readonly required onblur="" />
+                    <span id="lname-info" class="info"></span>
+                    <input type="text" id="lname" name="lname" placeholder="Last Name" readonly />
+                    <input type="text" name="userEmail" id="userEmail" placeholder="Email" readonly />
+                    <input type="hidden" id="UserID" name="UserID" value="" readonly />
+                    <input type="hidden" id="UserName" name="UserName" value="" readonly />
+
                     <input type="button" name="previous" class="previous action-button" value="Previous" />
                     <input type="button" id="next1" name="next" class="next action-button" value="Next" />
+
                 </fieldset>
 
                 <fieldset>
@@ -126,7 +129,7 @@
                     <h3 class="fs-subtitle" style="line-height: 16pt;border: 1px solid #e0d9d9;padding: 15px;border-radius: 1px;background-color: rgba(204, 204, 204, 0.09);"><br /> Please read the following information pertaining to account linking.<br /><br /> Your request will be processed and a confirmation email will been sent to the account holders email address confirming the link activation. <br /><br />Please check your inbox for confirmation.<br /><br />By clicking the submit button below you confirm that the provided details are correct to the best of your knowledge.</h3>
 
                     <input type="button" name="previous" class="previous action-button" value="Previous" />
-                    <input type="submit" name="submit" class="submit action-button" value="Submit" />
+                    <input type="submit" name="submit" class="submit action-button" value="Submit" onclick="menuSHow()" />
                 </fieldset>
                 <div id="mail-status">.</div>
             </form>
@@ -138,15 +141,38 @@
         </div>
     </div>
     <script>
-        function menuSHow(){
-             // redirect to myacc after 5 seconds
+        function menuSHow() {
+            // redirect to myacc after 5 seconds
             setTimeout(function () {
                 if (document.getElementById("mail-status").innerHTML !== '.') {
                     window.location = 'myaccount.html';
                 } else { }
-                
+
             }, 6000);
         }
+
+        function mainMenu() {
+            window.location = 'myaccount.html';
+        }
+
+        function populateUserDetails() {
+           
+           var usrNme = localStorage.getItem("myUserName");
+           var usrMail = localStorage.getItem("myEmail");
+           var usrPass = localStorage.getItem("myPassword");
+           var usrID = localStorage.getItem("myUserID");
+           var Namef = localStorage.getItem("myName");
+           var Names = localStorage.getItem("mySname");
+
+           document.getElementById("UserName").value = usrNme;
+           document.getElementById("userEmail").value = usrMail;
+           document.getElementById("UserID").value = usrID;
+           document.getElementById("fname").value = Namef;
+           document.getElementById("lname").value = Names;
+           
+        }
+
     </script>
+
 </body>
 </html>

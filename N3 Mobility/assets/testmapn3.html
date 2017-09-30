@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset='utf-8' />
@@ -253,12 +253,17 @@
 
 
     <script>
+        var boundsM = [
+            [22.671552, -32.347247], // Southwest coordinates
+            [32.546862, -25.138089]  // Northeast coordinates
+        ];
         mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
         var map = new mapboxgl.Map({
             container: 'map', // container id
             style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
             center: [29.3188754, -28.7786563], // starting position [lng, lat]
-            zoom: 6 // starting zoom
+            zoom: 6, // starting zoom
+            maxBounds: boundsM // Sets bounds as max
         });
 
         ///geocoder

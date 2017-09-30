@@ -63,7 +63,7 @@
 </head>
 <body>
 
-    <div id="page_inbox" data-role="page" data-title="Page Inbox" class="ui-page ui-page-active" style="z-index: 6; top: 0px;">
+    <div id="page_profile" data-role="page" data-title="Page Inbox" class="ui-page ui-page-active" style="z-index: 6; top: 0px;">
         <div class="wrapper" style="height: 631px;">
             <ul class="list">
                 <li style="background-color: #15a1e0;color: #fff;">
@@ -92,11 +92,12 @@
                     <div class="topSpacer"></div>
                     <h2 class="fs-title">Profile</h2>
                     <p>Update your profile details</p>
-                    <input type="text" name="FullName" id="FullName" placeholder="Name and Surname" class="demoInputBox" value="">
-                    <input type="hidden" name="UserID" id="UserID" class="demoInputBox" value="">
-                    <input type="hidden" name="UserName" id="UserName" class="demoInputBox" value="">
-                    <input type="text" name="CompanyName" id="CompanyName" placeholder="Company Name.." class="demoInputBox">
-                    <input type="text" name="CompanyReg" id="CompanyReg" placeholder="Company Reg No.." class="demoInputBox">
+                    <input type="text" name="FullName" id="FullName" placeholder="Name and Surname" value="">
+                    <input type="hidden" name="UserID" id="UserID" value="">
+                    <input type="hidden" name="UserName" id="UserName" value="">
+                    <label onclick="populateProfileDetails()">Company Name</label>
+                    <input type="text" name="CompanyName" id="CompanyName" placeholder="Company Name..">
+                    <input type="text" name="CompanyReg" id="CompanyReg" placeholder="Company Reg No..">
                     <!--<select name="idtype" size="1" id="idtype" onchange="">
                         <option value="Select">Select ID Type</option>
                         <option value="SA Identity">SA Identity</option>
@@ -104,14 +105,14 @@
                         <option value="NON Passport">NON Passport</option>
                     </select>-->
                     <input type="text" name="IdentityNo" data-validation="length alphanumeric" data-validation-length="min12" id="IdentityNo" placeholder="Identity Number" class="demoInputBox error" style="border-color: rgb(185, 74, 72);">
-                    <input type="text" name="userEmail" id="userEmail" data-validation="email" placeholder="Email" class="demoInputBox" value="" />
-                    <input type="text" name="HomeTel" id="HomeTel" placeholder="Contact Home" class="demoInputBox" value="" />
-                    <input type="text" name="WorkTel" data-validation="length alphanumeric" data-validation-length="min10" id="WorkTel" placeholder="Contact Work" class="demoInputBox" />
-                    <input type="text" name="Cell" id="Cell" data-validation="length alphanumeric" data-validation-length="min11" class="demoInputBox" value="27" />
-                    <input type="text" name="Fax" id="Fax" placeholder="Contact Fax" class="demoInputBox" />
-                    <textarea name="Phyadd" id="Phyadd" class="demoInputBox" placeholder="Physical Address.." cols="60" rows="3"></textarea>
-                    <textarea name="Postal" id="Postal" class="demoInputBox" placeholder="Postal Address.." cols="60" rows="3"></textarea>
-                    <input type="text" name="District" id="District" placeholder="Magisterial District" class="demoInputBox" value="" />
+                    <input type="text" name="userEmail" id="userEmail" data-validation="email" placeholder="Email" value="" />
+                    <input type="text" name="HomeTel" id="HomeTel" placeholder="Contact Home" value="" />
+                    <input type="text" name="WorkTel" data-validation="length alphanumeric" data-validation-length="min10" id="WorkTel" placeholder="Contact Work" />
+                    <input type="text" name="Cell" id="Cell" data-validation="length alphanumeric" data-validation-length="min11" value="+27" />
+                    <input type="text" name="Fax" id="Fax" placeholder="Contact Fax" />
+                    <textarea name="Phyadd" id="Phyadd" placeholder="Physical Address.." cols="60" rows="3"></textarea>
+                    <textarea name="Postal" id="Postal" placeholder="Postal Address.." cols="60" rows="3"></textarea>
+                    <input type="text" name="District" id="District" placeholder="Magisterial District" value="" />
 
                     <input type="button" name="previousX" class="previous action-button" value="Cancel" />
                     <input type="submit" name="submit" class="submit action-button" value="Submit" onclick="updateLocal()" />
@@ -140,6 +141,10 @@
 
             var idNo = document.getElementById("IdentityNo").value;
             localStorage.setItem("IDnumber", idNo);
+            
+            var cell = document.getElementById("Cell").value;
+            localStorage.setItem("Cell", cell);
+
 
             var hTel = document.getElementById("HomeTel").value;
             localStorage.setItem("HomeTel", hTel);
@@ -163,10 +168,51 @@
                 } else { }
 
             }, 5000);
+        }
 
 
 
+        function populateProfileForm() {
+           // alert("pbrfor");
+            // var usrNme = localStorage.getItem("myUserName");
+            var CoName = localStorage.getItem("CompanyName");
+            var CoReg = localStorage.getItem("CompanyReg");
+            var idNo = localStorage.getItem("IDnumber");
+            var hTel = localStorage.getItem("HomeTel");
+            var wTel = localStorage.getItem("WorkTel");
+            var FaxNo = localStorage.getItem("FaxNum");
+            var phyadd = localStorage.getItem("PhysicalAdd");
+            var postalA = localStorage.getItem("PostalAdd");
+            var mag = localStorage.getItem("District");
+            var usrID = localStorage.getItem("myUserID");
+            var cell = localStorage.getItem("Cell");
+
+            var usrMail = localStorage.getItem("myEmail");
+            // var usrPass = localStorage.getItem("myPassword");
+            // var usrID = localStorage.getItem("myUserID");
+            var Namef = localStorage.getItem("myName");
+            var Names = localStorage.getItem("mySname");
+            var fullname = Namef + ' ' + Names
+
+            // document.getElementById("UserName").value = usrNme;
+            document.getElementById("userEmail").value = usrMail;
+            document.getElementById("UserID").value = usrID;
+            document.getElementById("FullName").value = fullname;
+            // document.getElementById("lname").value = Names;
+
+            document.getElementById("CompanyName").value = CoName;
+            document.getElementById("CompanyReg").value = CoReg;
+            document.getElementById("IdentityNo").value = idNo;
+             document.getElementById("Cell").value = cell;
+            document.getElementById("HomeTel").value = hTel;
+            document.getElementById("WorkTel").value = wTel;
+            document.getElementById("Fax").value = FaxNo;
+            document.getElementById("Phyadd").value = phyadd;
+            document.getElementById("Postal").value = postalA;
+            document.getElementById("District").value = mag;
+            //alert("end");
         }
     </script>
 </body>
+
 </html>

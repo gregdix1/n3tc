@@ -340,7 +340,7 @@ function getNearby(){
 	}
 
 	function detailListMyLocation(selected_index){
-		
+        myLoc();
 		window.location.href = "#page_detail_save_location";
 		
 		var cli 	= JSON.parse(tbSaveLocation[selected_index]);
@@ -362,7 +362,8 @@ function getNearby(){
         $("#tariff-save-location").html(cli.Tariff);
         $("#plaza-save-location").html(cli.Plaza);
         $("#directions-save-location").html(cli.Directions);        
-		$("#button-save-location").html('<a onClick="getMyLocationMap('+cli.Lon+','+cli.Lat+')" class="button-positive button-block" href="#page_location_map">Map View</a>');
+       // $("#button-save-location").html('<a onClick="getMyLocationMap(' + cli.Lon + ',' + cli.Lat + ')" class="button-positive button-block" href="#page_location_map">Map View</a>');
+        $("#button-save-location").html('<a onClick="getMyLocationMap(' + mylon + ',' + mylat + ')" class="button-positive button-block" href="#page_location_map">Map View</a>');
 	}
 	
 	
@@ -417,19 +418,20 @@ function getNearby(){
   
 	}
 	
-	function getMyLocationMap(lon,lat){
-		setTimeout('init("false")',2500);
-		setTimeout('addMarkers('+lon+','+lat+')',2500);
+    function getMyLocationMap(mylon, mylat) {
+        map.flyTo({ center: [mylon, mylat], zoom: 11 });
+		//setTimeout('init("false")',2500);
+		//setTimeout('addMarkers('+lon+','+lat+')',2500);
         window.location.href = "#page_location_map";
 	}
 	
-	function getShowLocation(lon,lat,icon){
+    function getShowLocation(mylon,mylat,icon){
 		window.location.href = "#page_location_map";
 		setTimeout('init("false")',2500);
 		setTimeout('addMarkers('+lon+','+lat+',"'+icon+'")',2500);
 	}
 	
-	function getStreetView(lon,lat){
+    function getStreetView(mylon,mylat){
 		window.location.href = "#page_location_map";
 		setTimeout('init("false","","true")',2500);
 		//streetPlace = new google.maps.LatLng(lat, lon);

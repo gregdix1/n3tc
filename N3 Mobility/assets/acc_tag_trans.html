@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -17,8 +17,10 @@
     <link rel="stylesheet" type="text/css" href="css/transition.min.css" />
 
     <link href="../css/icomoon.css" rel="stylesheet" />
-     <!--  <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>-->
-    <script src="js/jquery.js" type="text/javascript"></script>
+    <style type="text/css">
+    </style>
+     <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <!-- <script src="js/jquery.js" type="text/javascript"></script>-->
     <script type="text/javascript">
          var usrID = '';
         $(document).ready(function (e) {
@@ -32,14 +34,13 @@
 //document.getElementById("UserID").value = usrID;
          });
     </script>
-    
-    <style type="text/css">
 
+    <style type="text/css">
     </style>
 </head>
 <body>
 
-   <div id="page_linked" data-role="page" data-title="Page Linked" class="ui-page ui-page-active" style="z-index: 6; top: 0px;">
+    <div id="page_linked" data-role="page" data-title="Page Linked" class="ui-page ui-page-active" style="z-index: 6; top: 0px;">
         <div class="wrapper" style="height: 631px;">
             <!--<input name="accNum" id="accNum" type="text" value="">
             <input name="itemCount" id="itemCount" type="text" value="">-->
@@ -132,7 +133,7 @@
                         $("#tagList").append("<li onClick='getTransList(" + data[i]['AC_NR'] + ")'><div transition='side' ><strong>" + 'Account Number: ' + data[i]['AC_NR'] + '  ' + ' Tag IDs: ' + data[i]['RI_ID_MASKED'] + "</strong>" + "<span class='chevron'></span></div></li>");
                    }
                 }
-                document.getElementById("ChevitemCount").innerHTML = AccCount;
+                document.getElementById("ChevitemCount").value = AccCount;
             });
         }
 
@@ -173,7 +174,6 @@
         var checkStstus = '';
         function getAccList() {
             usrID = localStorage.getItem("myUserID");
-            document.getElementById("ChevitemCount").innerHTML = 'Loading...';
             //alert('# 2 usid ' + usrID);
             // var accNum = document.getElementById("accNum").value;
            // var accNum = accno;

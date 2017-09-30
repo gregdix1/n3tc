@@ -218,7 +218,7 @@
                 </div>
             
             <!--<input type="button" id="next1" name="next" class="next  action-button-disabled action-button" value="Next" disabled onclick="PopulateCDAX()" />-->
-           
+            <input type="button" name="cancel" class="action-button" value="Cancel" onclick="mainMenu()">
             <input type="button" id="next1" name="next" class="next action-button" value="Next"   />
         </fieldset>
         <fieldset>
@@ -381,7 +381,9 @@
             document.getElementById("appid").value = AppID; 
             document.getElementById("userid").value = usrId; 
         };
-
+function mainMenu(){
+    window.location = 'myaccount.html';
+}
 
     </script>
    

@@ -192,6 +192,7 @@
             width: 38px;
             height: 40px;
         }
+
         .startSelect {
             background-image: url(images/startPin.png);
             background-size: contain;
@@ -199,6 +200,7 @@
             padding-left: 60px;
             font-weight: 700;
         }
+
         .endtSelect {
             background-image: url(images/endPin.png);
             background-size: contain;
@@ -206,9 +208,25 @@
             padding-left: 60px;
             font-weight: 700;
         }
+
         .classSelect {
             background-image: url(images/classPin.png);
-            
+        }
+        .input-bck {
+            background-size: contain !important;
+            background-position: right !important;
+            background-repeat: no-repeat !important;
+        }
+        .input-bck-km {
+            background-image: url(images/bck-kms.png) !important;
+        }
+        .input-bck-time {
+            background-image: url(images/bck-time.png) !important;
+        }
+        .input-bck-rand {
+            background-image: url(images/bck-rand.png) !important;
+            background-position: left !important;
+            padding-left: 60px !important;
         }
     </style>
 
@@ -261,10 +279,10 @@
                             <span aria-hidden="true" class="icon-maps"></span>
                             <a id="location-list" transition="side" href="#page_save_location" onclick="openPage(this.href)">Saved Trips</a>
                         </li>
-                        <li id="li_page_application_list">
+                        <!--<li id="li_page_application_list">
                             <span aria-hidden="true" class="icon-maps"></span>
                             <a id="application-list" transition="side" href="#page_save_application" onclick="openPage(this.href)">Saved Applics.</a>
-                        </li>
+                        </li>-->
                         <li id="li_page_save_location" onclick="" style="display: none;">
                             <span aria-hidden="true" class="icon-bookmarks"></span>
                             <a id="save-location" transition="side" href="#page_add_location" onclick="openPage(this.href)">Add New Trip</a>
@@ -294,7 +312,7 @@
                             <span id="gpsout" style="margin-left: 40px; padding: 10px 8px; font-size: 10px; line-height: 18px;">Get GPS</span>
                         </li>
                         <li id="copy" onclick="flytoZoom()">
-                            MOBILITY v2.1 N3TC &copy; 2017
+                            MOBILITY v2.2 N3TC &copy; 2017
                         </li>
                     </ul>
                 </div>
@@ -343,22 +361,23 @@
                  </div>
              </li> -->
             <li class="list-divider">Maps Layer Setting</li>
+            <li>
+                <div class="fs1" aria-hidden="true" data-icon="&#xf22a;"></div>
+                <a id="dirclink" transition="side" href="#page_location_map_traffic" onclick="openPage(this.href)"></a>
+                Traffic Layer
+                <div class="toggle-box">
+                    <label for="toggle-traffic-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                    <input type="checkbox" value="1" id="toggle-traffic-layer" class="toggle-control" />
+                </div>
+            </li>
             <!-- <li>
-                 <div class="fs1" aria-hidden="true" data-icon="&#xf22a;"></div>
-                 Traffic Layer
-                 <div class="toggle-box">
-                     <label for="toggle-traffic-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                     <input type="checkbox" value="1" id="toggle-traffic-layer" class="toggle-control" />
-                 </div>
-             </li>
-             <li>
-                 <div class="fs1" aria-hidden="true" data-icon="&#xe05b;"></div>
-                 Weather Layer
-                 <div class="toggle-box">
-                     <label for="toggle-weather-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                     <input type="checkbox" value="1" id="toggle-weather-layer" class="toggle-control" />
-                 </div>
-             </li>-->
+                <div class="fs1" aria-hidden="true" data-icon="&#xe05b;"></div>
+                Weather Layer
+                <div class="toggle-box">
+                    <label for="toggle-weather-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                    <input type="checkbox" value="1" id="toggle-weather-layer" class="toggle-control" />
+                </div>
+            </li>-->
             <li>
                 <div class="fs1" aria-hidden="true" data-icon="&#x2b;"></div>
                 <a id="poi2" transition="side" href="#page_poi" onclick="openPage(this.href)"></a>
@@ -487,7 +506,14 @@
             <!-- PAGE CONTACT  -->
             <div id="page_contact" data-role="page" data-title="Page Contact">
                 <div class="wrapper">
-                    <ul id="n3-contact" class="list"><li>[ contact ]</li></ul>
+                    <div style="text-align:center;">
+                        <a href="tel:+0800634357"><strong>Call: 0800 63 4357</strong></a>
+                    </div>
+                    <ul id="n3-contact" class="list">
+                        <li>24/7 Customer Careline: 0800 N3 HELP</li>
+
+                        <li>ROAD SIDE ASSIST</li>
+                    </ul>
                 </div>
             </div>
             <!--END PAGE CONTACT  -->
@@ -566,9 +592,9 @@
             <div id="page_poi" data-role="page" data-title="Page Places">
                 <div class="wrapper">
                     <div id="srch-bar" style="text-align:center;padding-top: 10px;}">
-                        <div class="fs1" aria-hidden="true" data-icon="&#xf472;" style="display: inline-block; margin-right: 20px;font-size: 14pt;" onclick="proxMinus()"></div>
-                        <span><input class="" style="width: 80px;border-radius: 50px; text-align: center; font-weight: 700;background-image: URL(images/km-bck.png);background-size:contain;" type="text" id="kmCounter" value="5" /></span>
-                        <div class="fs1" aria-hidden="true" data-icon="&#xf473;" style="display: inline-block; margin-left: 20px;font-size: 14pt;" onclick="proxPlus()"></div>
+                        <div class="fs1" aria-hidden="true" data-icon="&#xf472;" style="display: inline-block; margin-right: 40px;font-size: 22pt;" onclick="proxMinus()"></div>
+                        <span><div class="" style="width: 50px;border-radius: 0px; text-align: left; font-weight: 700;background-image: URL(images/km-bck-poi.png); background-size:contain; background-repeat: no-repeat;display: inline-block; height: 35px;" id="kmCounter">5</div></span>
+                        <div class="fs1" aria-hidden="true" data-icon="&#xf473;" style="display: inline-block; margin-left: 40px;font-size: 22pt;" onclick="proxPlus()"></div>
                     </div>
                     <ul class="list">
 
@@ -709,7 +735,7 @@
             <!-- END PAGE SAVE LOCATION -->
             <!-- PAGE DETAIL SAVE LOCATION -->
             <div id="page_detail_save_location" data-role="page" data-title="Page Detail Save Location">
-                <div class="wrapper">
+                <div class="wrapper" data-snap-ignore="true">
                     <div class="input-group">
                         <div class="input-row">
                             <label>Date</label>
@@ -730,11 +756,11 @@
                         </div>
                         <!-- NEW -->
                         <div class="input-row">
-                            <label>Duration H</label>
+                            <label>Duration</label>
                             <div id="duration-save-location"></div>
                         </div>
                         <div class="input-row">
-                            <label>Distance  Kms</label>
+                            <label>Distance</label>
                             <div id="distance-save-location"></div>
                         </div>
                         <div class="input-row">
@@ -742,7 +768,7 @@
                             <div id="tariff-save-location"></div>
                         </div>
                         <div class="input-row">
-                            <label>Plaza</label>
+                            <label>Plazas</label>
                             <div id="plaza-save-location"></div>
                         </div>
                         <div class="input-row">
@@ -750,9 +776,9 @@
                             <div id="directions-save-location"></div>
                         </div>
 
-                       </div>
+                    </div>
                     <div class="content-padded">
-                        <div id="button-save-location"></div>
+                        <div id="button-save-locationOUTGBD"></div><!-- MAP VIEW BTN Was Here-->
                         <div id="button-save-location3">
                             <a class="button-positive button-block" href="#page_location_map_trip" onclick="startTrip()">Open Trip</a>
 
@@ -769,7 +795,7 @@
             <!-- PAGE ADD LOCATION -->
             <div id="page_add_location" data-role="page" data-title="Page Save Location">
 
-                <div class="wrapper content-padded">
+                <div class="wrapper content-padded" data-snap-ignore="true">
                     <select name="selectStart" id="selectStart" class="startSelect" onchange="setStart()">
                         <option value="">Select Start Point</option>
                         <option value="28.1837,-25.8621">Centurion</option>
@@ -792,11 +818,12 @@
                         <option value="30.3,-29.55">Hilton</option>
                         <option value="31.0039,-29.9247">Bluff</option>
                         <option value="30.85,-29.8167">Pinetown</option>
-                        <option value="30.3793,-29.6013">Pietermaritzburg</option> 
+                        <option value="30.3793,-29.6013">Pietermaritzburg</option>
                         <option value="30.9938,-29.7789319">Durban</option>
-                        </select>
+                    </select>
 
-                    <select name="selectEnd" id="selectEnd" class="endtSelect" onchange="setEnd()"><!--setEnd()-->
+                    <select name="selectEnd" id="selectEnd" class="endtSelect" onchange="setEnd()">
+                        <!--setEnd()-->
                         <option value="">Select Destination</option>
                         <option value="28.1837,-25.8621">Centurion</option>
                         <option value="28.01447,-26.03133">Johannesburg</option>
@@ -829,36 +856,109 @@
                         <option value="4">4 Heavy Vehicle 5 + axles</option>
                     </select>
 
-                        <form>
-                            <input type="text" id="form-title" style="background-color: #f8f8f8;" placeholder="Trip Locations">
-                            <textarea rows="3" id="form-desc" placeholder="Description"></textarea>
+                    <form>
+                        <input type="text" id="form-title" style="background-color: #f8f8f8;" placeholder="Trip Locations">
+                        <textarea rows="3" id="form-desc" placeholder="Description"></textarea>
+                       
+                        <input type="text" id="form-time" class="input-bck input-bck-time" style=" background-color: #f8f8f8;width: 45%; margin-right: 15px; display: inline-block;" readonly placeholder="" onclick="resetTripStatic()">
+                        <input type="text" id="form-distance" class="input-bck input-bck-km" style="background-color: #f8f8f8;width: 45%; float: right; display: inline-block;" readonly placeholder="">
 
-                            <input type="text" id="form-time" style=" background-color: #f8f8f8;width: 45%; margin-right: 15px; display: inline-block;" placeholder="hh:mm" onclick="resetTripStatic()">
-                            <input type="text" id="form-distance" style="background-color: #f8f8f8;width: 45%; float: right; display: inline-block;" placeholder="   Kms">
-                            <input type="text" id="form-tariff" style="background-color: #f8f8f8;" placeholder="Tariffs">
-                            <!--<input type="text" id="form-plaza" placeholder="Plazas">-->
-                            <div style="overflow: auto; height: 50px;" id="form-plaza"></div>
-                           <!-- <textarea rows="6" style="border: none; box-shadow: none;" id="form-directions" placeholder="Directions"></textarea>-->
-                            <div style="overflow: auto; height: 150px;" id="form-directions"></div>
-                            <a id="form-add" class="button-positive button-block" href="#page_save_location" onclick="openPage(this.href)">Save Trip</a>
-                            <span id="tripCoords" class="count" style="display:none;">x</span>
-                            <span id="show-location-address" class="count" style="display:none;">Location</span>
-                            
-                        </form>
+                        <input type="text" id="form-tariff" class="input-bck input-bck-rand" style="background-color: #f8f8f8;" readonly placeholder="">
+                        <!--<input type="text" id="form-plaza" placeholder="Plazas">-->
+                        <strong>Plazas on Route</strong>
+                        <div style="overflow: visible; margin-bottom: 30px; " id="form-plaza"></div>
+                        <strong>Points of Interest to Include</strong>
+           <!-- POI TOGGLES NESTED START height: 50px;-->
+                        <ul class="list">
+
+        <li>
+            
+            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
+            <strong>Service Stations</strong>
+            <!--<span id="petbtn" class="count" style="margin-right: 100px;">0</span>-->
+
+            <div class="toggle-box">
+                <label for="toggle-petrol" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                <input type="checkbox" value="1" id="toggle-petrol" class="toggle-control" onclick="setPOI(this.id)">
+            </div>
+        </li>
+        <li>
+
+            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/rest150.png);"></div>
+            <strong>Restaurants</strong>
+           <!-- <span id="restbtn" class="count" style="margin-right: 100px;">0</span>-->
+
+            <div class="toggle-box">
+                <label for="toggle-rest" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                <input type="checkbox" value="1" id="toggle-rest" class="toggle-control" onclick="setPOI(this.id)">
+            </div>
+        </li>
+        <li>
+
+            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/events150.png);"></div>
+            <strong>Events</strong>
+           <!-- <span id="evebtn" class="count" style="margin-right: 100px;">0</span>-->
+
+            <div class="toggle-box">
+                <label for="toggle-events" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                <input type="checkbox" value="1" id="toggle-events" class="toggle-control" onclick="setPOI(this.id)">
+            </div>
+        </li>
+        <li>
+
+            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/activity150.png);"></div>
+            <strong>Activities</strong>
+           <!-- <span id="activebtn" class="count" style="margin-right: 100px;">0</span>-->
+
+            <div class="toggle-box">
+                <label for="toggle-activ" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                <input type="checkbox" value="1" id="toggle-activ" class="toggle-control" onclick="setPOI(this.id)">
+            </div>
+        </li>
+        <li>
+
+            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/accomodation150.png);"></div>
+            <strong>Accomodation</strong>
+            <!--<span id="accbtn" class="count" style="margin-right: 100px;">0</span>-->
+            <div class="toggle-box">
+                <label for="toggle-accom" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                <input type="checkbox" value="1" id="toggle-accom" class="toggle-control" onclick="setPOI(this.id)">
+            </div>
+        </li>
+        <li>
+
+            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/retail150.png);"></div>
+            <strong>Retail</strong>
+           <!-- <span id="retbtn" class="count" style="margin-right: 100px;">0</span>-->
+
+            <div class="toggle-box">
+                <label for="toggle-retail" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                <input type="checkbox" value="1" id="toggle-retail" class="toggle-control" onclick="setPOI(this.id)">
+            </div>
+        </li>
+        
+    </ul>
+         <!-- POI TOGGLES NESTED -->
+                        <!-- <textarea rows="6" style="border: none; box-shadow: none;" id="form-directions" placeholder="Directions"></textarea>-->
+                        <strong>Directions</strong>
+                        <div style="overflow: visible; margin-bottom: 30px;" id="form-directions"></div>
+                        <a id="form-add" style="margin-bottom: 30px;" class="button-positive button-block" href="#page_save_location" onclick="openPage(this.href)">Save Trip</a>
+                        <span id="tripCoords" class="count" style="display:none;">x</span>
+                        <span id="show-location-address" class="count" style="display:none;">Location</span>
+
+                    </form>
 
 
-</div>
+                </div>
 
             </div>
             <!-- END PAGE ADD LOCATION -->
-
-
             <!-- PAGE SAVE APPLICATION -->
             <div id="page_save_application" data-role="page" data-title="Page Save Application">
                 <div class="bar-standard bar-header-secondary">
                     <a class="button-block" href="#page_add_application" onclick="openPage(this.href)">Add New Application</a>
                 </div>
-                
+
                 <div class="wrapper-bar">
                     <ul id="list-save-application" class="list"></ul>
                 </div>
@@ -922,8 +1022,6 @@
 
             </div>
             <!-- END PAGE ADD APPLICATION -->
-
-
             <!-- PAGE LOCATION MAP-->
             <div id="page_location_map" data-role="page" data-title="Page Location Map">
                 <div id='mapcont' data-snap-ignore="true"></div>
@@ -935,6 +1033,12 @@
             <!-- PAGE LOCATION MAPTRIP-->
             <div id="page_location_map_trip" data-role="page" data-title="Page Location Map">
                 <iframe frameborder="0" id="frameTrip" scrolling="yes" style=" width:100%;" src="assets/testmapn3.html"></iframe>
+
+            </div>
+            <!-- END PAGE LOCATION MAPTIRP -->
+            <!-- PAGE LOCATION MAPTRIP traffic-day.html info-LINKS-ST.html acc_tag_trans.html-->
+            <div id="page_location_map_traffic" data-role="page" data-title="Page Traffic Map">
+                <iframe frameborder="0" id="frameTraffic" scrolling="yes" height="450" style=" width:100%;" src="assets/traffic-day.html"></iframe>
 
             </div>
             <!-- END PAGE LOCATION MAPTIRP-->
@@ -1105,6 +1209,7 @@
             $("#formFrm").attr("height", frmHeight);
             $("#frameForm").attr("height", sHeight + 50);
             $("#frameTrip").attr("height", frmHeight);
+             $("#frameTraffic").attr("height", frmHeight);
             //alert(sHeight + 'px');
 
         };
@@ -1242,13 +1347,19 @@
             center: [28.961877, -27.890197], // starting position
             zoom: 6 // starting zoom
         });
-
+        // Set bounds to nelspruit and beaufortwest
+        var boundsM = [
+            [22.671552, -32.347247], // Southwest coordinates
+            [30.691572, -25.368595]  // Northeast coordinates
+        ];
         mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
         var map = new mapboxgl.Map({
             container: 'map_canvas', // container id
             style: 'mapbox://styles/mapbox/streets-v9',
             center: [29.217650, -27.713353], // starting position
-            zoom: 6 // starting zoom
+            zoom: 6, // starting zoom
+            maxBounds: boundsM, // Sets bounds as max
+            country: 3166 - 2 //ISO ZAR //en.wikipedia.org/wiki/ISO_3166-2:ZA
         });
 
 
@@ -1568,6 +1679,8 @@
         }
 
         ///poi
+        var mylat;
+        var mylon;
         function myLoc() {
 
 

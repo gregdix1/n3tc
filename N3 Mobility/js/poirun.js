@@ -97,7 +97,7 @@ function runpoi() {
     //document.getElementById("longlatXX").innerHTML = "LAT: " + -26.0484062 + "&nbsp;&nbsp;&nbsp;&nbsp;" + " LNG: " + 28.0262091;
     //Lat: -26.0484062 Lon: 28.0262091
     ///ADD kmCounter to POI page
-    prox = document.getElementById("kmCounter").value;
+    prox = document.getElementById("kmCounter").innerHTML;
 
 
 
@@ -414,19 +414,19 @@ function showOnMap(id) {
 
 // counter km
 function proxMinus() {
-    proxCount = document.getElementById("kmCounter").value;
+    proxCount = document.getElementById("kmCounter").innerHTML;
     if (proxCount <= 5 && proxCount >= 1) { proxCount = proxCount - 1; } else
     { proxCount = proxCount - 5; }
-    document.getElementById("kmCounter").value = proxCount;
+    document.getElementById("kmCounter").innerHTML = proxCount;
     //document.getElementById("as").className = "tophead";
 }
 
 
 function proxPlus() {
-    proxCountup = parseInt(document.getElementById("kmCounter").value);
+    proxCountup = parseInt(document.getElementById("kmCounter").innerHTML);
     if (proxCountup >= 20) { proxCountup = proxCountup + 20; } else
     { proxCountup = proxCountup + 5; }
-    document.getElementById("kmCounter").value = proxCountup;
+    document.getElementById("kmCounter").innerHTML = proxCountup;
 
 
 }

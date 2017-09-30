@@ -88,7 +88,8 @@
                         op += '<p id="' + setLon +',' + setLat + '" class="tweet" onclick="getID(this.id)" >' + strip(tweets[n].innerHTML) + '</p>';  if (printTime) {
                             if (permalinks) { op += '<p class="timePosted"><a href="' + permalinksURL[n] + '">' + times[n].getAttribute('aria-label') + '</a></p>'; } else {
                                 op += '<p class="timePosted">' +
-                                times[n].getAttribute('aria-label') + '</p>';
+                                    times[n].getAttribute('aria-label') + '</p>';
+                                alert('op');
                             }
                         }
                     } else {
@@ -127,7 +128,7 @@ var configCrashUpdate = {
     // "id": '345690956013633536',
     "id": '905548830090911747',
     "domId": 'tweetList',
-    "maxTweets": 20,
+    "maxTweets": 5,
     "enableLinks": false,
     "showUser": true,
     "showTime": true,
@@ -150,7 +151,7 @@ var configN3TollRoute = {
     // "id": '345690956013633536', //@N3TollRoute
     "id": '905553129663602693',
     "domId": 'tweetList',
-    "maxTweets": 10,
+    "maxTweets": 5,
     "enableLinks": true,
     "showUser": true,
     "showTime": true,
@@ -231,7 +232,7 @@ function setTwtcode() {
     var setConfigs = {
         "id": TwtFeed, 
     "domId": 'tweetList',
-     "maxTweets": 10,
+     "maxTweets": 5,
       "enableLinks": true,
           "showUser": true,
            "showTime": true,
@@ -353,4 +354,9 @@ function distCalc() {
    // resultcalc = dist;
 
     //dist calc end ////////////////////////
+}
+
+function iterateTweets() {
+
+
 }
