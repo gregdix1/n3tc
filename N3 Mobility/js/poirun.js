@@ -75,7 +75,7 @@ function errorGettingPosition(err) {
 ///////////START OF POI///////////
 pingImg = "img/pin/events32.png";
 function runpoi() {
-
+    document.getElementById("poiList").innerHTML = '';
     //reset counters
     retailCnt = 0;
     petrolCnt = 0;

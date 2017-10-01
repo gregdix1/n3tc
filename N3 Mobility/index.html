@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,8 +13,6 @@
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
 
-
-
     <!-- Include the base Snap.js CSS -->
     <link rel="stylesheet" href="css/snap.css">
 
@@ -27,7 +25,7 @@
     <link rel="stylesheet" type="text/css" href="css/transition.min.css" />
 
     <link href="css/icomoon.css" rel="stylesheet" />
-
+    
     <script type="text/javascript" src="js/maps-gbd.js"></script>
     <script type="text/javascript" src="js/zepto.min.js"></script>
     <script type="text/javascript" src="js/transition.min.js"></script>
@@ -155,8 +153,8 @@
             background-color: #fff;
             font-size: 12px;
             font-family: sans-serif;
-            border-top: 10px solid #f1f1f1;
-            border-bottom: 10px solid #f1f1f1;
+            border-top: 0px solid #f1f1f1;
+            border-bottom: 0px solid #f1f1f1;
             overflow: scroll;
         }
 
@@ -212,22 +210,76 @@
         .classSelect {
             background-image: url(images/classPin.png);
         }
+
         .input-bck {
             background-size: contain !important;
             background-position: right !important;
             background-repeat: no-repeat !important;
         }
+
         .input-bck-km {
             background-image: url(images/bck-kms.png) !important;
         }
+
         .input-bck-time {
             background-image: url(images/bck-time.png) !important;
         }
+
         .input-bck-rand {
             background-image: url(images/bck-rand.png) !important;
             background-position: left !important;
             padding-left: 60px !important;
         }
+        #chosen {
+            border-radius: 20px;
+            border: 1px solid;
+            width: 45px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            text-align: center;
+            color: #2b84e7;
+            font-weight: bold;
+            font-size: large;
+            margin-left: 40%;
+            margin-bottom: 10px;
+        }
+        #slider {
+            margin-left: 2px;
+        }
+        input[type='range'] {
+            -webkit-appearance: none;
+            padding-left: 2px;
+            padding-right: 2px;
+            -webkit-border-radius: 5px;
+            background-image: -webkit-linear-gradient(top, #2681e6, #2580e6, #60a2ec);
+           
+            width: 65%;
+            height: 10px;
+            margin-bottom: 30px;
+            margin-top:30px;
+        }
+
+        #menu li {
+            border-bottom: 1px solid #242A37;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+            -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+            font-size: 16px;
+            color: #fbfbfb;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, .6);
+            list-style: none;
+            min-height: 43px;
+            line-height: 40px;
+            padding: 3px 0 3px 8px;
+            background-color: #15a2e1;
+        }
+
+       
+       .snap-drawer-left {
+            left: 0;
+            z-index: 1;
+            background-color: #15a2e1;
+        }
+        
     </style>
 
     <script>
@@ -247,6 +299,16 @@
             //  });
 
         });
+
+        function updateSlider(value) {
+            //get the element
+            var display = document.getElementById("chosen");
+            //show the amount
+            display.innerHTML = value;
+            document.getElementById("kmCounter").innerHTML = value;
+            document.getElementById("prox").innerHTML = 'Search ' + value + ' km proximity' ;
+            
+        }
     </script>
 
 </head>
@@ -312,7 +374,7 @@
                             <span id="gpsout" style="margin-left: 40px; padding: 10px 8px; font-size: 10px; line-height: 18px;">Get GPS</span>
                         </li>
                         <li id="copy" onclick="flytoZoom()">
-                            MOBILITY v2.2 N3TC &copy; 2017
+                            MOBILITY v2.3 N3TC &copy; 2017
                         </li>
                     </ul>
                 </div>
@@ -413,9 +475,18 @@
         <!-- HEADER -->
         <header class="bar-title">
             <button class="button icon-list-2 toggle-left"></button>
+            <button class="button icon-reply" onclick="goBack()"></button>
             <h1 id="topHead" class="title">N3 Mobility</h1>
-            <button class="button icon-uniF00F toggle-right" value="off"></button>
+            <button class="button icon-navigation toggle-right" value="off"></button>
+            <!--<button class="button icon-uniF00F toggle-right" value="off"></button>-->
+            
         </header>
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+
         <!-- END HEADER -->
         <!-- CONTENT -->
         <div class="content">
@@ -591,109 +662,118 @@
             <!-- PAGE POI -->
             <div id="page_poi" data-role="page" data-title="Page Places">
                 <div class="wrapper">
-                    <div id="srch-bar" style="text-align:center;padding-top: 10px;}">
+                    <div id="srch-bar" style="text-align:center;padding-top: 10px;" hidden>
                         <div class="fs1" aria-hidden="true" data-icon="&#xf472;" style="display: inline-block; margin-right: 40px;font-size: 22pt;" onclick="proxMinus()"></div>
-                        <span><div class="" style="width: 50px;border-radius: 0px; text-align: left; font-weight: 700;background-image: URL(images/km-bck-poi.png); background-size:contain; background-repeat: no-repeat;display: inline-block; height: 35px;" id="kmCounter">5</div></span>
+                        <div class="" style="width: 50px;border-radius: 0px; text-align: left; font-weight: 700;background-image: URL(images/km-bck-poi.png); background-size:contain; background-repeat: no-repeat;display: inline-block; height: 35px;" id="kmCounter" >5</div>
                         <div class="fs1" aria-hidden="true" data-icon="&#xf473;" style="display: inline-block; margin-left: 40px;font-size: 22pt;" onclick="proxPlus()"></div>
                     </div>
-                    <ul class="list">
-
-                        <li>
-
-                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(images/Toll_pin.png);"></div>
-
-                            <strong>Toll Plaza</strong>
-                            <span id="tourbtn" class="count" style="margin-right: 100px;">0</span>
-
-
-                            <div class="toggle-box">
-                                <label for="toggle-tolls" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                <input type="checkbox" value="1" id="toggle-tolls" class="toggle-control" onclick="setPOI(this.id)">
-                            </div>
-                        </li>
-                        <li>
-
-                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
-                            <strong>Service Stations</strong>
-                            <span id="petbtn" class="count" style="margin-right: 100px;">0</span>
-
-                            <div class="toggle-box">
-                                <label for="toggle-petrol" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                <input type="checkbox" value="1" id="toggle-petrol" class="toggle-control" onclick="setPOI(this.id)">
-                            </div>
-                        </li>
-                        <li>
-
-                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/rest150.png);"></div>
-                            <strong>Restaurants</strong>
-                            <span id="restbtn" class="count" style="margin-right: 100px;">0</span>
-
-                            <div class="toggle-box">
-                                <label for="toggle-rest" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                <input type="checkbox" value="1" id="toggle-rest" class="toggle-control" onclick="setPOI(this.id)">
-                            </div>
-                        </li>
-                        <li>
-
-                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/events150.png);"></div>
-                            <strong>Events</strong>
-                            <span id="evebtn" class="count" style="margin-right: 100px;">0</span>
-
-                            <div class="toggle-box">
-                                <label for="toggle-events" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                <input type="checkbox" value="1" id="toggle-events" class="toggle-control" onclick="setPOI(this.id)">
-                            </div>
-                        </li>
-                        <li>
-
-                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/activity150.png);"></div>
-                            <strong>Activities</strong>
-                            <span id="activebtn" class="count" style="margin-right: 100px;">0</span>
-
-                            <div class="toggle-box">
-                                <label for="toggle-activ" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                <input type="checkbox" value="1" id="toggle-activ" class="toggle-control" onclick="setPOI(this.id)">
-                            </div>
-                        </li>
-                        <li>
-
-                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/accomodation150.png);"></div>
-                            <strong>Accomodation</strong>
-                            <span id="accbtn" class="count" style="margin-right: 100px;">0</span>
-
-                            <div class="toggle-box">
-                                <label for="toggle-accom" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                <input type="checkbox" value="1" id="toggle-accom" class="toggle-control" onclick="setPOI(this.id)">
-                            </div>
-                        </li>
-                        <li>
-
-                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/retail150.png);"></div>
-                            <strong>Retail</strong>
-                            <span id="retbtn" class="count" style="margin-right: 100px;">0</span>
-
-                            <div class="toggle-box">
-                                <label for="toggle-retail" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                <input type="checkbox" value="1" id="toggle-retail" class="toggle-control" onclick="setPOI(this.id)">
-                            </div>
-                        </li>
-                        <li style="padding: 8px;">
-                            <div style="text-align:center;" id="longlatXX">...</div>
-                        </li>
-                        <li onclick="runpoi()">
-                            <!--<a id="srch" transition="side" href="#page_location_map" onclick="runpoi()">-->
-                            <div id="srch" class="fs1" aria-hidden="true" data-icon="&#xf473;"></div>
-                            <strong>Search</strong>
-                            <span class=""></span>
-                            </a>
-                        </li>
-                    </ul>
-
-
-                    <ul id="poiList" class="poilist">
+                    <div id="srch-bar-range" style="text-align:center;padding-top: 10px; border-bottom: 1px solid rgba(0, 0, 0, .1);" data-snap-ignore="true">
+                        <div id="chosen" hidden>5</div>
+                        <div id="slider">
+                            5Km <input id="slide" type="range" min="5" max="100" step="5" value="5" onchange="updateSlider(this.value)" /> 100Km
+                        </div>
+                        </div>
+                    <ul id="poiList" class="poilist" data-snap-ignore="true">
                         <li></li>
                     </ul>
-                </div>
+                        <ul class="list">
+
+                            <li onclick="runpoi()" style="background-color: #15a1e0;color: #fff;">
+                                <!--<a id="srch" transition="side" href="#page_location_map" onclick="runpoi()">-->
+                                <div id="srch" class="fs1" aria-hidden="true" data-icon=""></div><!--&#xf473;-->
+                                <span id="prox"> <strong>Search</strong></span>
+                                    <span class=""></span>
+                                    <!-- </a>-->
+                                  </li>
+
+                            <li>
+
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(images/Toll_pin.png);"></div>
+
+                                <strong>Toll Plaza</strong>
+                                <span id="tourbtn" class="count" style="margin-right: 100px;">0</span>
+
+
+                                <div class="toggle-box">
+                                    <label for="toggle-tolls" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-tolls" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li>
+
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
+                                <strong>Service Stations</strong>
+                                <span id="petbtn" class="count" style="margin-right: 100px;">0</span>
+
+                                <div class="toggle-box">
+                                    <label for="toggle-petrol" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-petrol" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li>
+
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/rest150.png);"></div>
+                                <strong>Restaurants</strong>
+                                <span id="restbtn" class="count" style="margin-right: 100px;">0</span>
+
+                                <div class="toggle-box">
+                                    <label for="toggle-rest" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-rest" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li>
+
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/events150.png);"></div>
+                                <strong>Events</strong>
+                                <span id="evebtn" class="count" style="margin-right: 100px;">0</span>
+
+                                <div class="toggle-box">
+                                    <label for="toggle-events" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-events" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li>
+
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/activity150.png);"></div>
+                                <strong>Activities</strong>
+                                <span id="activebtn" class="count" style="margin-right: 100px;">0</span>
+
+                                <div class="toggle-box">
+                                    <label for="toggle-activ" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-activ" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li>
+
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/accomodation150.png);"></div>
+                                <strong>Accomodation</strong>
+                                <span id="accbtn" class="count" style="margin-right: 100px;">0</span>
+
+                                <div class="toggle-box">
+                                    <label for="toggle-accom" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-accom" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li>
+
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/retail150.png);"></div>
+                                <strong>Retail</strong>
+                                <span id="retbtn" class="count" style="margin-right: 100px;">0</span>
+
+                                <div class="toggle-box">
+                                    <label for="toggle-retail" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-retail" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li style="padding: 8px;">
+                                <div style="text-align:center;" id="longlatXX">...</div>
+                            </li>
+                            
+                        </ul>
+
+
+                        
+                    </div>
             </div>
             <!-- END PAGE MANGE -->
             <!-- PAGE TWITTER -->
@@ -859,7 +939,7 @@
                     <form>
                         <input type="text" id="form-title" style="background-color: #f8f8f8;" placeholder="Trip Locations">
                         <textarea rows="3" id="form-desc" placeholder="Description"></textarea>
-                       
+
                         <input type="text" id="form-time" class="input-bck input-bck-time" style=" background-color: #f8f8f8;width: 45%; margin-right: 15px; display: inline-block;" readonly placeholder="" onclick="resetTripStatic()">
                         <input type="text" id="form-distance" class="input-bck input-bck-km" style="background-color: #f8f8f8;width: 45%; float: right; display: inline-block;" readonly placeholder="">
 
@@ -868,77 +948,77 @@
                         <strong>Plazas on Route</strong>
                         <div style="overflow: visible; margin-bottom: 30px; " id="form-plaza"></div>
                         <strong>Points of Interest to Include</strong>
-           <!-- POI TOGGLES NESTED START height: 50px;-->
+                        <!-- POI TOGGLES NESTED START height: 50px;-->
                         <ul class="list">
 
-        <li>
-            
-            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
-            <strong>Service Stations</strong>
-            <!--<span id="petbtn" class="count" style="margin-right: 100px;">0</span>-->
+                            <li>
 
-            <div class="toggle-box">
-                <label for="toggle-petrol" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                <input type="checkbox" value="1" id="toggle-petrol" class="toggle-control" onclick="setPOI(this.id)">
-            </div>
-        </li>
-        <li>
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
+                                <strong>Service Stations</strong>
+                                <!--<span id="petbtn" class="count" style="margin-right: 100px;">0</span>-->
 
-            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/rest150.png);"></div>
-            <strong>Restaurants</strong>
-           <!-- <span id="restbtn" class="count" style="margin-right: 100px;">0</span>-->
+                                <div class="toggle-box">
+                                    <label for="toggle-petrol" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-petrol" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li>
 
-            <div class="toggle-box">
-                <label for="toggle-rest" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                <input type="checkbox" value="1" id="toggle-rest" class="toggle-control" onclick="setPOI(this.id)">
-            </div>
-        </li>
-        <li>
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/rest150.png);"></div>
+                                <strong>Restaurants</strong>
+                                <!-- <span id="restbtn" class="count" style="margin-right: 100px;">0</span>-->
 
-            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/events150.png);"></div>
-            <strong>Events</strong>
-           <!-- <span id="evebtn" class="count" style="margin-right: 100px;">0</span>-->
+                                <div class="toggle-box">
+                                    <label for="toggle-rest" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-rest" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li>
 
-            <div class="toggle-box">
-                <label for="toggle-events" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                <input type="checkbox" value="1" id="toggle-events" class="toggle-control" onclick="setPOI(this.id)">
-            </div>
-        </li>
-        <li>
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/events150.png);"></div>
+                                <strong>Events</strong>
+                                <!-- <span id="evebtn" class="count" style="margin-right: 100px;">0</span>-->
 
-            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/activity150.png);"></div>
-            <strong>Activities</strong>
-           <!-- <span id="activebtn" class="count" style="margin-right: 100px;">0</span>-->
+                                <div class="toggle-box">
+                                    <label for="toggle-events" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-events" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li>
 
-            <div class="toggle-box">
-                <label for="toggle-activ" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                <input type="checkbox" value="1" id="toggle-activ" class="toggle-control" onclick="setPOI(this.id)">
-            </div>
-        </li>
-        <li>
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/activity150.png);"></div>
+                                <strong>Activities</strong>
+                                <!-- <span id="activebtn" class="count" style="margin-right: 100px;">0</span>-->
 
-            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/accomodation150.png);"></div>
-            <strong>Accomodation</strong>
-            <!--<span id="accbtn" class="count" style="margin-right: 100px;">0</span>-->
-            <div class="toggle-box">
-                <label for="toggle-accom" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                <input type="checkbox" value="1" id="toggle-accom" class="toggle-control" onclick="setPOI(this.id)">
-            </div>
-        </li>
-        <li>
+                                <div class="toggle-box">
+                                    <label for="toggle-activ" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-activ" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li>
 
-            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/retail150.png);"></div>
-            <strong>Retail</strong>
-           <!-- <span id="retbtn" class="count" style="margin-right: 100px;">0</span>-->
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/accomodation150.png);"></div>
+                                <strong>Accomodation</strong>
+                                <!--<span id="accbtn" class="count" style="margin-right: 100px;">0</span>-->
+                                <div class="toggle-box">
+                                    <label for="toggle-accom" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-accom" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+                            <li>
 
-            <div class="toggle-box">
-                <label for="toggle-retail" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                <input type="checkbox" value="1" id="toggle-retail" class="toggle-control" onclick="setPOI(this.id)">
-            </div>
-        </li>
-        
-    </ul>
-         <!-- POI TOGGLES NESTED -->
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/retail150.png);"></div>
+                                <strong>Retail</strong>
+                                <!-- <span id="retbtn" class="count" style="margin-right: 100px;">0</span>-->
+
+                                <div class="toggle-box">
+                                    <label for="toggle-retail" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                    <input type="checkbox" value="1" id="toggle-retail" class="toggle-control" onclick="setPOI(this.id)">
+                                </div>
+                            </li>
+
+                        </ul>
+                        <!-- POI TOGGLES NESTED -->
                         <!-- <textarea rows="6" style="border: none; box-shadow: none;" id="form-directions" placeholder="Directions"></textarea>-->
                         <strong>Directions</strong>
                         <div style="overflow: visible; margin-bottom: 30px;" id="form-directions"></div>
@@ -1114,6 +1194,7 @@
     <script type="text/javascript" src="js/poirun.js"></script>
 
     <script type="text/javascript" src="js/myTrips.js"></script>
+    
 
     <script src="js/twtfetch.js"></script>
 
@@ -1209,7 +1290,7 @@
             $("#formFrm").attr("height", frmHeight);
             $("#frameForm").attr("height", sHeight + 50);
             $("#frameTrip").attr("height", frmHeight);
-             $("#frameTraffic").attr("height", frmHeight);
+            $("#frameTraffic").attr("height", frmHeight);
             //alert(sHeight + 'px');
 
         };
@@ -1479,7 +1560,19 @@
             });
         };
 
-
+        function showMyPosition() {
+            map2.flyTo({
+                center: [mylon, mylat],
+                pitch: 60, // pitch in degrees
+                bearing: -10, // bearing in degrees
+                zoom: 12,
+                speed: 0.8,
+                curve: 1,
+                easing(t) {
+                    return t
+                }
+            });
+        }
 
 
         var url = 'https://wanderdrone.appspot.com/';
@@ -1599,7 +1692,9 @@
         map2.on('load', function () {
 
             //addRouteLocal();
-            setTimeout(function () { addRouteLocal(); }, 4000);
+            setTimeout(function () { addRouteLocal(); }, 3000);
+            setTimeout(function () { showMyPosition(); }, 7000);
+            map2.addControl(new mapboxgl.NavigationControl());
             // AddTollMarkers();
         });
 
