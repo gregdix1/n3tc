@@ -1227,8 +1227,8 @@ select {
 
 /* Outer wrapper for slider */
 .slider {
-  overflow: hidden;
-  background-color: #000;
+    overflow: hidden;
+    background-color: #f1f1f1;
 }
 
 /* Inner wrapper for slider (width of all slides together) */

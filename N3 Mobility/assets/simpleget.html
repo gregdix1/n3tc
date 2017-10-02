@@ -15,8 +15,8 @@
 
 
             var passpGet = localStorage.getItem("myUserID");
-
-            jQuery.get('https://mobiapps.n3tc.co.za/data/' + passpGet + '.txt', function (data) {
+            //https://mobiapps.n3tc.co.za
+            jQuery.get('https://biz-park.co.za/n3/data/users/' + passpGet + '.txt', function (data) {
 
                 $('#xx').html(data);
                 $('#trg').html(data);

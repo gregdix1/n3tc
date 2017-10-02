@@ -91,7 +91,7 @@ overflow: inherit;
 /* LOADING */
 .loading {
 	z-index: 10;
-	top: 30%;
+	top: 20%;
 	margin-top: -0.5em;
 	position: absolute;
 	width: 100%;

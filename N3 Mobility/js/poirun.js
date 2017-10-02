@@ -84,7 +84,7 @@ function runpoi() {
     restaurantCnt = 0;
     activitiesCnt = 0;
     eventsCnt = 0;
-    document.getElementById("poiList").innerHTML = '';
+    
 
 
     pointIndex = 0;
@@ -145,10 +145,10 @@ function runpoi() {
         //assign content to desc var// ///////////gbd REPLACE WITH <li>
         desc = "<li id='" + point.lon + ", " + point.lat + "' class='poiLi' onclick='showOnMap(this.id)'><strong>" + point.name + "</strong>" + " - " + mrk + "<br>" + "Distance: " + dist.toFixed(2) + " kms<br>" + "Tel: " + point.cnt + "<br>" + "Address: " + point.adr + "<br>" + "Co-ords: " + point.lat + ", " + point.lon + "<br>" + "Website: " + "<a href='" + point.web + "'>" + point.web + "</a>" + "<br></li>";
         //alert(dist);
-       
 
-         //for tracking popup slider cotent//
-        descpop =  point.name + " - " + mrk + " : " + " Distance: " + dist.toFixed(2) + " kms ";
+
+        //for tracking popup slider cotent//
+        descpop = point.name + " - " + mrk + " : " + " Distance: " + dist.toFixed(2) + " kms ";
 
         LabelTxt = point.name + " <br /> " + dist.toFixed(2) + "kms "
         //add map marker layers for each poi//
@@ -240,10 +240,10 @@ function runpoi() {
         if (mrk == "My Location ") {
 
             ///NEW ////////////
-           // pingImg = "myMarker.png";
+            // pingImg = "myMarker.png";
 
             // addMarkerPOI(pingImg, desc, lat2, lon2);
-          //  showMyLoc(pingImg, lat2, lon2);
+            //  showMyLoc(pingImg, lat2, lon2);
 
             /////              
 
@@ -265,25 +265,25 @@ function runpoi() {
         //  document.getElementById("sidePnl").innerHTML += pnlside;
         //  document.getElementById("kmCnt").innerHTML = "<< SEARCH >>";
         //  map.setView([mylat, mylon], zoomMap);
-       // alert("end");
+        // alert("end");
 
         document.getElementById("poiList").innerHTML = '';
         document.getElementById("poiList").innerHTML = descList;
         document.getElementById("poiList").style.height = '450px';
 
-       // setOnclick();
-            
+        // setOnclick();
+
 
 
         ////////REPLACE VALUES BELOW WITH an <li> loop to add cumulative vals and create POI LIST (use #contact page style)
         document.getElementById("accbtn").innerHTML = accomodationCnt;
 
 
-        document.getElementById("evebtn").innerHTML =eventsCnt ;
+        document.getElementById("evebtn").innerHTML = eventsCnt;
 
 
 
-        document.getElementById("petbtn").innerHTML = petrolCnt ;
+        document.getElementById("petbtn").innerHTML = petrolCnt;
 
 
         document.getElementById("tourbtn").innerHTML = tourCnt;
@@ -299,10 +299,10 @@ function runpoi() {
     }
 }
 
-        
 
 
-    
+
+
 
 
 ///////////END OF POI///////////
@@ -313,42 +313,42 @@ var idInc = 0;
 ////add marker///
 function addMarkerPOI(pingImg, desc, lat2, lon2) {
 
-              idInc++
-              //get coords
-              var poiCoords = [lon2, lat2];
+    idInc++
+    //get coords
+    var poiCoords = [lon2, lat2];
 
-             // create the popup
-             var popup = new mapboxgl.Popup({ offset: 25 })
-             popup.setText(descpop);
-             popup.id = 'popup' + idInc;
+    // create the popup
+    var popup = new mapboxgl.Popup({ offset: 25 })
+    popup.setText(descpop);
+    popup.id = 'popup' + idInc;
 
 
-             // create DOM element for the marker
-             var el = document.createElement('div');
-             el.id = 'marker' + idInc;
-             el.className = 'marker';
-             el.style.backgroundImage = 'url(' + pingImg + ')';
-             el.style.backgroundSize = 'contain';
-             var titleText = LabelTxt;
-             el.innerHTML = '<span class="markerLblPOI">' + titleText + '</span>';
-             el.style.width = '48px';
-             el.style.height = '48px';
-            // if (pingImg === "img/pin/pin2_toll.png") {
-           //      el.style.width = '48px';
-            //     el.style.height = '48px';
-            // } else {
-            //     el.style.width = '48px';
-            //     el.style.height = '48px';
-            // }
+    // create DOM element for the marker
+    var el = document.createElement('div');
+    el.id = 'marker' + idInc;
+    el.className = 'marker';
+    el.style.backgroundImage = 'url(' + pingImg + ')';
+    el.style.backgroundSize = 'contain';
+    var titleText = LabelTxt;
+    el.innerHTML = '<span class="markerLblPOI">' + titleText + '</span>';
+    el.style.width = '48px';
+    el.style.height = '48px';
+    // if (pingImg === "img/pin/pin2_toll.png") {
+    //      el.style.width = '48px';
+    //     el.style.height = '48px';
+    // } else {
+    //     el.style.width = '48px';
+    //     el.style.height = '48px';
+    // }
 
-             // create the marker
-             new mapboxgl.Marker(el, { offset: [-25, -25] })
-                 .setLngLat(poiCoords)
-                 .setPopup(popup) // sets a popup on this marker
-                 .addTo(map);
+    // create the marker
+    new mapboxgl.Marker(el, { offset: [-25, -25] })
+        .setLngLat(poiCoords)
+        .setPopup(popup) // sets a popup on this marker
+        .addTo(map);
 
-             
-             descList += desc;
+
+    descList += desc;
 };
 
 var start = [29.993112, -29.193292];
@@ -357,41 +357,41 @@ var end = [28.38988, -26.66397];
 var isAtStart = true;
 function flyN3Route() {
     //document.getElementById('fly').addEventListener('click', function () {
-        // depending on whether we're currently at point a or b, aim for
-        // point a or b
-        var target = isAtStart ? end : start;
+    // depending on whether we're currently at point a or b, aim for
+    // point a or b
+    var target = isAtStart ? end : start;
 
-        // and now we're at the opposite point
-        isAtStart = !isAtStart;
+    // and now we're at the opposite point
+    isAtStart = !isAtStart;
 
-        map.flyTo({
-            // These options control the ending camera position: centered at
-            // the target, at zoom level 9, and north up.
-            center: target,
-            zoom: 14,
-            pitch: 70, // pitch in degrees
-            bearing: -40, // bearing in degrees
+    map.flyTo({
+        // These options control the ending camera position: centered at
+        // the target, at zoom level 9, and north up.
+        center: target,
+        zoom: 14,
+        pitch: 70, // pitch in degrees
+        bearing: -40, // bearing in degrees
 
 
-            // These options control the flight curve, making it move
-            // slowly and zoom out almost completely before starting
-            // to pan.
-            speed: 0.2, // make the flying slow
-            curve: 1, // change the speed at which it zooms out
+        // These options control the flight curve, making it move
+        // slowly and zoom out almost completely before starting
+        // to pan.
+        speed: 0.2, // make the flying slow
+        curve: 1, // change the speed at which it zooms out
 
-            // This can be any easing function: it takes a number between
-            // 0 and 1 and returns another number between 0 and 1.
-            easing: function (t) {
-                return t;
-            }
-        });
-   // });
+        // This can be any easing function: it takes a number between
+        // 0 and 1 and returns another number between 0 and 1.
+        easing: function (t) {
+            return t;
+        }
+    });
+    // });
 
 }
 
 //flyto
 function showOnMap(id) {
-    
+
     window.location.href = "#page_location_map";
     setTimeout(function () { map.resize(); }, 300);
     var str = id;
@@ -435,21 +435,21 @@ function proxPlus() {
 var poiName = '';
 function setPOI(id) {
     poiName = id;
-    var poion ='';
+    var poion = '';
     if (poiName === 'toggle-tolls') {
         if (tour === 'true') { tour = 'false'; } else { tour = 'true'; }
         poion = tour;
-       // tour = 'true';
+        // tour = 'true';
 
     } else if (poiName === 'toggle-retail') {
         if (retail === 'true') { retail = 'false'; } else { retail = 'true'; }
         poion = retail;
-       // retail = 'true';
+        // retail = 'true';
 
     } else if (poiName === 'toggle-rest') {
         if (restaurant === 'true') { restaurant = 'false'; } else { restaurant = 'true'; }
         poion = restaurant;
-       // restaurant = 'true';
+        // restaurant = 'true';
 
     } else if (poiName === 'toggle-petrol') {
         if (petrol === 'true') { petrol = 'false'; } else { petrol = 'true'; }
@@ -459,18 +459,18 @@ function setPOI(id) {
     } else if (poiName === 'toggle-events') {
         if (events === 'true') { events = 'false'; } else { events = 'true'; }
         poion = events;
-      //  events = 'true';
+        //  events = 'true';
 
     } else if (poiName === 'toggle-activ') {
         if (activities === 'true') { activities = 'false'; } else { activities = 'true'; }
         poion = activities;
-       // activities = 'true';
+        // activities = 'true';
 
     } else if (poiName === 'toggle-accom') {
         if (accomodation === 'true') { accomodation = 'false'; } else { accomodation = 'true'; }
         poion = accomodation;
-        
+
 
     }
-   // document.getElementById("longlatXX").innerHTML += poiName + ':' + poion + ' ';
+    // document.getElementById("longlatXX").innerHTML += poiName + ':' + poion + ' ';
 };

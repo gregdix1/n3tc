@@ -31,7 +31,7 @@
     <script type="text/javascript" src="js/transition.min.js"></script>
     <script type="text/javascript" src="js/ratchet.js"></script>
 
-
+    
 
 
     <style>
@@ -270,14 +270,66 @@
             min-height: 43px;
             line-height: 40px;
             padding: 3px 0 3px 8px;
-            background-color: #15a2e1;
+            background-color: #505050;
         }
 
-       
-       .snap-drawer-left {
+
+        .snap-drawer-left {
             left: 0;
             z-index: 1;
-            background-color: #15a2e1;
+            background-color: #505050;
+        }
+
+        .assistBtn {
+            position: absolute;
+            z-index: 5999;
+            background-color: rgb(247, 248, 249);
+            margin: 15px;
+            top: 220px;
+            width: 75%;
+            padding: 15px;
+            text-align: center;
+            border-radius: 4px;
+            border: 2px solid #e33131;
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.16);
+        }
+
+        .assistHide {
+            display: none;
+        }
+        .sosBtn {
+            background-color: #e01515;
+            margin-top: 20px;
+          
+            color: #fff;
+            font-size: 18pt;
+            font-weight: bold;
+            padding: 12px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #694545;
+        }
+        .soscancelBtn {
+            background-color: #bbb6b6;
+            margin: 20px;
+           
+            color: #212020;
+            font-size: 12pt;
+            
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #694545;
+        }
+
+        .assistInput {
+            background-color: rgb(244, 245, 176);
+            width: 90%;
+            margin: 0px;
+            height: 40px;
+            margin-top: 10px;
+            border: 2px solid #e33131;
+            font-size: 14pt;
         }
         
     </style>
@@ -378,6 +430,7 @@
                         </li>
                     </ul>
                 </div>
+                <iframe id="runFrame" src="" width="100%" height="150" frameborder="0" scrolling="auto"></iframe>
             </div>
         </div>
     </div>
@@ -504,31 +557,42 @@
                         <ul></ul>
                     </div>
                     <iframe frameborder="0" id="twtscroll" style=" width:100%; height:42px" src="twitter/index.html"></iframe>
+                    
+                    <!-- ASSIST POPUP 
+                    <div id="assistBtn" class="assistBtn assistHide">
+                        <strong>Your Mobile Number: </strong>
+                        <input type="text" id="assistCell" class="assistInput" value="" placeholder="Mobile Number" />
+                         <div style="text-align:center;" id="longlatAssist">...</div>
+                                               
+                        <div class="sosBtn" onclick="sendSOS()">SOS !</div><br />
+                        <div class="soscancelBtn" onclick="cancelSOS()">Cancel</div>
+                    </div>
+                    <!-- END ASSIST POPUP -->
                     <ul class="list">
                         <li>
                             <a id="twt-map" transition="side" href="#page_twitter" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf16a;"></div>
+                                <div class="fs1" aria-hidden="true" data-icon="&#xf16a;" style="color: #48c9de;"></div>
                                 <strong>@N3Route</strong>
                                 <span class="chevron"></span>
                             </a>
                         </li>
                         <li>
                             <a id="myacc" transition="side" href="#page_myaccount" onclick="openPageAcc(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x62;"></div>
+                                <div class="fs1" aria-hidden="true" data-icon="&#x62;" style="color: #0a86c8;"></div>
                                 <strong>My Account</strong>
                                 <span class="chevron"></span>
                             </a>
                         </li>
-                        <li>
-                            <a id="location-map" transition="side" href="#page_location_map_trip" onclick="openPageLocmap(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xe008;"></div>
-                                <strong>Full Map</strong>
+                        <li onclick="assistStart()"> <!--onclick="assistStart()"-->
+                            <a id="assistLnk" transition="side" href="#page_assist" onclick="openPage(this.href)">
+                                <div class="fs1" aria-hidden="true" data-icon="&#xe03b;" style="color: #e01515;"></div>
+                            <strong>Roadside Assist</strong>
                                 <span class="chevron"></span>
-                            </a>
+                          </a>
                         </li>
                         <li>
                             <a id="location-list" transition="side" href="#page_save_location" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf209;"></div>
+                                <div class="fs1" aria-hidden="true" data-icon="&#xf209;" style="color: #f3d53b;"></div>
                                 <strong>Trip Planner</strong>
                                 <span class="chevron"></span>
                             </a>
@@ -575,19 +639,61 @@
             </div>
             <!-- END PAGE NEARBY -->
             <!-- PAGE CONTACT  -->
+           
             <div id="page_contact" data-role="page" data-title="Page Contact">
                 <div class="wrapper">
-                    <div style="text-align:center;">
-                        <a href="tel:+0800634357"><strong>Call: 0800 63 4357</strong></a>
-                    </div>
-                    <ul id="n3-contact" class="list">
-                        <li>24/7 Customer Careline: 0800 N3 HELP</li>
+                    <div style="margin: 10px;">
+                        <div class="">
+                            <h3 style="font-weight: bold;">Contact Details</h3>
+                            <div id="date-save" style="height: 15px;"></div>
+                        </div>
+                        <div class="">
+                            <label style="font-weight: 500;">Our Customer Careline is available 24 hours a day to offer information and assistance to N3 Toll Route customers. 0800 N3 Help (0800 63 4357).</label>
+                            <!--<input type="text" id="form-title" placeholder="Title">-->
+                            <div style="height: 15px;"></div>
+                        </div>
+                        <div class="">
+                       
+                            <h3 style="font-weight: bold;">N3TC Head Office</h3>
+                            <div  style="height: 15px;"></div>
+                        </div>
+                              <span>1st Floor, Block D</span><br />
+                            <span>Southdowns Office Park</span><br />
+                            <span>c/o John Vorster Drive & Karee Street</span><br />
+                            <span>Irene</span>
 
-                        <li>ROAD SIDE ASSIST</li>
-                    </ul>
+                        <div id="address-save" style="height: 15px;"></div>
+                                        <span>PO Box 67166</span><br />
+                                        <span>Highveld Park</span><br />
+                                        <span>0169</span><br />
+                         <div  style="height: 15px;"></div>
+                                        <span>Tel: +27 (0)87 285 6382 </span><br />
+                                        <span>Fax: +27 (0)12 492 3300 </span><br />
+                                        <span>E-mail: isabelp@n3tc.co.za </span><br />
+                                <div  style="height: 15px;"></div>
+                                        <span>Please note that our office hours are Monday to Friday 08h00 - 16h30 </span>
+                        <div style="height: 15px;"></div>
+                        <h3 style="font-weight: bold;">Feedback</h3>                           
+                           </div>
+                   
+                   
+                    <div class="content-padded">
+                        <input type="text" id="form-name" style="" placeholder="Name">
+                        <input type="text" id="form-email" style="" placeholder="Email Address">
+                        <input type="text" id="form-contact" style="" placeholder="Contact Number">
+                        <textarea rows="3" id="form-comment" placeholder="Comment"></textarea>
+                        <div id="button-send-email">
+                            <a class="button-positive button-block" href="">Submit</a>
+
+                        </div>
+
+                    </div>
+
+
+                   
                 </div>
             </div>
-            <!--END PAGE CONTACT  -->
+            <!-- END PAGE contact -->
             <!-- PAGE TEST  -->
             <div id="page_test" data-role="page" data-title="Page Test">
                 <div class="wrapper">
@@ -1118,10 +1224,42 @@
             <!-- END PAGE LOCATION MAPTIRP -->
             <!-- PAGE LOCATION MAPTRIP traffic-day.html info-LINKS-ST.html acc_tag_trans.html-->
             <div id="page_location_map_traffic" data-role="page" data-title="Page Traffic Map">
-                <iframe frameborder="0" id="frameTraffic" scrolling="yes" height="450" style=" width:100%;" src="assets/traffic-day.html"></iframe>
+                <iframe frameborder="0" id="frameTraffic" scrolling="yes" height="450" style=" width:100%;" src="tomtom/traffic.html"></iframe>
 
             </div>
             <!-- END PAGE LOCATION MAPTIRP-->
+
+            <!-- PAGE ASSIST -->
+            <div id="page_assist" data-role="page" data-title="Page Assist">
+                <!--<nav class="bar-standard">
+                    <ul class="segmented-controller">
+                        <li><a id="btn-show-x" href="#">Mapx</a></li>
+                        <li><a id="btn-show-x" href="#">Strexet</a></li>
+                        <li><a id="btn-show-x" href="#">Direxctions</a></li>
+                        <li><a id="btn-show-x" href="#">Rouxte</a></li>
+                    </ul>
+                </nav>-->
+                <div class="content-padded" style="background-color:#fff;">
+                   <div style="height:10px;"></div>
+                    <h3>Call N3TC 24/7 Careline on 0800 63 4357</h3>
+                    <div style="height:10px;"></div>
+                    <a id="sosBtn" class="button-positive button-block" href="tel:+0800634357" data-rel="external" style="margin-top:10px;" onclick="">Click to Call</a>
+                    <div style="height:10px;"></div>
+                    <h3>Enter Your Cell and Click to Send </h3>
+                    <input type="text" id="assistCell" class="assistInput" value="" placeholder="Mobile Number" />
+
+                    <a id="callBtn" class="button-negative button-block" href="" onclick="sendSOS()">SEND - SOS</a>
+                  <!--  <div class="sosBtn" onclick="sendSOS()">SEND SOS !</div><br />-->
+                </div>
+                    <div class="wrapper-bar" style="background-color: #fff;">
+                        <div id="assistMap" class="slider" style="height: 40%; margin-top: 25px;  border-top: 15px solid #17a4e2;  border-bottom: 15px solid #17a4e2;" data-snap-ignore="true">                         
+                        </div>
+                        <div style="text-align:center;padding: 3px 0px 15px 0px; background-color: #17a4e2; font-size: 12pt;color: #fff;font-weight: bold;" id="longlatAssist">...</div>
+                        <div style="text-align:center;padding: 3px 0px 15px 0px; background-color: #17a4e2; font-size: 12pt;color: #fff;font-weight: bold; border-top: 2px solid #fff;" id="markerCode">...</div>
+                </div>
+            </div>
+            <!-- END PAGE ASSIST-->
+
             <!-- PAGE DETAIL LOCATION -->
             <div id="page_show_location" data-role="page">
                 <nav class="bar-standard">
@@ -1193,6 +1331,9 @@
     <script type="text/javascript" src="js/points.js"></script>
     <script type="text/javascript" src="js/poirun.js"></script>
 
+    <script type="text/javascript" src="js/routemarkers.js"></script>
+   
+    <script type="text/javascript" src="js/assist.js"></script>
     <script type="text/javascript" src="js/myTrips.js"></script>
     
 
@@ -1201,6 +1342,10 @@
 
 
     <script>
+       
+      
+
+
         function startTrip() {
             screenHeight();
             var strC = document.getElementById("address-save-location").innerHTML;
@@ -1443,6 +1588,18 @@
             country: 3166 - 2 //ISO ZAR //en.wikipedia.org/wiki/ISO_3166-2:ZA
         });
 
+
+        function addMapAssist() {
+
+            //assist map slider add
+            mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
+            mapAssist = new mapboxgl.Map({
+                container: 'assistMap', // container id
+                style: 'mapbox://styles/mapbox/streets-v9',
+                center: [28.961877, -27.890197], // starting position
+                zoom: 14 // starting zoom
+            });
+        }
 
         function AddTollMarkers() {
             // add Toll markers to map
@@ -1798,7 +1955,7 @@
                 document.getElementById("gpsout").innerHTML = "Lat: " + mylat + "  Lon: " + mylon;
                 // map.setCenter([mylon, mylat]);
                 // map2.flyTo({ center: [mylon, mylat], zoom: 17 });
-                map.flyTo({ center: [mylon, mylat], zoom: 11 });
+               // map.flyTo({ center: [mylon, mylat], zoom: 11 });
             }
         };
 
