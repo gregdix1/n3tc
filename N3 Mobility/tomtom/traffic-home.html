@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TomTom N3 Route - Map</title>
+    <link rel="stylesheet" type="text/css" href="tomtom.map.min.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="../css/tomtom.map.ie.min.css" /><![endif]-->
+    <script type="text/javascript" src="leaflet.js"></script>
+    <script type="text/javascript" src="tomtom.map.js"></script>
+    <script type="text/javascript" src="tomtom.controls.js"></script>
+    <script type="text/javascript" src="apikey.js"></script>
+    <script>
+        window.onload = function () {
+            var mylat;
+            var mylon;
+            showN3();
+
+
+            ///Show N3
+            function showN3() {
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPositionN3, errorGettingPosition);
+
+
+                } else {
+                    // document.getElementById("demo").innerHTML = "Geolocation is not supported by this browser.";
+                    alert("Please enable your GPS on your device");
+                }
+
+                function showPositionN3(position) {
+
+                    mylat = position.coords.latitude;
+                    mylon = position.coords.longitude;
+
+
+                    // document.getElementById("longlat").innerHTML = ("LAT: " + mylat + "&nbsp;&nbsp;&nbsp;&nbsp;" + " LNG: " + mylon);
+                    // prox = document.getElementById("kmCounter").innerHTML;
+
+                    // set the base image path used by tomtom.Marker
+                    // tomtom.setImagePath("images/pins/");
+
+                    // set the base image path, where all images will be loaded from
+                    tomtom.setImagePath("images/");
+
+                    // show the map with traffic, center on N3
+                    var map = new tomtom.Map({
+                        domNode: "map",
+                        displayTraffic: true,
+                        center: [mylat, mylon],
+                        zoom: 14,
+                    });
+
+
+                    // map.displayRoute(["Johannesburg, South Africa", "Durban, South Africa"]);
+                  //  map.displayTraffic("false");
+                   // map.setView([mylat,mylon], 17);
+                    
+                    var MyMarker = new tomtom.Marker([mylat, mylon]);
+                    map.addLayer(MyMarker);
+
+                }
+
+            }
+            //end map
+            function errorGettingPosition(err) {
+                return err;
+
+            }
+        };
+    </script>
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 100%; height: 100%;" id="map"></div>
+</body>
+</html>

@@ -84,7 +84,7 @@ function runpoi() {
     restaurantCnt = 0;
     activitiesCnt = 0;
     eventsCnt = 0;
-    
+
 
 
     pointIndex = 0;
@@ -143,7 +143,7 @@ function runpoi() {
         //dist calc end ////////////////////////
 
         //assign content to desc var// ///////////gbd REPLACE WITH <li>
-        desc = "<li id='" + point.lon + ", " + point.lat + "' class='poiLi' onclick='showOnMap(this.id)'><strong>" + point.name + "</strong>" + " - " + mrk + "<br>" + "Distance: " + dist.toFixed(2) + " kms<br>" + "Tel: " + point.cnt + "<br>" + "Address: " + point.adr + "<br>" + "Co-ords: " + point.lat + ", " + point.lon + "<br>" + "Website: " + "<a href='" + point.web + "'>" + point.web + "</a>" + "<br></li>";
+        desc = "<li class='poiLi'><strong>" + point.name + "</strong>" + " - " + mrk + "<br>" + "Distance: " + dist.toFixed(2) + " kms<br>" + "Tel: " + point.cnt + "<br>" + "Address: " + point.adr + "<br>" + "Co-ords: " + point.lat + ", " + point.lon + "<br>" + "Website: " + "<a href='" + point.web + "'>" + point.web + "</a>" + "<br><span><img id='" + point.lon + ", " + point.lat + "' style='float: right; margin-top:-10px; margin-left: 15px; margin-right: 5px;' src='images/mapIcon.png' width='24' height='24' onclick='showOnMap(this.id)'><img name='" + point.lon + ", " + point.lat + "' style='float: right; margin-top:-10px;' src='images/star1.png' width='20' height='20' onclick='$(this).attr('src', 'images/star2.png');'></span></li>";
         //alert(dist);
 
 
@@ -269,7 +269,7 @@ function runpoi() {
 
         document.getElementById("poiList").innerHTML = '';
         document.getElementById("poiList").innerHTML = descList;
-        document.getElementById("poiList").style.height = '450px';
+        document.getElementById("poiList").style.height = '440px';
 
         // setOnclick();
 
@@ -431,6 +431,14 @@ function proxPlus() {
 
 }
 
+function bookmarkPOI(name, src) {
+    //alert(src);
+    //var nameSet = '#' + name;
+    $(this).attr("src", "images/star2.png");
+   // .attr("src", "second.jpg");
+   // $("img").attr("width", "500");
+}
+
 //toggle pois
 var poiName = '';
 function setPOI(id) {
@@ -449,7 +457,7 @@ function setPOI(id) {
     } else if (poiName === 'toggle-rest') {
         if (restaurant === 'true') { restaurant = 'false'; } else { restaurant = 'true'; }
         poion = restaurant;
-        // restaurant = 'true';
+        //restaurant = 'true';
 
     } else if (poiName === 'toggle-petrol') {
         if (petrol === 'true') { petrol = 'false'; } else { petrol = 'true'; }
@@ -474,3 +482,5 @@ function setPOI(id) {
     }
     // document.getElementById("longlatXX").innerHTML += poiName + ':' + poion + ' ';
 };
+
+

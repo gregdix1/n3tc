@@ -46,10 +46,12 @@
         }
     </style>
     <script>
+      
         $(document).ready(function () {
-
-            var userName = localStorage.getItem("myUserName");
-            var passWrd = localStorage.getItem("password");
+         /// THIS IS NOT FIRING ON APP START ??????????????
+           var userName = localStorage.getItem("myUserName"); //edt
+          var  passWrd = localStorage.getItem("password");
+           
            // var UID = localStorage.getItem("myUserID");
          //window.parent.document.getElementById("remember").checked = localStorage.RememberMe;
             document.getElementById("usrnme").value = userName;
@@ -78,8 +80,9 @@
 
             <div id="" class="loginDiv" style="">
                 <h2 class="fs-title">Login</h2>
-                <input type="hidden" id="testP" name="testP" value="" /><br />
-                <input type="text" id="usrnme" name="usrnme" placeholder="Username" onblur="setFrm()" /><br />
+                <input type="text" id="testP" name="testP" value="" hidden /><br />
+               <!-- <input type="text" id="usrnme" name="usrnme" placeholder="Username" onblur="setFrm()" /><br />-->
+                 <input type="text" id="usrnme" name="usrnme" placeholder="Username"  /><br />
                 <input type="password" name="passwrd" id="passwrd" placeholder="Password" /><br /><br />
                 <label>Remember me</label>
                 <input type="checkbox" id="remember" onchange="setRemember()" />
@@ -106,9 +109,15 @@
         // var checkPass = '';
         var AuthIs = 0;
         function auth() {
-            var usrpGet = document.getElementById('testP').value;
-            var usernme = document.getElementById("usrnme").value;
-            var passwrd = document.getElementById("passwrd").value;
+             var userName = localStorage.getItem("myUserName"); //edt
+          var  passWrd = localStorage.getItem("password");
+           
+             //var usrpGet = document.getElementById('testP').value; //bck
+             var usernme = document.getElementById("usrnme").value; 
+             var userLocal = userName;
+            var passwrd = document.getElementById("passwrd").value; 
+            var passLocal = passWrd;
+            var usrpGet = userLocal + passLocal;
             var usrpPut = usernme + passwrd;
             if (usrpPut === usrpGet) {
                         //  alert('Auth yes');
@@ -121,6 +130,7 @@
 
             } else {
                         alert('Incorrect Username or Password');
+                //alert(userName + passWrd);
             }
         };
     </script>

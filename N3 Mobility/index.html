@@ -25,13 +25,14 @@
     <link rel="stylesheet" type="text/css" href="css/transition.min.css" />
 
     <link href="css/icomoon.css" rel="stylesheet" />
-    
+
     <script type="text/javascript" src="js/maps-gbd.js"></script>
     <script type="text/javascript" src="js/zepto.min.js"></script>
     <script type="text/javascript" src="js/transition.min.js"></script>
     <script type="text/javascript" src="js/ratchet.js"></script>
+    <script type="text/javascript" src="js/03patch.js"></script>
 
-    
+
 
 
     <style>
@@ -230,6 +231,7 @@
             background-position: left !important;
             padding-left: 60px !important;
         }
+
         #chosen {
             border-radius: 20px;
             border: 1px solid;
@@ -243,20 +245,21 @@
             margin-left: 40%;
             margin-bottom: 10px;
         }
+
         #slider {
             margin-left: 2px;
         }
+
         input[type='range'] {
             -webkit-appearance: none;
             padding-left: 2px;
             padding-right: 2px;
             -webkit-border-radius: 5px;
             background-image: -webkit-linear-gradient(top, #2681e6, #2580e6, #60a2ec);
-           
             width: 65%;
             height: 10px;
             margin-bottom: 30px;
-            margin-top:30px;
+            margin-top: 30px;
         }
 
         #menu li {
@@ -297,10 +300,10 @@
         .assistHide {
             display: none;
         }
+
         .sosBtn {
             background-color: #e01515;
             margin-top: 20px;
-          
             color: #fff;
             font-size: 18pt;
             font-weight: bold;
@@ -309,13 +312,12 @@
             border-radius: 5px;
             border: 1px solid #694545;
         }
+
         .soscancelBtn {
             background-color: #bbb6b6;
             margin: 20px;
-           
             color: #212020;
             font-size: 12pt;
-            
             padding: 10px;
             text-align: center;
             border-radius: 5px;
@@ -331,7 +333,23 @@
             border: 2px solid #e33131;
             font-size: 14pt;
         }
-        
+
+        .slider03 {
+            height: 250px;
+            -webkit-transition: height 0.3s; /* Safari */
+            -webkit-transition-timing-function: linear; /* Safari */
+            transition: height 0.3s;
+            transition-timing-function: linear;
+            background-color: #f0f0f0;
+        }
+
+        .slider03frame {
+            height: 250px;
+            -webkit-transition: height 0.3s; /* Safari */
+            -webkit-transition-timing-function: linear; /* Safari */
+            transition: height 0.3s;
+            transition-timing-function: linear;
+        }
     </style>
 
     <script>
@@ -344,7 +362,7 @@
             document.getElementById("n3tc-banner").innerHTML = localStoreUsr + '-' + localStoreMail + '-' + localStoreUPass;
             localStorage.setItem("savedTrip", "NO");
             myLoc();
-            //setTimeout(function () { $('.loading').hide(); }, 4000);
+            setTimeout(function () { $('.loading').hide(); }, 4000);
 
             //  $(".suggestions").click(function () {
             //  alert("Y");
@@ -358,8 +376,8 @@
             //show the amount
             display.innerHTML = value;
             document.getElementById("kmCounter").innerHTML = value;
-            document.getElementById("prox").innerHTML = 'Search ' + value + ' km proximity' ;
-            
+            document.getElementById("prox").innerHTML = 'Search ' + value + ' km proximity';
+
         }
     </script>
 
@@ -495,14 +513,14 @@
             </li>-->
             <li>
                 <div class="fs1" aria-hidden="true" data-icon="&#x2b;"></div>
-                <a id="poi2" transition="side" href="#page_poi" onclick="openPage(this.href)"></a>
+                <a id="poi2" transition="side" href="#page_poi" onclick="openPagePOI(this.href)"></a>
                 Places (POI)
                 <div class="toggle-box">
                     <label for="toggle-transit-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
                     <input type="checkbox" value="1" id="toggle-transit-layer" class="toggle-control" />
                 </div>
             </li>
-            <li>
+            <!--<li>
                 <div class="fs1" aria-hidden="true" data-icon="&#xf2b4;"></div>
                 Incidents Layer
                 <div class="toggle-box">
@@ -517,7 +535,7 @@
                     <label for="toggle-bike-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
                     <input type="checkbox" value="1" id="toggle-bike-layer" class="toggle-control" />
                 </div>
-            </li>
+            </li>-->
         </ul>
 
 
@@ -530,9 +548,9 @@
             <button class="button icon-list-2 toggle-left"></button>
             <button class="button icon-reply" onclick="goBack()"></button>
             <h1 id="topHead" class="title">N3 Mobility</h1>
-            <button class="button icon-navigation toggle-right" value="off"></button>
+            <button id="closeRight" class="button icon-navigation toggle-right" value="off"></button>
             <!--<button class="button icon-uniF00F toggle-right" value="off"></button>-->
-            
+
         </header>
         <script>
             function goBack() {
@@ -544,69 +562,75 @@
         <!-- CONTENT -->
         <div class="content">
             <!-- LOADING -->
-            <div class="loading" align="center">
+            <div id="loadingIcon" class="loading" align="center">
                 <div class="circle"></div>
                 <div class="circle1"></div>
             </div>
             <!-- END LOADING -->
-            <!-- PAGE HOME -->
+            <!-- PAGE HOME fullMap() tomTraffic() n3route()-->
             <div id="page_home" data-role="page">
                 <div class="wrapper">
-                    <div class="slider" data-snap-ignore="true" style="height: 250px;">
-                        <div id='mapSlider' data-snap-ignore="true" style="height: 100%;"></div>
+
+
+                    <div id='mapSlider' class="slider03" data-snap-ignore="true" hidden></div>
+                    <div id='mapSlider0310' class="slider03" data-snap-ignore="true">
+                        <iframe frameborder="0" id="frameTrafficHome" class="slider03frame" scrolling="yes" height="250" style=" width:100%;" src="tomtom/traffic-home.html"></iframe>
+
                         <ul></ul>
                     </div>
-                    <iframe frameborder="0" id="twtscroll" style=" width:100%; height:42px" src="twitter/index.html"></iframe>
-                    
-                    <!-- ASSIST POPUP 
-                    <div id="assistBtn" class="assistBtn assistHide">
-                        <strong>Your Mobile Number: </strong>
-                        <input type="text" id="assistCell" class="assistInput" value="" placeholder="Mobile Number" />
-                         <div style="text-align:center;" id="longlatAssist">...</div>
-                                               
-                        <div class="sosBtn" onclick="sendSOS()">SOS !</div><br />
-                        <div class="soscancelBtn" onclick="cancelSOS()">Cancel</div>
-                    </div>
-                    <!-- END ASSIST POPUP -->
-                    <ul class="list">
-                        <li>
-                            <a id="twt-map" transition="side" href="#page_twitter" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf16a;" style="color: #48c9de;"></div>
-                                <strong>@N3Route</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id="myacc" transition="side" href="#page_myaccount" onclick="openPageAcc(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#x62;" style="color: #0a86c8;"></div>
-                                <strong>My Account</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                        <li onclick="assistStart()"> <!--onclick="assistStart()"-->
-                            <a id="assistLnk" transition="side" href="#page_assist" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xe03b;" style="color: #e01515;"></div>
-                            <strong>Roadside Assist</strong>
-                                <span class="chevron"></span>
-                          </a>
-                        </li>
-                        <li>
-                            <a id="location-list" transition="side" href="#page_save_location" onclick="openPage(this.href)">
-                                <div class="fs1" aria-hidden="true" data-icon="&#xf209;" style="color: #f3d53b;"></div>
-                                <strong>Trip Planner</strong>
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
+                    <nav class="bar-standard">
+                        <ul class="segmented-controller">
+                            <li><a id="btn-home-traffic" href="#" onclick="tomTraffic()">Traffic</a></li>
+                            <li><a id="btn-home-route" href="#" onclick="n3route()">N3 Route</a></li>
+                            <li><a id="btn-home-fullmap" href="#" onclick="fullMap()">Full Map</a></li>
+                            <li><a id="btn-home-addtrip" href="#page_add_location" onclick="openPage(this.href)">New Trip</a></li>
+                        </ul>
+                    </nav>
+                    <div id="homeNavContainer" class="">
+                        <iframe frameborder="0" id="twtscroll" style=" width:100%; height:42px" src="twitter/index.html"></iframe>
 
-                        <li>
-                            <a id="n3tc-banner-pg" transition="side" href="#page_test" onclick="openPage(this.href)">
 
-                                <!-- <img src="images/n3tc_logo.png" width="100%" height="auto"/>-->
-                                <span class="chevron"></span>
-                            </a>
-                        </li>
-                    </ul>
 
+                        <ul id="homepage-menu" class="list">
+                            <li>
+                                <a id="twt-map" transition="side" href="#page_twitter" onclick="openPage(this.href)">
+                                    <div class="fs1" aria-hidden="true" data-icon="&#xf16a;" style="color: #48c9de;"></div>
+                                    <strong>@N3Route</strong>
+                                    <span class="chevron"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a id="myacc" transition="side" href="#page_myaccount" onclick="openPageAcc(this.href)">
+                                    <div class="fs1" aria-hidden="true" data-icon="&#x62;" style="color: #0a86c8;"></div>
+                                    <strong>My Account</strong>
+                                    <span class="chevron"></span>
+                                </a>
+                            </li>
+                            <li onclick="assistStart()">
+                                <!--onclick="assistStart()"-->
+                                <a id="assistLnk" transition="side" href="#page_assist" onclick="openPage(this.href)">
+                                    <div class="fs1" aria-hidden="true" data-icon="&#xe03b;" style="color: #e01515;"></div>
+                                    <strong>Roadside Assist</strong>
+                                    <span class="chevron"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a id="location-list" transition="side" href="#page_save_location" onclick="openPage(this.href)">
+                                    <div class="fs1" aria-hidden="true" data-icon="&#xf209;" style="color: #f3d53b;"></div>
+                                    <strong>Trip Planner</strong>
+                                    <span class="chevron"></span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a id="n3tc-banner-pg" transition="side" href="#page_test" onclick="openPage(this.href)">
+
+                                    <!-- <img src="images/n3tc_logo.png" width="100%" height="auto"/>-->
+                                    <span class="chevron"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div><!--   div home-cont end -->
                 </div>
             </div>
             <!-- END PAGE HOME -->
@@ -639,7 +663,7 @@
             </div>
             <!-- END PAGE NEARBY -->
             <!-- PAGE CONTACT  -->
-           
+
             <div id="page_contact" data-role="page" data-title="Page Contact">
                 <div class="wrapper">
                     <div style="margin: 10px;">
@@ -653,30 +677,30 @@
                             <div style="height: 15px;"></div>
                         </div>
                         <div class="">
-                       
+
                             <h3 style="font-weight: bold;">N3TC Head Office</h3>
-                            <div  style="height: 15px;"></div>
+                            <div style="height: 15px;"></div>
                         </div>
-                              <span>1st Floor, Block D</span><br />
-                            <span>Southdowns Office Park</span><br />
-                            <span>c/o John Vorster Drive & Karee Street</span><br />
-                            <span>Irene</span>
+                        <span>1st Floor, Block D</span><br />
+                        <span>Southdowns Office Park</span><br />
+                        <span>c/o John Vorster Drive & Karee Street</span><br />
+                        <span>Irene</span>
 
                         <div id="address-save" style="height: 15px;"></div>
-                                        <span>PO Box 67166</span><br />
-                                        <span>Highveld Park</span><br />
-                                        <span>0169</span><br />
-                         <div  style="height: 15px;"></div>
-                                        <span>Tel: +27 (0)87 285 6382 </span><br />
-                                        <span>Fax: +27 (0)12 492 3300 </span><br />
-                                        <span>E-mail: isabelp@n3tc.co.za </span><br />
-                                <div  style="height: 15px;"></div>
-                                        <span>Please note that our office hours are Monday to Friday 08h00 - 16h30 </span>
+                        <span>PO Box 67166</span><br />
+                        <span>Highveld Park</span><br />
+                        <span>0169</span><br />
                         <div style="height: 15px;"></div>
-                        <h3 style="font-weight: bold;">Feedback</h3>                           
-                           </div>
-                   
-                   
+                        <span>Tel: +27 (0)87 285 6382 </span><br />
+                        <span>Fax: +27 (0)12 492 3300 </span><br />
+                        <span>E-mail: isabelp@n3tc.co.za </span><br />
+                        <div style="height: 15px;"></div>
+                        <span>Please note that our office hours are Monday to Friday 08h00 - 16h30 </span>
+                        <div style="height: 15px;"></div>
+                        <h3 style="font-weight: bold;">Feedback</h3>
+                    </div>
+
+
                     <div class="content-padded">
                         <input type="text" id="form-name" style="" placeholder="Name">
                         <input type="text" id="form-email" style="" placeholder="Email Address">
@@ -690,7 +714,7 @@
                     </div>
 
 
-                   
+
                 </div>
             </div>
             <!-- END PAGE contact -->
@@ -770,7 +794,7 @@
                 <div class="wrapper">
                     <div id="srch-bar" style="text-align:center;padding-top: 10px;" hidden>
                         <div class="fs1" aria-hidden="true" data-icon="&#xf472;" style="display: inline-block; margin-right: 40px;font-size: 22pt;" onclick="proxMinus()"></div>
-                        <div class="" style="width: 50px;border-radius: 0px; text-align: left; font-weight: 700;background-image: URL(images/km-bck-poi.png); background-size:contain; background-repeat: no-repeat;display: inline-block; height: 35px;" id="kmCounter" >5</div>
+                        <div class="" style="width: 50px;border-radius: 0px; text-align: left; font-weight: 700;background-image: URL(images/km-bck-poi.png); background-size:contain; background-repeat: no-repeat;display: inline-block; height: 35px;" id="kmCounter">5</div>
                         <div class="fs1" aria-hidden="true" data-icon="&#xf473;" style="display: inline-block; margin-left: 40px;font-size: 22pt;" onclick="proxPlus()"></div>
                     </div>
                     <div id="srch-bar-range" style="text-align:center;padding-top: 10px; border-bottom: 1px solid rgba(0, 0, 0, .1);" data-snap-ignore="true">
@@ -778,110 +802,223 @@
                         <div id="slider">
                             5Km <input id="slide" type="range" min="5" max="100" step="5" value="5" onchange="updateSlider(this.value)" /> 100Km
                         </div>
-                        </div>
+                    </div>
                     <ul id="poiList" class="poilist" data-snap-ignore="true">
                         <li></li>
                     </ul>
-                        <ul class="list">
+                    <ul class="list">
 
-                            <li onclick="runpoi()" style="background-color: #15a1e0;color: #fff;">
-                                <!--<a id="srch" transition="side" href="#page_location_map" onclick="runpoi()">-->
-                                <div id="srch" class="fs1" aria-hidden="true" data-icon=""></div><!--&#xf473;-->
-                                <span id="prox"> <strong>Search</strong></span>
-                                    <span class=""></span>
-                                    <!-- </a>-->
-                                  </li>
+                        <li onclick="runpoi()" style="background-color: #15a1e0;color: #fff;">
+                            <!--<a id="srch" transition="side" href="#page_location_map" onclick="runpoi()">-->
+                            <div id="srch" class="fs1" aria-hidden="true" data-icon=""></div><!--&#xf473;-->
+                            <span id="prox"> <strong>Search</strong></span>
+                            <span class=""></span>
+                            <!-- </a>-->
+                        </li>
 
-                            <li>
+                        <li>
 
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(images/Toll_pin.png);"></div>
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(images/Toll_pin.png);"></div>
 
-                                <strong>Toll Plaza</strong>
-                                <span id="tourbtn" class="count" style="margin-right: 100px;">0</span>
-
-
-                                <div class="toggle-box">
-                                    <label for="toggle-tolls" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                    <input type="checkbox" value="1" id="toggle-tolls" class="toggle-control" onclick="setPOI(this.id)">
-                                </div>
-                            </li>
-                            <li>
-
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
-                                <strong>Service Stations</strong>
-                                <span id="petbtn" class="count" style="margin-right: 100px;">0</span>
-
-                                <div class="toggle-box">
-                                    <label for="toggle-petrol" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                    <input type="checkbox" value="1" id="toggle-petrol" class="toggle-control" onclick="setPOI(this.id)">
-                                </div>
-                            </li>
-                            <li>
-
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/rest150.png);"></div>
-                                <strong>Restaurants</strong>
-                                <span id="restbtn" class="count" style="margin-right: 100px;">0</span>
-
-                                <div class="toggle-box">
-                                    <label for="toggle-rest" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                    <input type="checkbox" value="1" id="toggle-rest" class="toggle-control" onclick="setPOI(this.id)">
-                                </div>
-                            </li>
-                            <li>
-
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/events150.png);"></div>
-                                <strong>Events</strong>
-                                <span id="evebtn" class="count" style="margin-right: 100px;">0</span>
-
-                                <div class="toggle-box">
-                                    <label for="toggle-events" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                    <input type="checkbox" value="1" id="toggle-events" class="toggle-control" onclick="setPOI(this.id)">
-                                </div>
-                            </li>
-                            <li>
-
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/activity150.png);"></div>
-                                <strong>Activities</strong>
-                                <span id="activebtn" class="count" style="margin-right: 100px;">0</span>
-
-                                <div class="toggle-box">
-                                    <label for="toggle-activ" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                    <input type="checkbox" value="1" id="toggle-activ" class="toggle-control" onclick="setPOI(this.id)">
-                                </div>
-                            </li>
-                            <li>
-
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/accomodation150.png);"></div>
-                                <strong>Accomodation</strong>
-                                <span id="accbtn" class="count" style="margin-right: 100px;">0</span>
-
-                                <div class="toggle-box">
-                                    <label for="toggle-accom" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                    <input type="checkbox" value="1" id="toggle-accom" class="toggle-control" onclick="setPOI(this.id)">
-                                </div>
-                            </li>
-                            <li>
-
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/retail150.png);"></div>
-                                <strong>Retail</strong>
-                                <span id="retbtn" class="count" style="margin-right: 100px;">0</span>
-
-                                <div class="toggle-box">
-                                    <label for="toggle-retail" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
-                                    <input type="checkbox" value="1" id="toggle-retail" class="toggle-control" onclick="setPOI(this.id)">
-                                </div>
-                            </li>
-                            <li style="padding: 8px;">
-                                <div style="text-align:center;" id="longlatXX">...</div>
-                            </li>
-                            
-                        </ul>
+                            <strong>Toll Plaza</strong>
+                            <span id="tourbtn" class="count" style="margin-right: 100px;">0</span>
 
 
-                        
-                    </div>
+                            <div class="toggle-box">
+                                <label for="toggle-tolls" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-tolls" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
+                            <strong>Service Stations</strong>
+                            <span id="petbtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-petrol" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-petrol" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/rest150.png);"></div>
+                            <strong>Restaurants</strong>
+                            <span id="restbtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-rest" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-rest" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/events150.png);"></div>
+                            <strong>Events</strong>
+                            <span id="evebtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-events" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-events" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/activity150.png);"></div>
+                            <strong>Activities</strong>
+                            <span id="activebtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-activ" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-activ" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/accomodation150.png);"></div>
+                            <strong>Accomodation</strong>
+                            <span id="accbtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-accom" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-accom" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/retail150.png);"></div>
+                            <strong>Retail</strong>
+                            <span id="retbtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-retail" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-retail" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li style="padding: 8px;">
+                            <div style="text-align:center;" id="longlatXX">...</div>
+                        </li>
+
+                    </ul>
+
+
+
+                </div>
             </div>
             <!-- END PAGE MANGE -->
+            <!-- PAGE TWT -->
+            <div id="page_twt" data-role="page" data-title="Page N3Route">
+                <div class="wrapper">
+                    <div id="srch-bar-twt" style="text-align:center;padding-top: 10px; border-bottom: 1px solid rgba(0, 0, 0, .1);" data-snap-ignore="true">
+                        <div id="xxxx" hidden>5</div>
+                        <div id="slider">
+                            5Km <input id="slideXX" type="range" min="5" max="100" step="5" value="5" onchange="updateSlider(this.value)" /> 100Km
+                        </div>
+                    </div>
+
+                    <ul id="twtList" class="poilist" data-snap-ignore="true">
+                        <li></li>
+                    </ul>
+                    <ul class="list">
+
+                        <li onclick="runpoi()" style="background-color: #15a1e0;color: #fff;">
+                            <!--<a id="srch" transition="side" href="#page_location_map" onclick="runpoi()">-->
+                            <div id="srch" class="fs1" aria-hidden="true" data-icon=""></div><!--&#xf473;-->
+                            <span id="prox"> <strong>Search</strong></span>
+                            <span class=""></span>
+                            <!-- </a>-->
+                        </li>
+
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(images/Toll_pin.png);"></div>
+
+                            <strong>Toll Plaza</strong>
+                            <span id="tourbtn" class="count" style="margin-right: 100px;">0</span>
+
+
+                            <div class="toggle-box" onclick="ListTest()">
+                                <label for="toggle-tolls" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-tolls" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
+                            <strong>Service Stations</strong>
+                            <span id="petbtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-petrol" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-petrol" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/rest150.png);"></div>
+                            <strong>Restaurants</strong>
+                            <span id="restbtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-rest" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-rest" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/events150.png);"></div>
+                            <strong>Events</strong>
+                            <span id="evebtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-events" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-events" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/activity150.png);"></div>
+                            <strong>Activities</strong>
+                            <span id="activebtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-activ" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-activ" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/accomodation150.png);"></div>
+                            <strong>Accomodation</strong>
+                            <span id="accbtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-accom" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-accom" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li>
+
+                            <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/retail150.png);"></div>
+                            <strong>Retail</strong>
+                            <span id="retbtn" class="count" style="margin-right: 100px;">0</span>
+
+                            <div class="toggle-box">
+                                <label for="toggle-retail" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
+                                <input type="checkbox" value="1" id="toggle-retail" class="toggle-control" onclick="setPOI(this.id)">
+                            </div>
+                        </li>
+                        <li style="padding: 8px;">
+                            <div style="text-align:center;" id="longlatXX">...</div>
+                        </li>
+
+                    </ul>
+
+
+
+                </div>
+            </div>
+            <!-- END PAGE TWT2 -->
             <!-- PAGE TWITTER -->
             <div id="page_twitter" data-role="page" data-title="Page Twitter">
                 <div class="wrapper">
@@ -984,6 +1121,7 @@
                 <div class="wrapper content-padded" data-snap-ignore="true">
                     <select name="selectStart" id="selectStart" class="startSelect" onchange="setStart()">
                         <option value="">Select Start Point</option>
+                        <option value="Mylocation">My Location</option>
                         <option value="28.1837,-25.8621">Centurion</option>
                         <option value="28.01447,-26.03133">Johannesburg</option>
                         <option value="28.1219,-26.2672">Alberton</option>
@@ -1034,7 +1172,7 @@
                         <option value="30.3793,-29.6013">Pietermaritzburg</option>
                         <option value="30.9938,-29.7789319">Durban</option>
                     </select>
-                    <select class="endtSelect classSelect" id="vclass" onchange="cleanCoords()">
+                    <select class="endtSelect classSelect" id="vclass" onchange="">
                         <option value="1">Vehicle Class</option>
                         <option value="1">1 Light Vehicle</option>
                         <option value="2">2 Heavy Vehicle 2 axles</option>
@@ -1043,8 +1181,9 @@
                     </select>
 
                     <form>
-                        <input type="text" id="form-title" style="background-color: #f8f8f8;" placeholder="Trip Locations">
-                        <textarea rows="3" id="form-desc" placeholder="Description"></textarea>
+                        <input type="text" id="form-title" style="background-color: #f8f8f8;" value="Point A to Point B">
+                        <a id="form-claculate-trip" style="margin-bottom: 30px;" class="button-positive button-block" href="" onclick="cleanCoords()">Calculate</a>
+                        <textarea rows="3" id="form-desc" placeholder="Description" hidden></textarea>
 
                         <input type="text" id="form-time" class="input-bck input-bck-time" style=" background-color: #f8f8f8;width: 45%; margin-right: 15px; display: inline-block;" readonly placeholder="" onclick="resetTripStatic()">
                         <input type="text" id="form-distance" class="input-bck input-bck-km" style="background-color: #f8f8f8;width: 45%; float: right; display: inline-block;" readonly placeholder="">
@@ -1228,7 +1367,6 @@
 
             </div>
             <!-- END PAGE LOCATION MAPTIRP-->
-
             <!-- PAGE ASSIST -->
             <div id="page_assist" data-role="page" data-title="Page Assist">
                 <!--<nav class="bar-standard">
@@ -1240,26 +1378,25 @@
                     </ul>
                 </nav>-->
                 <div class="content-padded" style="background-color:#fff;">
-                   <div style="height:10px;"></div>
+                    <div style="height:10px;"></div>
                     <h3>Call N3TC 24/7 Careline on 0800 63 4357</h3>
                     <div style="height:10px;"></div>
-                    <a id="sosBtn" class="button-positive button-block" href="tel:+0800634357" data-rel="external" style="margin-top:10px;" onclick="">Click to Call</a>
+                    <a id="sosBtn" class="button-positive button-block" href="tel:+0800634357" data-rel="external" style="margin-top:10px;" onclick="window.open('tel:+0800634357');">Click to Call</a>
                     <div style="height:10px;"></div>
                     <h3>Enter Your Cell and Click to Send </h3>
                     <input type="text" id="assistCell" class="assistInput" value="" placeholder="Mobile Number" />
 
                     <a id="callBtn" class="button-negative button-block" href="" onclick="sendSOS()">SEND - SOS</a>
-                  <!--  <div class="sosBtn" onclick="sendSOS()">SEND SOS !</div><br />-->
+                    <!--  <div class="sosBtn" onclick="sendSOS()">SEND SOS !</div><br />-->
                 </div>
-                    <div class="wrapper-bar" style="background-color: #fff;">
-                        <div id="assistMap" class="slider" style="height: 40%; margin-top: 25px;  border-top: 15px solid #17a4e2;  border-bottom: 15px solid #17a4e2;" data-snap-ignore="true">                         
-                        </div>
-                        <div style="text-align:center;padding: 3px 0px 15px 0px; background-color: #17a4e2; font-size: 12pt;color: #fff;font-weight: bold;" id="longlatAssist">...</div>
-                        <div style="text-align:center;padding: 3px 0px 15px 0px; background-color: #17a4e2; font-size: 12pt;color: #fff;font-weight: bold; border-top: 2px solid #fff;" id="markerCode">...</div>
+                <div class="wrapper-bar" style="background-color: #fff;">
+                    <div id="assistMap" class="slider" style="height: 40%; margin-top: 25px;  border-top: 15px solid #17a4e2;  border-bottom: 15px solid #17a4e2;" data-snap-ignore="true">
+                    </div>
+                    <div style="text-align:center;padding: 3px 0px 15px 0px; background-color: #17a4e2; font-size: 12pt;color: #fff;font-weight: bold;" id="longlatAssist">...</div>
+                    <div style="text-align:center;padding: 3px 0px 15px 0px; background-color: #17a4e2; font-size: 12pt;color: #fff;font-weight: bold; border-top: 2px solid #fff;" id="markerCode">...</div>
                 </div>
             </div>
             <!-- END PAGE ASSIST-->
-
             <!-- PAGE DETAIL LOCATION -->
             <div id="page_show_location" data-role="page">
                 <nav class="bar-standard">
@@ -1332,18 +1469,23 @@
     <script type="text/javascript" src="js/poirun.js"></script>
 
     <script type="text/javascript" src="js/routemarkers.js"></script>
-   
+
     <script type="text/javascript" src="js/assist.js"></script>
     <script type="text/javascript" src="js/myTrips.js"></script>
-    
+
 
     <script src="js/twtfetch.js"></script>
 
 
 
     <script>
-       
-      
+        function ListTest() {
+
+            var TESTX = '<li id="28.081703, -26.115809" class="poiLi" onclick="showOnMap(this.id)"><strong>Sasol</strong> - Petrol<br>Distance: 3.55 kms<br>Tel: undefined<br>Address: Wynberg<br>Co-ords: -26.115809, 28.081703<br>Website: <a href="www.sasol.co.za">www.sasol.co.za</a><br></li><li id="28.065922, -26.10055" class="poiLi" onclick="showOnMap(this.id)"><strong>Engen</strong> - Petrol<br>Distance: 3.69 kms<br>Tel: undefined<br>Address: Strathavon Ext 30<br>Co-ords: -26.10055, 28.065922<br>Website: <a href="www.engen.co.za">www.engen.co.za</a><br></li><li id="28.044892, -26.148798" class="poiLi" onclick="showOnMap(this.id)"><strong>Engen - Oxford</strong> - Petrol<br>Distance: 2.10 kms<br>Tel: +(27)-(11)-3272448<br>Address: Abbotsford<br>Co-ords: -26.148798, 28.044892<br>Website: <a href="www.engen.co.za">www.engen.co.za</a><br></li><li id="28.062626, -26.147571" class="poiLi" onclick="showOnMap(this.id)"><strong>Caltex - Oaklands</strong> - Petrol<br>Distance: 2.27 kms<br>Tel: +(27)-(11)-4833233<br>Address: Oaklands<br>Co-ords: -26.147571, 28.062626<br>Website: <a href="www.caltex.co.za">www.caltex.co.za</a><br></li><li id="28.059366, -26.146844" class="poiLi" onclick="showOnMap(this.id)"><strong>Shell - Glenhove</strong> - Petrol<br>Distance: 2.04 kms<br>Tel: +(27)-(11)-7287766<br>Address: Houghton Estate<br>Co-ords: -26.146844, 28.059366<br>Website: <a href="www.shell.com">www.shell.com</a><br></li><li id="28.007114, -26.143693" class="poiLi" onclick="showOnMap(this.id)"><strong>Engen - Emmarentia</strong> - Petrol<br>Distance: 4.54 kms<br>Tel: undefined<br>Address: Emmarentia Ext 1<br>Co-ords: -26.143693, 28.007114<br>Website: <a href="www.engen.co.za">www.engen.co.za</a><br></li><li id="28.081703, -26.115809" class="poiLi" onclick="showOnMap(this.id)"><strong>Sasol</strong> - Petrol<br>Distance: 3.55 kms<br>Tel: undefined<br>Address: Wynberg<br>Co-ords: -26.115809, 28.081703<br>Website: <a href="www.sasol.co.za">www.sasol.co.za</a><br></li><li id="28.065922, -26.10055" class="poiLi" onclick="showOnMap(this.id)"><strong>Engen</strong> - Petrol<br>Distance: 3.69 kms<br>Tel: undefined<br>Address: Strathavon Ext 30<br>Co-ords: -26.10055, 28.065922<br>Website: <a href="www.engen.co.za">www.engen.co.za</a><br></li><li id="28.044892, -26.148798" class="poiLi" onclick="showOnMap(this.id)"><strong>Engen - Oxford</strong> - Petrol<br>Distance: 2.10 kms<br>Tel: +(27)-(11)-3272448<br>Address: Abbotsford<br>Co-ords: -26.148798, 28.044892<br>Website: <a href="www.engen.co.za">www.engen.co.za</a><br></li><li id="28.062626, -26.147571" class="poiLi" onclick="showOnMap(this.id)"><strong>Caltex - Oaklands</strong> - Petrol<br>Distance: 2.27 kms<br>Tel: +(27)-(11)-4833233<br>Address: Oaklands<br>Co-ords: -26.147571, 28.062626<br>Website: <a href="www.caltex.co.za">www.caltex.co.za</a><br></li><li id="28.059366, -26.146844" class="poiLi" onclick="showOnMap(this.id)"><strong>Shell - Glenhove</strong> - Petrol<br>Distance: 2.04 kms<br>Tel: +(27)-(11)-7287766<br>Address: Houghton Estate<br>Co-ords: -26.146844, 28.059366<br>Website: <a href="www.shell.com">www.shell.com</a><br></li><li id="28.007114, -26.143693" class="poiLi" onclick="showOnMap(this.id)"><strong>Engen - Emmarentia</strong> - Petrol<br>Distance: 4.54 kms<br>Tel: undefined<br>Address: Emmarentia Ext 1<br>Co-ords: -26.143693, 28.007114<br>Website: <a href="www.engen.co.za">www.engen.co.za</a><br></li>';
+            document.getElementById("twtList").innerHTML = TESTX;
+
+        }
+
 
 
         function startTrip() {
@@ -1381,6 +1523,23 @@
             // el.setAttribute('disabled', 'disabled');
             // $("#topHead").html("dised..");
             //map.resize();
+            setTimeout(function () { map.resize(); }, 300);
+        };
+
+        function openPagePOI(href) {
+            // addMap1();
+            var idref = href;
+            window.location.href = idref;
+            //  jqUpdateSize();
+            screenHeight();
+            $('.loading').hide();
+            $('.mapboxgl-ctrl-geocoder').hide();
+            //getLocationCategory();
+            //var el = document.getElementById('save-location');
+            // el.setAttribute('disabled', 'disabled');
+            // $("#topHead").html("dised..");
+            //map.resize();
+            $('#closeRight').trigger("click");
             setTimeout(function () { map.resize(); }, 300);
         };
 
@@ -1578,6 +1737,7 @@
             [22.671552, -32.347247], // Southwest coordinates
             [30.691572, -25.368595]  // Northeast coordinates
         ];
+        // function addMap1(){
         mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZ2RpeDEiLCJhIjoiY2o2YXR2dGs0MWF1cjJxcGt2Njkyb3Q3OCJ9.YvaAQsUYmPfOG36iVUZGyQ';
         var map = new mapboxgl.Map({
             container: 'map_canvas', // container id
@@ -1588,6 +1748,7 @@
             country: 3166 - 2 //ISO ZAR //en.wikipedia.org/wiki/ISO_3166-2:ZA
         });
 
+        //}
 
         function addMapAssist() {
 
@@ -1955,7 +2116,7 @@
                 document.getElementById("gpsout").innerHTML = "Lat: " + mylat + "  Lon: " + mylon;
                 // map.setCenter([mylon, mylat]);
                 // map2.flyTo({ center: [mylon, mylat], zoom: 17 });
-               // map.flyTo({ center: [mylon, mylat], zoom: 11 });
+                // map.flyTo({ center: [mylon, mylat], zoom: 11 });
             }
         };
 

@@ -12,11 +12,11 @@
        var usrpss = '';
         $(document).ready(function () {
 
-
+        //jQuery.get('https://mobiapps.n3tc.co.za/data/' + passpGet + '.txt', function (data) {
 
             var passpGet = localStorage.getItem("myUserID");
             //https://mobiapps.n3tc.co.za
-            jQuery.get('https://biz-park.co.za/n3/data/users/' + passpGet + '.txt', function (data) {
+           jQuery.get('https://mobiapps.n3tc.co.za/data/' + passpGet + '.txt', function (data) {
 
                 $('#xx').html(data);
                 $('#trg').html(data);
@@ -25,7 +25,7 @@
 
             });
             //  $('#div').html("dfdsfdf");
-            var passp = localStorage.getItem("myUserID");
+            passp = localStorage.getItem("myUserID");
             // alert(passp);
             $("#passphrase").val(passp);
         });
@@ -34,7 +34,7 @@
         $(document).ready(function (e) {
             $("#auth").on('submit', (function (e) {
                 e.preventDefault();
-
+              //url: "https://mobiapps.n3tc.co.za/data/n3-js-to-php2-rec.php",
 
                 $.ajax({
                     url: "https://mobiapps.n3tc.co.za/data/n3-js-to-php2-rec.php",
@@ -59,9 +59,9 @@
                         //   });
                          var checkUser = obj.username;
                         var checkPass = obj.pass;
-                        usrpss = checkUser + checkPass;
+                        var usrpss = checkUser + checkPass;
                         $('#listView').empty();
-
+                        //alert(usrpss);
                         // if (items.length) {
                         //    var content = '<li>' + items.join('</li><li>') + '</li>';
                         //     var list = $('<ul />').html(content);
@@ -89,7 +89,7 @@
 
         });
 
-        //setTimeout(function () { window.parent.document.getElementById('testP').value = 'usrpss';  }, 3000);
+       // setTimeout(function () { window.parent.document.getElementById('testP').value = usrpss; }, 3000);
 
     </script>
 </head>

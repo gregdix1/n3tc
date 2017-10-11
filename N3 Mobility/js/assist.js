@@ -67,15 +67,15 @@ function RouteMarkerCheck() {
         }
     };
     //alert('showpoSSS..');
-    mylat = -29.538502;
-    mylon = 30.278805;
+   // mylat = -29.538502;
+    //mylon = 30.278805;
     function showPosition(position) {
 
-        // mylat = position.coords.latitude;
-        // mylon = position.coords.longitude;
+        mylat = position.coords.latitude;
+        mylon = position.coords.longitude;
 
-        mylat = -29.538502;
-        mylon = 30.278805;
+       // mylat = -29.538502;
+        //mylon = 30.278805;
 
         var prox = 0.02;
        

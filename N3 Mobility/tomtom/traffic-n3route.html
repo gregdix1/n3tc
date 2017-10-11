@@ -47,13 +47,19 @@
                             domNode: "map",
                             displayTraffic: true,
                             center: [mylat, mylon],
-                            zoom: 14
+                            zoom: 8,
+                            routeStyle: {
+                                color: "#447095",
+                                weight: 5,
+
+                            }
                         });
 
 
-                          //map.displayRoute(["Johannesburg, South Africa", "Durban, South Africa"]);
+                        map.displayRoute(["Johannesburg, South Africa", "Durban, South Africa"]);
                         var MyMarker = new tomtom.Marker([mylat, mylon]);
                         map.addLayer(MyMarker);
+
                     }
 
                 }
