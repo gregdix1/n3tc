@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -400,8 +400,8 @@
                             <a id="home" transition="side" href="#page_home" onclick="openPage(this.href)"> Home</a>
                         </li>
                         <li id="li_page_location_map_trip">
-                            <span aria-hidden="true" class="icon-checkin"></span>
-                            <a id="location-map-pnl" transition="side" href="#page_location_map_trip" onclick="openPageLocmap(this.href)">N3 Route</a>
+                            <span aria-hidden="true" class="icon-checkin"></span><!-- old href #page_location_map_trip // openPageLocmap(this.href)-->
+                            <a id="location-map-pnl" transition="side" href="#page_home" onclick="n3route()">N3 Route</a>
                         </li>
                         <!--<li id="li_page_nearby">
                             <span aria-hidden="true" class="icon-chris-spittles-geo-location"></span>
@@ -439,16 +439,20 @@
                               <span aria-hidden="true" class="icon-maps"></span>
                               <a id="poi" transition="side" href="#page_location_list" onclick="openPage(this.href)"> POI</a>
                           </li> -->
-                        <li id="mylocgps" onclick="myLoc()">
+                        <li id="mylocgps" onclick="myLoc()" hidden>
                             <span aria-hidden="true" class="icon-chris-spittles-geo-location"></span>
                             <span id="gpsout" style="margin-left: 40px; padding: 10px 8px; font-size: 10px; line-height: 18px;">Get GPS</span>
                         </li>
                         <li id="copy" onclick="flytoZoom()">
                             MOBILITY v2.3 N3TC &copy; 2017
                         </li>
+                        <li id="n3logo" onclick="" style="height: 120px;  border-bottom: none;">
+                            
+                            <img src="images/n3tc_logoBck.png" width="100" height="auto" style="margin-left: 5px;" />
+                        </li>
                     </ul>
                 </div>
-                <iframe id="runFrame" src="" width="100%" height="150" frameborder="0" scrolling="auto"></iframe>
+                <iframe id="runFrame" src="" width="100%" height="100" frameborder="0" scrolling="auto"></iframe>
             </div>
         </div>
     </div>
@@ -467,7 +471,7 @@
                 </div>-->
             </li>
             <li class="list-divider">Tools</li>
-            <li id="directionsBtn" onclick="addDirections()">
+            <li id="directionsBtn" onclick="addDirections()" hidden>
                 <div class="fs1" aria-hidden="true" data-icon="&#xf21b;"></div>
                 <a id="dirclink" transition="side" href="#page_location_map_trip" onclick="openPage(this.href)"></a>
                 Directions
@@ -496,9 +500,9 @@
             <li class="list-divider">Maps Layer Setting</li>
             <li>
                 <div class="fs1" aria-hidden="true" data-icon="&#xf22a;"></div>
-                <a id="dirclink" transition="side" href="#page_location_map_traffic" onclick="openPage(this.href)"></a>
-                Traffic Layer
-                <div class="toggle-box">
+                <a id="dirclink" transition="side" href="#page_location_map_traffic" onclick="openPagePOI(this.href)"></a>
+                Traffic Map
+                <div class="toggle-box" hidden>
                     <label for="toggle-traffic-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
                     <input type="checkbox" value="1" id="toggle-traffic-layer" class="toggle-control" />
                 </div>
@@ -515,7 +519,8 @@
                 <div class="fs1" aria-hidden="true" data-icon="&#x2b;"></div>
                 <a id="poi2" transition="side" href="#page_poi" onclick="openPagePOI(this.href)"></a>
                 Places (POI)
-                <div class="toggle-box">
+                <span id="pcnt" class="count" style="margin-right: 20px;">252</span>
+                <div class="toggle-box" hidden>
                     <label for="toggle-transit-layer" class="toggle-label">ON &nbsp;&nbsp; OFF</label>
                     <input type="checkbox" value="1" id="toggle-transit-layer" class="toggle-control" />
                 </div>
@@ -580,7 +585,7 @@
                     </div>
                     <nav class="bar-standard">
                         <ul class="segmented-controller">
-                            <li><a id="btn-home-traffic" href="#" onclick="tomTraffic()">Traffic</a></li>
+                            <li><a id="btn-home-traffic" href="#" onclick="tomTraffic()">Street</a></li>
                             <li><a id="btn-home-route" href="#" onclick="n3route()">N3 Route</a></li>
                             <li><a id="btn-home-fullmap" href="#" onclick="fullMap()">Full Map</a></li>
                             <li><a id="btn-home-addtrip" href="#page_add_location" onclick="openPage(this.href)">New Trip</a></li>
@@ -1022,7 +1027,7 @@
             <!-- PAGE TWITTER -->
             <div id="page_twitter" data-role="page" data-title="Page Twitter">
                 <div class="wrapper">
-                    <iframe frameborder="0" id="formFrm" style=" width:100%;" src="twitter/map/index-twtmap.html"></iframe>
+                    <iframe frameborder="0" id="formFrm" style=" width:100%;  background-color: #fff;" src="twitter/index-n3route-list.html"></iframe>
                     <!-- <ul id="list-tweets" class="list"></ul>
                     <a class="twitter-timeline" href="https://twitter.com/N3Route">Tweets by N3Route</a>
                     <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>-->
@@ -1172,7 +1177,7 @@
                         <option value="30.3793,-29.6013">Pietermaritzburg</option>
                         <option value="30.9938,-29.7789319">Durban</option>
                     </select>
-                    <select class="endtSelect classSelect" id="vclass" onchange="">
+                    <select class="endtSelect classSelect" id="vclass" onchange="CalcBtn()">
                         <option value="1">Vehicle Class</option>
                         <option value="1">1 Light Vehicle</option>
                         <option value="2">2 Heavy Vehicle 2 axles</option>
@@ -1182,7 +1187,7 @@
 
                     <form>
                         <input type="text" id="form-title" style="background-color: #f8f8f8;" value="Point A to Point B">
-                        <a id="form-claculate-trip" style="margin-bottom: 30px;" class="button-positive button-block" href="" onclick="cleanCoords()">Calculate</a>
+                        <a id="form-claculate-trip" style="margin-bottom: 30px;" class="button-positive button-block assistHide" href="" onclick="cleanCoords()">Calculate</a>
                         <textarea rows="3" id="form-desc" placeholder="Description" hidden></textarea>
 
                         <input type="text" id="form-time" class="input-bck input-bck-time" style=" background-color: #f8f8f8;width: 45%; margin-right: 15px; display: inline-block;" readonly placeholder="" onclick="resetTripStatic()">
@@ -1198,8 +1203,8 @@
 
                             <li>
 
-                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(img/pin/petrol150.png);"></div><!--"\3b"-->
-                                <strong>Service Stations</strong>
+                                <div class="fs1 poiMenuDiv" aria-hidden="true" data-icon="" style="background-image: url(images/starbookmark.png); background-size: 70%;"></div><!--"\3b"-->
+                                <strong>My Bookmarks</strong>
                                 <!--<span id="petbtn" class="count" style="margin-right: 100px;">0</span>-->
 
                                 <div class="toggle-box">
@@ -1355,15 +1360,15 @@
 
             </div>
             <!-- END PAGE LOCATION MAP-->
-            <!-- PAGE LOCATION MAPTRIP-->
+            <!-- PAGE LOCATION MAPTRIP  OLD iframe src = assets/testmapn3.html-->
             <div id="page_location_map_trip" data-role="page" data-title="Page Location Map">
-                <iframe frameborder="0" id="frameTrip" scrolling="yes" style=" width:100%;" src="assets/testmapn3.html"></iframe>
+                <iframe frameborder="0" id="frameTrip" scrolling="yes" style=" width:100%;" src="tomtom/traffic-home.html"></iframe>
 
             </div>
             <!-- END PAGE LOCATION MAPTIRP -->
-            <!-- PAGE LOCATION MAPTRIP traffic-day.html info-LINKS-ST.html acc_tag_trans.html-->
+            <!-- PAGE LOCATION MAPTRIP  old ifrmae src = tomtom/traffic.html-->
             <div id="page_location_map_traffic" data-role="page" data-title="Page Traffic Map">
-                <iframe frameborder="0" id="frameTraffic" scrolling="yes" height="450" style=" width:100%;" src="tomtom/traffic.html"></iframe>
+                <iframe frameborder="0" id="frameTraffic" scrolling="yes" height="450" style=" width:100%;" src="tomtom/traffic-home.html"></iframe>
 
             </div>
             <!-- END PAGE LOCATION MAPTIRP-->
@@ -1485,7 +1490,10 @@
             document.getElementById("twtList").innerHTML = TESTX;
 
         }
-
+        function CalcBtn() {
+            document.getElementById("form-claculate-trip").className = "button-positive button-block";
+            
+        }
 
 
         function startTrip() {
@@ -1507,7 +1515,7 @@
             localStorage.setItem("end", TendCoords[0] + ',' + TendCoords[1]);
             //  alert('tripcoords.Html ' + strC + ' StartLon ' + TstartCoords[0] + ' StartLat ' + TstartCoords[1] + ' endLon ' + TendCoords[0] + ' endLat ' + TendCoords[1]);
             localStorage.setItem("savedTrip", "YES");
-            document.getElementById("frameTrip").src = "assets/testmapn3.html";
+            document.getElementById("frameTrip").src = "tomtom/traffic-home.html";
         }
 
 
@@ -1533,7 +1541,7 @@
             //  jqUpdateSize();
             screenHeight();
             $('.loading').hide();
-            $('.mapboxgl-ctrl-geocoder').hide();
+           // $('.mapboxgl-ctrl-geocoder').hide();
             //getLocationCategory();
             //var el = document.getElementById('save-location');
             // el.setAttribute('disabled', 'disabled');
@@ -1562,8 +1570,10 @@
             //$('#frameTrip').src ='assets/testmapn3.html';
             screenHeight();
             var idrefLocmap = href;
+            $('#btn-home-route').trigger("click");
+            $('#btn-home-fullmap').trigger("click");
             window.location.href = idrefLocmap;
-
+            
         };
 
         function openPageFly(href) {

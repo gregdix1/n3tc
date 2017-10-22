@@ -350,8 +350,8 @@ function getNearby(){
 		$("#page_detail_save_location .slider ul").empty();
 		//$("#page_detail_save_location .slider ul").append('<li><img src="http://maps.googleapis.com/maps/api/staticmap?center='+cli.Lat+','+cli.Lon+'&markers=color:blue|label:S|'+cli.Lat+','+cli.Lon+'&zoom=15&size='+pw+'x220&sensor=false"></li>');
         //$("#page_detail_save_location .slider ul").append('<li><img src="http://maps.googleapis.com/maps/api/streetview?size=' + pw + 'x230&location=' + myLat + ',' + myLong + '&fov=90&heading=235&pitch=10&sensor=false"></li>');
-        $("#page_detail_save_location .slider ul").append('<li><img src="http://maps.googleapis.com/maps/api/staticmap?center=-26.0442972,27.9904109&markers=color:blue|label:S|-26.0442972,27.9904109&zoom=15&size=420x220&sensor=false"></li>');
-        $("#page_detail_save_location .slider ul").append('<li><img src="http://maps.googleapis.com/maps/api/staticmap?center=-26.0442972,27.9904109&markers=color:blue|label:S|-26.0442972,27.9904109&zoom=15&size=420x220&sensor=false"></li>');
+       // $("#page_detail_save_location .slider ul").append('<li><img src="http://maps.googleapis.com/maps/api/staticmap?center=-26.0442972,27.9904109&markers=color:blue|label:S|-26.0442972,27.9904109&zoom=15&size=420x220&sensor=false"></li>');
+      //  $("#page_detail_save_location .slider ul").append('<li><img src="http://maps.googleapis.com/maps/api/staticmap?center=-26.0442972,27.9904109&markers=color:blue|label:S|-26.0442972,27.9904109&zoom=15&size=420x220&sensor=false"></li>');
 		
 		$("#date-save-location").html(date);
 		$("#title-save-location").html(cli.Title);
@@ -363,7 +363,7 @@ function getNearby(){
         $("#plaza-save-location").html(cli.Plaza);
         $("#directions-save-location").html(cli.Directions);        
        // $("#button-save-location").html('<a onClick="getMyLocationMap(' + cli.Lon + ',' + cli.Lat + ')" class="button-positive button-block" href="#page_location_map">Map View</a>');
-        $("#button-save-location").html('<a onClick="getMyLocationMap(' + mylon + ',' + mylat + ')" class="button-positive button-block" href="#page_location_map">Map View</a>');
+        $("#button-save-location").html('<a onClick="getMyLocationMapGBD(' + mylon + ',' + mylat + ')" class="button-positive button-block" href="#page_location_map">Map View</a>');
 	}
 	
 	
@@ -419,11 +419,18 @@ function getNearby(){
 	}
 	
     function getMyLocationMap(mylon, mylat) {
-        map.flyTo({ center: [mylon, mylat], zoom: 11 });
-		//setTimeout('init("false")',2500);
-		//setTimeout('addMarkers('+lon+','+lat+')',2500);
+        setTimeout('init("false")',2500);
+		setTimeout('addMarkers('+lon+','+lat+')',2500);
         window.location.href = "#page_location_map";
-	}
+        setTimeout(function () { map.resize(); }, 300);
+    }
+
+    function getMyLocationMapGBD(mylon, mylat) {
+        map.flyTo({ center: [mylon, mylat], zoom: 15 });
+        //setTimeout('init("false")',2500);
+        //setTimeout('addMarkers('+lon+','+lat+')',2500);
+        window.location.href = "#page_location_map";
+    }
 	
     function getShowLocation(mylon,mylat,icon){
 		window.location.href = "#page_location_map";

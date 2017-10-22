@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Twitter Post Fetcher - compiled</title>
+  
+  
+  
+      <link rel="stylesheet" href="css/stylen3route.css">
+<style type="text/css">
+    .listcont {
+        padding: 0px;
+        margin: 0px;
+    }
+    .Icon--replyEdge {
+        width: 1.25em;
+        background-image: url(map/reply.svg);
+        transform: scaleX(1);
+    }
+
+    .Icon--reply {
+        width: 1.07639em;
+        background-image: url(map/reply.svg);
+        transform: scaleX(1);
+    }
+
+    .Icon {
+        display: inline-block;
+        height: 1.25em;
+        background-size: contain;
+        vertical-align: text-bottom;
+        background-repeat: no-repeat;
+        font-size: 12pt;
+    }
+
+    .Icon--retweetEdge {
+        width: 1.25em;
+        background-image: url(map/retweet.svg);
+        transform: scaleX(1);
+    }
+
+
+    .Icon--heartEdge {
+        width: 1.25em;
+        background-image: url(map/heart.svg);
+    }
+
+    .Icon--heart {
+        width: 0.9375em;
+        background-image: url(map/heart.svg);
+    }
+</style>
+  
+</head>
+
+<body class="listcont">
+  <html>
+  <head></head>
+  <body>
+      <div style="display:none">
+          <div id="btn1" onclick="addMyApplication()">Local SET</div><div id="btn2" onclick="listTweets()">Local get</div>
+          <form action="https://biz-park.co.za/n3/twitter-write.php" method="post">
+              <textarea id="txtBoxXX"></textarea>
+              <input type="text" id="txtBox" name="txtBox" />
+              <button type="submit" value="submit"></button>
+          </form>
+      </div>
+      <div class="listcont" id="example1">
+       <!--   <ul class="listcont">
+              <li>
+                  <p id="1" class="tweet">17h00 #Weather: Drizzling between Cedara &amp; Midmar I/C. Estcourt to Heidelberg I/C clear conditions. Please travel safely.</p><p id="1time" class="timePosted">
+                      6h
+                  </p><p class="interact"><a href="https://twitter.com/intent/tweet?in_reply_to=917770075901370368" class="Icon Icon--reply TweetAction-icon Icon--replyEdge" target="_blank"></a><a href="https://twitter.com/intent/retweet?tweet_id=917770075901370368" class="Icon Icon--retweet TweetAction-icon Icon--retweetEdge" target="_blank"></a><a href="https://twitter.com/intent/favorite?tweet_id=917770075901370368" class="Icon Icon--heart TweetAction-icon Icon--heartEdge" target="_blank"></a></p>
+              </li>
+              <li>
+                  <p id="2" class="tweet">16h48  #ObstructionUpdate: N3 4 19.4 S near Lions River. HMV obstructing S/L. The scene has been cleared. #DriveSafe.</p><p id="2time" class="timePosted">
+    7h
+</p><p class="interact"><a href="https://twitter.com/intent/tweet?in_reply_to=917770075901370368" class="Icon Icon--reply TweetAction-icon Icon--replyEdge" target="_blank"></a><a href="https://twitter.com/intent/retweet?tweet_id=917770075901370368" class="Icon Icon--retweet TweetAction-icon Icon--retweetEdge" target="_blank"></a><a href="https://twitter.com/intent/favorite?tweet_id=917770075901370368" class="Icon Icon--heart TweetAction-icon Icon--heartEdge" target="_blank"></a></p>
+              </li>
+              <li>
+                  <p id="3" class="tweet">14h42 #Obstruction: N3 4 19.4 S near Lions River. HMV obstructing S/L. Please approach with caution.</p><p id="3time" class="timePosted">
+    9h
+</p><p class="interact"><a href="https://twitter.com/intent/tweet?in_reply_to=917770075901370368" class="Icon Icon--reply TweetAction-icon Icon--replyEdge" target="_blank"></a><a href="https://twitter.com/intent/retweet?tweet_id=917770075901370368" class="Icon Icon--retweet TweetAction-icon Icon--retweetEdge" target="_blank"></a><a href="https://twitter.com/intent/favorite?tweet_id=917770075901370368" class="Icon Icon--heart TweetAction-icon Icon--heartEdge" target="_blank"></a></p>
+              </li>
+              <li>
+                  <p id="4" class="tweet">12h00 #TrafficUpdate: The #N3TollRoute is currently incident free. Free flowing traffic.  Please share the road responsibily.</p><p id="4time" class="timePosted">
+    11h
+</p><p class="interact"><a href="https://twitter.com/intent/tweet?in_reply_to=917770075901370368" class="Icon Icon--reply TweetAction-icon Icon--replyEdge" target="_blank"></a><a href="https://twitter.com/intent/retweet?tweet_id=917770075901370368" class="Icon Icon--retweet TweetAction-icon Icon--retweetEdge" target="_blank"></a><a href="https://twitter.com/intent/favorite?tweet_id=917770075901370368" class="Icon Icon--heart TweetAction-icon Icon--heartEdge" target="_blank"></a></p>
+              </li>
+              <li>
+                  <p id="5" class="tweet">12h00 #Weather: Raining from Cedara to Estcourt.  #TugelaPlaza to Heidelberg I/C overcast. #BuckleUp. #HeadLightsOn. #BeSafeBeSeen</p><p id="5time" class="timePosted">
+                      11h
+                 </p><p class="interact"><a href="https://twitter.com/intent/tweet?in_reply_to=917770075901370368" class="Icon Icon--reply TweetAction-icon Icon--replyEdge" target="_blank"></a><a href="https://twitter.com/intent/retweet?tweet_id=917770075901370368" class="Icon Icon--retweet TweetAction-icon Icon--retweetEdge" target="_blank"></a><a href="https://twitter.com/intent/favorite?tweet_id=917770075901370368" class="Icon Icon--heart TweetAction-icon Icon--heartEdge" target="_blank"></a></p>
+              </li>
+              <li>
+                  <p id="6" class="tweet">10h21 #Weather: Raining from Cedara to Estcourt. #KeepASafeFollowingDistance. #HeadLightsOn. #BeSafeBeSeen</p><p id="6time" class="timePosted">
+                      13h
+                   </p><p class="interact"><a href="https://twitter.com/intent/tweet?in_reply_to=917770075901370368" class="Icon Icon--reply TweetAction-icon Icon--replyEdge" target="_blank"></a><a href="https://twitter.com/intent/retweet?tweet_id=917770075901370368" class="Icon Icon--retweet TweetAction-icon Icon--retweetEdge" target="_blank"></a><a href="https://twitter.com/intent/favorite?tweet_id=917770075901370368" class="Icon Icon--heart TweetAction-icon Icon--heartEdge" target="_blank"></a></p>
+              </li>
+              <li>
+                  <p id="7" class="tweet">09h00 Weather: Raining from #BergvillePlaza towards Estcourt. #KeepASafeFollowingDistance. #HeadLightsOn. Be Safe. Be Seen.</p><p id="7time" class="timePosted">
+                      14h
+                   </p><p class="interact"><a href="https://twitter.com/intent/tweet?in_reply_to=917770075901370368" class="Icon Icon--reply TweetAction-icon Icon--replyEdge" target="_blank"></a><a href="https://twitter.com/intent/retweet?tweet_id=917770075901370368" class="Icon Icon--retweet TweetAction-icon Icon--retweetEdge" target="_blank"></a><a href="https://twitter.com/intent/favorite?tweet_id=917770075901370368" class="Icon Icon--heart TweetAction-icon Icon--heartEdge" target="_blank"></a></p>
+              </li>
+              <li>
+                  <p id="8" class="tweet">08h12 #CrashUpdate:  N3 10 50.0 S (DBN Bound) near #DeHoekPlaza. LMV involved. The scene has been cleared. #DriveSafe.</p><p id="8time" class="timePosted">
+                      15h
+                   </p><p class="interact"><a href="https://twitter.com/intent/tweet?in_reply_to=917770075901370368" class="Icon Icon--reply TweetAction-icon Icon--replyEdge" target="_blank"></a><a href="https://twitter.com/intent/retweet?tweet_id=917770075901370368" class="Icon Icon--retweet TweetAction-icon Icon--retweetEdge" target="_blank"></a><a href="https://twitter.com/intent/favorite?tweet_id=917770075901370368" class="Icon Icon--heart TweetAction-icon Icon--heartEdge" target="_blank"></a></p>
+              </li>
+              <li>
+                  <p id="9" class="tweet">08h08 #Weather:  Cloudy between Cedara &amp; #VanReenenPass. Clear from Harrismith towards Heidelberg.  #KeepASafeFollowingDistance.</p><p id="9time" class="timePosted">
+    15h
+</p><p class="interact"><a href="https://twitter.com/intent/tweet?in_reply_to=917770075901370368" class="Icon Icon--reply TweetAction-icon Icon--replyEdge" target="_blank"></a><a href="https://twitter.com/intent/retweet?tweet_id=917770075901370368" class="Icon Icon--retweet TweetAction-icon Icon--retweetEdge" target="_blank"></a><a href="https://twitter.com/intent/favorite?tweet_id=917770075901370368" class="Icon Icon--heart TweetAction-icon Icon--heartEdge" target="_blank"></a></p>
+              </li>
+              <li>
+                  <p id="10" class="tweet">08h01 #Crash N3 10 50.0 S (DBN Bound) near #DeHoekPlaza. LMV involved. No obstruction. Please approach with caution.</p><p id="10time" class="timePosted">
+    15h
+</p><p class="interact"><a href="https://twitter.com/intent/tweet?in_reply_to=917770075901370368" class="Icon Icon--reply TweetAction-icon Icon--replyEdge" target="_blank"></a><a href="https://twitter.com/intent/retweet?tweet_id=917770075901370368" class="Icon Icon--retweet TweetAction-icon Icon--retweetEdge" target="_blank"></a><a href="https://twitter.com/intent/favorite?tweet_id=917770075901370368" class="Icon Icon--heart TweetAction-icon Icon--heartEdge" target="_blank"></a></p>
+              </li>
+          </ul>-->
+      </div>
+    
+  </body>
+</html>
+    <script>
+
+      var i = 0;
+      var twtID;
+      var twtTime;
+      var clientTwtAll = '';
+
+      function addMyApplication() {
+          var iReverse = 11;
+          clientTwtAll = '';
+          for (i = 0; i < 10; i++) {
+              
+              iReverse = iReverse - 1;
+              twtID = iReverse;
+              twtTime = iReverse + 'time';
+              var p1 = document.getElementById(twtID).innerHTML;
+              var p2A = document.getElementById(twtTime).innerHTML;
+              var p2 = p2A.trim();
+              var clientTwt = JSON.stringify({
+                  twtBody: p1,
+                  time: p2,
+                  author: "@N3Route"
+              });
+
+              clientTwtAll = clientTwtAll + clientTwt + ', ';
+              localStorage.setItem("tbSavedTweetsXX", clientTwtAll);
+
+          }
+          return true;
+
+      }
+
+      var jsontwt = '';
+      var jsontwtP = [];
+      //  var twtArr = [];
+
+
+      function listTweets() {
+          jsontwt = localStorage.getItem("tbSavedTweetsXX");
+                   
+
+          //     var xmlhttp = new XMLHttpRequest();
+          //     xmlhttp.onreadystatechange = function() {
+          //    if (this.readyState == 4 && this.status == 200) {
+          //       var myObj = JSON.parse(jsontwt);
+          //    document.getElementById("txtBox").innerText = myObj.twtBody + ' ' + myObj.time;
+          //                 }
+          //    };
+          //    xmlhttp.open("GET", jsontwt, true);
+          //  xmlhttp.send();
+        //  alert(jsontwt);
+         // document.getElementById("txtBox").innerText = jsontwt;
+          document.getElementById("txtBox").value = jsontwt;
+          loadTweets();
+         
+      }
+
+     function getTweets() {
+         return jsontwt; // JSON.parse(jsontwt); 
+      }
+
+      //
+
+     
+      var pointIndexTwt = 0;
+      var TB = '';
+
+      function loadTweets() {
+
+          var pointsTwt = getTweets(); //getTweets();
+
+          for (var pointIndexTwt = 0; pointIndexTwt < pointsTwt.length && pointIndexTwt < 54; pointIndexTwt++) {
+              var point = pointsTwt[pointIndexTwt];
+
+              //var markup = point.lat + ", " + point.lon;
+              var tBody = point.twtBody;
+
+              TB += "time: " + point.time + " Body: " + tBody;
+          }
+         // document.getElementById("txtBox").innerText = TB;
+      }
+
+      ////
+  </script>
+
+    <script src="js/index-n3route.js"></script>
+
+</body>
+</html>

@@ -26,8 +26,8 @@ ul li {
     list-style: none;
     overflow: hidden;
     border-bottom: 1px solid #9c9c9c;
-    margin: 0px;
-    padding: 8px;
+    margin: 5px;
+    padding: 5px;
 }
 
 ul li:hover {
@@ -39,18 +39,15 @@ ul li:hover {
 }
 
 .user {
-    width: 95%;
-    display: none;
+  width:25%;
 }
 
 .tweet {
-   //margin-top: -15px;
-   //margin-left: 60px;
+ //width:50%;
 }
 
 .timePosted {
-    //width:15%;
-    font-weight: 600;
+ //width:15%;
 }
 
 .user {
@@ -67,32 +64,23 @@ ul li:hover {
   margin-top:10px;
 }
 
-    .user img {
-        float: left;
-        width: 45px;
-        margin-left: -10px;
-        display: none;
-    }
+.user img, .user a > span {
+  float:left;
+}
 
 .interact {
-    float: right;
-    margin-top: 0px;
-    margin-right: 20px;
+  float:right;
+  
+  margin-top: 0px;
 }
 
 .interact a {
-  margin-left:15px;
+  margin-left:5px;
   float:left;
-  font-size: 12pt;
 }
 
 .user a > span {
-    float: left;
-    margin-left: 10px;
-    color: #14171a;
-    font-size: 14px;
-    font-weight: bold;
-    display: none;
+  margin-left:10px;
 }
 
 .media img {

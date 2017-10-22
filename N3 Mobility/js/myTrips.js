@@ -47,10 +47,17 @@ function setEnd() {
      FullTitle = TitleFrom + ' to ' + TitleTo;
    // var text2 = selectEnd.options[selectEnd.selectedIndex].text;
     //endName = text2;
-    document.getElementById("form-title").value = FullTitle; //startName + ' to ' + endName;
+     document.getElementById("form-title").value = FullTitle; //startName + ' to ' + endName;
 
 
 }
+
+function setClassv() {
+
+    document.getElementById("form-claculate-trip").className = "button-positive button-block";
+}
+
+
 // 28.01447, -26.03133][29.8833, -29
 function cleanCoords() {
     document.getElementById('form-tariff').value = '';
@@ -328,6 +335,7 @@ var routeDist;
 var routeDurantion;
 var DirStart;
 var DirEnd;
+var stepCount = 1;
 /// MAPBOX API js only 
 function getDirections() {
 
@@ -364,7 +372,7 @@ function getDirections() {
         // var stepCoord = data.routes[0].legs[0].steps.location;
         steps.forEach(function (step) {
 
-            instructions.insertAdjacentHTML('beforeend', '<p id="' + step.geometry.coordinates + '" class="direc">' + step.maneuver.instruction + '</p>'); //i++;
+            instructions.insertAdjacentHTML('beforeend', '<p id="' + step.geometry.coordinates + '" class="direc">' + stepCount + '. ' + step.maneuver.instruction + '</p>'); stepCount++ //i++; 
         });
 
     });
